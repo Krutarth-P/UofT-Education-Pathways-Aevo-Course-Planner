@@ -1,229 +1,247 @@
-[![Open in Visual Studio Code](https://classroom.github.com/assets/open-in-vscode-c66648af7eb3fe8bc4f294546bfd86ef473780cde1dea487d3c4ff354943c9ae.svg)](https://classroom.github.com/online_ide?assignment_repo_id=8522525&assignment_repo_type=AssignmentRepo)
-# Assignment 1: Education Pathway
-
-This repository host the source code for Education Pathway project. You can view the online deployed version [here](https://assignment-1-starter-template.herokuapp.com/). We are using this repo as a starting point for assignment 1.
-
-
-This project was bootstrapped with [Create React App](https://github.com/facebook/create-react-app) for frontend, and [Flask-tdd](https://github.com/mjhea0/flaskr-tdd) for backend.
-
-
-## 0. Before the project
-
-Make sure you have all the prerequisites installed
-* [Git](https://git-scm.com/downloads)
-* [Python](https://www.python.org/downloads/) (python-3.10.6)
-* nodejs
-
-To install nodejs, go to [nodejs download]( https://nodejs.org/en/download/). Add `npm` to `PATH` as global variable.
- 
-## 1. Clone the repository to your local machine
-```sh
-$ git clone https://github.com/ECE444-2022Fall/Assignment_1_starter_template.git
-```
-## 2. To run the app in development
-
-First, go to the `frontend` directory 
-```sh
-$ cd .\Education_Pathways\frontend\
-```
-
-to install the nodejs modules needed, run
-```sh
-$ npm install
-```
-then to start the app in development mode
-```sh
-$ npm start
-```
-## 3. To build the app for production to the `build` folder. Under the same `frontend` directory, run
-```sh
-$ npm run build
-```
-## 4. Deploy the project
-   
-We use Heroku to deploy the project online. To do this, first [sign up](https://signup.heroku.com/) for a Heroku account,  and then install the [Heroku CLI](https://devcenter.heroku.com/articles/heroku-cli). The following steps are the complete guide for deploying to Heroku. But for deploying this project, some steps are optional (marked as `optional`), as the required files are already provided in the repo. 
-
-4.1 If you are currently under the `frontend` directory, go back to the root directory
-```sh
-$ cd ..\..
-```
-
-4.2 Next, install a production-grade WSGI web server called [Gunicorn](http://gunicorn.org/):
-
-```sh
-$ pip install gunicorn==20.0.4
-```
-
-4.3 (`optional`) Create a [Procfile](https://devcenter.heroku.com/articles/procfile) in the project root:
-
-```sh
-$ touch Procfile
-```
-
-4.4 (`optional`) And add the following code:
-
-```sh
-web: gunicorn --chdir Education_Pathways index:app
-```
-
-4.5 (`optional`) Create a *requirements.txt* file to specify the external dependencies that need to be installed for the app to work:
-
-```sh
-$ touch requirements.txt
-```
-
-4.6 (`optional`) Add the requirements:
-
-```
-Flask==2.1.1
-gunicorn==20.0.4
-pytest==7.1.2
-```
-
-4.7 (`optional`) Create a *.gitignore* file in the project root:
-
-```sh
-$ touch .gitignore
-```
-
-4.8 (`optional`) And include the following files and folders (so they are not included in version control):
-
-```sh
-env
-*.pyc
-*.DS_Store
-__pycache__
-test.db
-```
-
-4.9 (`optional`) To specify the correct Python runtime, add a new file to the project root called *runtime.txt*:
-
-```
-python-3.10.4
-```
-
-4.10 (`optional`) Add a local Git repo:
-
-```sh
-$ git init
-$ git add -A
-$ git commit -m "initial"
-```
-
-4.11 Login to your Heroku account
-
-```sh
-$ heroku login
-```
-
-4.12 Deploy to Heroku, give your application a name on Heroku, for example, we name it `myapp-unique-name` here:
-
-```sh
-$ heroku create myapp-unique-name
-```
-4.13 Then set your heroku remote to the application you just created
-```sh
-$ heroku git:remote -a myapp-unique-name
-```
-4.14 Commit your local repo to Heroku remote
-```sh
-$ git add .
-$ git commit -am "inital commit to heroku remote"
-$ git push heroku main
-```
-
-4.15 Then to view the deployed app online, run the following command to open the webpage in your default browser.
-
-```sh
-$ heroku open
-```
-or go to your [Heroku account](https://dashboard.heroku.com/apps) and check your the url of your deployed app. (`https://myapp-unique-name.herokuapp.com/`)
-# Education_Pathways
-
-This is a modified version of the previous Assignment1 template.
-
-The deploye version can be found at https://lab3-docker.herokuapp.com.
-
-## Changes
-+ Removed hardcodes of backend urls.
-+ Removed hardcodes of database, and replace the database with dummy static data.
+<!-- Improved compatibility of back to top link: See: https://github.com/othneildrew/Best-README-Template/pull/73 -->
+<a name="readme-top"></a>
+<!--
+*** Thanks for checking out the Best-README-Template. If you have a suggestion
+*** that would make this better, please fork the repo and create a pull request
+*** or simply open an issue with the tag "enhancement".
+*** Don't forget to give the project a star!
+*** Thanks again! Now go create something AMAZING! :D
+-->
 
 
-## How to run it locally
 
-+ Enter the repo directory
-+ Create a virtual environment if you haven't done this before. Activate it. 
-```powershell
-# Windows
-py -3 -m venv venv
-venv\Scripts\activate
-
-# For Mac and Linux, please check the link: https://flask.palletsprojects.com/en/2.2.x/installation/
-```
-+ Install dependencies (if you haven't done this before).
-```powershell
-pip install -r requirements.txt
-```
-+ Enter the `Education_Pathways/` directory, run the backend
-```powershell
-flask --app index --debug run
-```
-+ Enter the `Education_Pathways/frontend/` directory
-+ Make sure the `baseURL` is set as `localhost:5000`
-```javascript
-# Education_Pathways/frontend/src/api.js
-export default axios.create({
-   baseURL: "http://localhost:5000/"
-});
-```
-+ Make sure the proxy link in package.json is set as "http://localhost:5000/"
-```json
-// Part of Education_Pathways\frontend\package.json
-"private": true,
-"proxy": "http://localhost:5000/",
-```
-
-+ Build and run the frontend:
-```powershell
-npm run build
-npm start
-```
-+ Then you will see the application at `localhost:3000`
+<!-- PROJECT SHIELDS -->
+<!--
+*** I'm using markdown "reference style" links for readability.
+*** Reference links are enclosed in brackets [ ] instead of parentheses ( ).
+*** See the bottom of this document for the declaration of the reference variables
+*** for contributors-url, forks-url, etc. This is an optional, concise syntax you may use.
+*** https://www.markdownguide.org/basic-syntax/#reference-style-links
+-->
+[![Contributors][contributors-shield]][contributors-url]
+[![Forks][forks-shield]][forks-url]
+[![Stargazers][stars-shield]][stars-url]
+[![Issues][issues-shield]][issues-url]
+[![MIT License][license-shield]][license-url]
+[![LinkedIn][linkedin-shield]][linkedin-url]
 
 
-## Build and run with Docker
 
-For detailed instructions on Docker, please refer to the documents for Lab3 on Quercus.
+<!-- PROJECT LOGO -->
+<br />
+<div align="center">
+  <a href="https://github.com/github_username/repo_name">
+    <img src="images/logo.png" alt="Logo" width="80" height="80">
+  </a>
 
-+ Change the proxy link in package. Remember to change it back to "http://localhost:5000/"
-```json
-// Part of Education_Pathways/frontend/package.json
-"private": true,
-"proxy": "http://host.docker.internal:5000/",
-```
+<h3 align="center">project_title</h3>
 
-```powershell
-# Under the root directory
-docker compose up --build
-```
+  <p align="center">
+    project_description
+    <br />
+    <a href="https://github.com/github_username/repo_name"><strong>Explore the docs »</strong></a>
+    <br />
+    <br />
+    <a href="https://github.com/github_username/repo_name">View Demo</a>
+    ·
+    <a href="https://github.com/github_username/repo_name/issues">Report Bug</a>
+    ·
+    <a href="https://github.com/github_username/repo_name/issues">Request Feature</a>
+  </p>
+</div>
 
-## How to deploy (not required for lab3)
 
-Please make sure everything works well before you run it with docker.
 
-+ Make sure the baseURL is set as [URL to your deployed project]
-```javascript
-// Education_Pathways/frontend/src/api.js
-export default axios.create({
-   baseURL: "[URL to your deployed project]" -- baseURL for deployment
-});
-```
-+ Re-build the frontend to update the baseURL
-```powershell
-# Under the frontend/ directory
-npm run build
-```
-+ Deploy your changes to heroku
-```powershell
-git push heroku main
-```
+<!-- TABLE OF CONTENTS -->
+<details>
+  <summary>Table of Contents</summary>
+  <ol>
+    <li>
+      <a href="#about-the-project">About The Project</a>
+      <ul>
+        <li><a href="#built-with">Built With</a></li>
+      </ul>
+    </li>
+    <li>
+      <a href="#getting-started">Getting Started</a>
+      <ul>
+        <li><a href="#prerequisites">Prerequisites</a></li>
+        <li><a href="#installation">Installation</a></li>
+      </ul>
+    </li>
+    <li><a href="#usage">Usage</a></li>
+    <li><a href="#roadmap">Roadmap</a></li>
+    <li><a href="#contributing">Contributing</a></li>
+    <li><a href="#license">License</a></li>
+    <li><a href="#contact">Contact</a></li>
+    <li><a href="#acknowledgments">Acknowledgments</a></li>
+  </ol>
+</details>
+
+
+
+<!-- ABOUT THE PROJECT -->
+## About The Project
+
+[![Product Name Screen Shot][product-screenshot]](https://example.com)
+
+Here's a blank template to get started: To avoid retyping too much info. Do a search and replace with your text editor for the following: `github_username`, `repo_name`, `twitter_handle`, `linkedin_username`, `email_client`, `email`, `project_title`, `project_description`
+
+<p align="right">(<a href="#readme-top">back to top</a>)</p>
+
+
+
+### Built With
+
+* [![Next][Next.js]][Next-url]
+* [![React][React.js]][React-url]
+* [![Vue][Vue.js]][Vue-url]
+* [![Angular][Angular.io]][Angular-url]
+* [![Svelte][Svelte.dev]][Svelte-url]
+* [![Laravel][Laravel.com]][Laravel-url]
+* [![Bootstrap][Bootstrap.com]][Bootstrap-url]
+* [![JQuery][JQuery.com]][JQuery-url]
+
+<p align="right">(<a href="#readme-top">back to top</a>)</p>
+
+
+
+<!-- GETTING STARTED -->
+## Getting Started
+
+This is an example of how you may give instructions on setting up your project locally.
+To get a local copy up and running follow these simple example steps.
+
+### Prerequisites
+
+This is an example of how to list things you need to use the software and how to install them.
+* npm
+  ```sh
+  npm install npm@latest -g
+  ```
+
+### Installation
+
+1. Get a free API Key at [https://example.com](https://example.com)
+2. Clone the repo
+   ```sh
+   git clone https://github.com/github_username/repo_name.git
+   ```
+3. Install NPM packages
+   ```sh
+   npm install
+   ```
+4. Enter your API in `config.js`
+   ```js
+   const API_KEY = 'ENTER YOUR API';
+   ```
+
+<p align="right">(<a href="#readme-top">back to top</a>)</p>
+
+
+
+<!-- USAGE EXAMPLES -->
+## Usage
+
+Use this space to show useful examples of how a project can be used. Additional screenshots, code examples and demos work well in this space. You may also link to more resources.
+
+_For more examples, please refer to the [Documentation](https://example.com)_
+
+<p align="right">(<a href="#readme-top">back to top</a>)</p>
+
+
+
+<!-- ROADMAP -->
+## Roadmap
+
+- [ ] Feature 1
+- [ ] Feature 2
+- [ ] Feature 3
+    - [ ] Nested Feature
+
+See the [open issues](https://github.com/github_username/repo_name/issues) for a full list of proposed features (and known issues).
+
+<p align="right">(<a href="#readme-top">back to top</a>)</p>
+
+
+
+<!-- CONTRIBUTING -->
+## Contributing
+
+Contributions are what make the open source community such an amazing place to learn, inspire, and create. Any contributions you make are **greatly appreciated**.
+
+If you have a suggestion that would make this better, please fork the repo and create a pull request. You can also simply open an issue with the tag "enhancement".
+Don't forget to give the project a star! Thanks again!
+
+1. Fork the Project
+2. Create your Feature Branch (`git checkout -b feature/AmazingFeature`)
+3. Commit your Changes (`git commit -m 'Add some AmazingFeature'`)
+4. Push to the Branch (`git push origin feature/AmazingFeature`)
+5. Open a Pull Request
+
+<p align="right">(<a href="#readme-top">back to top</a>)</p>
+
+
+
+<!-- LICENSE -->
+## License
+
+Distributed under the MIT License. See `LICENSE.txt` for more information.
+
+<p align="right">(<a href="#readme-top">back to top</a>)</p>
+
+
+
+<!-- CONTACT -->
+## Contact
+
+Your Name - [@twitter_handle](https://twitter.com/twitter_handle) - email@email_client.com
+
+Project Link: [https://github.com/github_username/repo_name](https://github.com/github_username/repo_name)
+
+<p align="right">(<a href="#readme-top">back to top</a>)</p>
+
+
+
+<!-- ACKNOWLEDGMENTS -->
+## Acknowledgments
+
+* []()
+* []()
+* []()
+
+<p align="right">(<a href="#readme-top">back to top</a>)</p>
+
+
+
+<!-- MARKDOWN LINKS & IMAGES -->
+<!-- https://www.markdownguide.org/basic-syntax/#reference-style-links -->
+[contributors-shield]: https://img.shields.io/github/contributors/github_username/repo_name.svg?style=for-the-badge
+[contributors-url]: https://github.com/github_username/repo_name/graphs/contributors
+[forks-shield]: https://img.shields.io/github/forks/github_username/repo_name.svg?style=for-the-badge
+[forks-url]: https://github.com/github_username/repo_name/network/members
+[stars-shield]: https://img.shields.io/github/stars/github_username/repo_name.svg?style=for-the-badge
+[stars-url]: https://github.com/github_username/repo_name/stargazers
+[issues-shield]: https://img.shields.io/github/issues/github_username/repo_name.svg?style=for-the-badge
+[issues-url]: https://github.com/github_username/repo_name/issues
+[license-shield]: https://img.shields.io/github/license/github_username/repo_name.svg?style=for-the-badge
+[license-url]: https://github.com/github_username/repo_name/blob/master/LICENSE.txt
+[linkedin-shield]: https://img.shields.io/badge/-LinkedIn-black.svg?style=for-the-badge&logo=linkedin&colorB=555
+[linkedin-url]: https://linkedin.com/in/linkedin_username
+[product-screenshot]: images/screenshot.png
+[Next.js]: https://img.shields.io/badge/next.js-000000?style=for-the-badge&logo=nextdotjs&logoColor=white
+[Next-url]: https://nextjs.org/
+[React.js]: https://img.shields.io/badge/React-20232A?style=for-the-badge&logo=react&logoColor=61DAFB
+[React-url]: https://reactjs.org/
+[Vue.js]: https://img.shields.io/badge/Vue.js-35495E?style=for-the-badge&logo=vuedotjs&logoColor=4FC08D
+[Vue-url]: https://vuejs.org/
+[Angular.io]: https://img.shields.io/badge/Angular-DD0031?style=for-the-badge&logo=angular&logoColor=white
+[Angular-url]: https://angular.io/
+[Svelte.dev]: https://img.shields.io/badge/Svelte-4A4A55?style=for-the-badge&logo=svelte&logoColor=FF3E00
+[Svelte-url]: https://svelte.dev/
+[Laravel.com]: https://img.shields.io/badge/Laravel-FF2D20?style=for-the-badge&logo=laravel&logoColor=white
+[Laravel-url]: https://laravel.com
+[Bootstrap.com]: https://img.shields.io/badge/Bootstrap-563D7C?style=for-the-badge&logo=bootstrap&logoColor=white
+[Bootstrap-url]: https://getbootstrap.com
+[JQuery.com]: https://img.shields.io/badge/jQuery-0769AD?style=for-the-badge&logo=jquery&logoColor=white
+[JQuery-url]: https://jquery.com 

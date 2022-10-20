@@ -51,9 +51,9 @@
     <li><a href="#usage">Usage</a></li>
     <li><a href="#roadmap">Roadmap</a></li>
     <li><a href="#contributing">Contributing</a></li>
-    <li><a href="#license">License</a></li>
+    <li><a href="#license">License</a></li>-->
     <li><a href="#contact">Contact</a></li>
-    <li><a href="#acknowledgments">Acknowledgments</a></li> -->
+    <!--<li><a href="#acknowledgments">Acknowledgments</a></li> -->
   </ol>
 </details>
 
@@ -84,6 +84,16 @@ This project was bootstrapped with [Create React App](https://github.com/faceboo
 * [![Flask][Flask.com]][Flask-url]
 
 <p align="right">(<a href="#readme-top">back to top</a>)</p>
+
+<!-- CONTACT -->
+## Contact
+
+Team 21 - kv.patel@mail.utoronto.ca, nafio.miah@mail.utoronto.ca, haoranjayce.wang@mail.utoronto.ca, riscilla.deng@mail.utoronto.ca, Fahim.Talukder@mail.utoronto.ca
+
+Project Link: [https://github.com/ECE444-2022Fall/project-1-web-application-design-education-pathways-group-21-ninjas](https://github.com/ECE444-2022Fall/project-1-web-application-design-education-pathways-group-21-ninjas)
+
+<p align="right">(<a href="#readme-top">back to top</a>)</p>
+
 
 <!-- MARKDOWN LINKS & IMAGES -->
 <!-- https://www.markdownguide.org/basic-syntax/#reference-style-links -->

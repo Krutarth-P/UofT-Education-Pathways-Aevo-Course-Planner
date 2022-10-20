@@ -88,7 +88,7 @@ This project was bootstrapped with [Create React App](https://github.com/faceboo
 <!-- CONTACT -->
 ## Contact
 
-Team 21 - kv.patel@mail.utoronto.ca, nafio.miah@mail.utoronto.ca, haoranjayce.wang@mail.utoronto.ca, riscilla.deng@mail.utoronto.ca, Fahim.Talukder@mail.utoronto.ca
+Team 21 - kv.patel@mail.utoronto.ca, nafio.miah@mail.utoronto.ca, haoranjayce.wang@mail.utoronto.ca, priscilla.deng@mail.utoronto.ca, Fahim.Talukder@mail.utoronto.ca
 
 Project Link: [https://github.com/ECE444-2022Fall/project-1-web-application-design-education-pathways-group-21-ninjas](https://github.com/ECE444-2022Fall/project-1-web-application-design-education-pathways-group-21-ninjas)
 

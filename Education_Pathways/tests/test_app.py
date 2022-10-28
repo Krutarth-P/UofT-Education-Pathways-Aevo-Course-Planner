@@ -1,4 +1,4 @@
-from app import app
+from index import app
 from minor import check_course_in_minor
 from flask.testing import FlaskClient
 
@@ -33,7 +33,6 @@ def test_search_endpoint():
 def test_course_details_endpoint():
     tester = app.test_client()
     response = tester.get("/course/details?code=ECE318H1")
-
     assert response.status_code == 200
 
 def test_course_graph_endpoint():

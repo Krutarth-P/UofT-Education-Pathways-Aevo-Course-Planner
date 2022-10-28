@@ -25,7 +25,44 @@ config.init_cors(app)
 # route functions
 def search_course_by_code(s):
     # return all the courses whose course code contains the str s
-    course_ids = df[df['Code'].str.contains(s.upper())].index.tolist()
+    # Use delimiter to specify search: no delimiter assumes course code but can also use ;cc:,  ;ti: means title, ;de:description
+    # inclusion of delimiter assumes forced AND of search terms
+    # look for delimiter
+    courseCode = ''
+    courseDesc = ''
+    courseTitle = ''
+    course_ids = []
+    if ';' in s:
+        parsed_input = s.split(';')
+        for term in parsed_input:
+            if len(term) > 0: #if empty string skip it
+                if (':' not in term or 'cc:' in term) and courseCode=='':
+                    courseCode = term if ':' not in term else term.split(':')[-1]
+                elif 'ti:' in term and courseTitle == '':
+                    courseTitle = term.split(':')[-1]
+                elif 'de:' in term and courseDesc == '':
+                    courseDesc = term.split(':')[-1]
+                else:
+                    return [] # invalid use of delimiters and symbols will return nothing
+    else:
+        courseCode = s
+
+    cc_course_ids = df[df['Code'].str.contains(courseCode.upper())].index.tolist()
+
+    if courseDesc != '':
+        desc_course_ids = df[df['Course Description'].str.contains(courseDesc,na=False)].index.tolist()
+    else:
+        desc_course_ids = cc_course_ids.copy()
+
+    if courseTitle != '':
+        #capitalize title term string by default since all words in course names are capitalized
+        title_course_ids = df[df['Name'].str.contains(courseTitle.capitalize(),na=False)].index.tolist() 
+    else:
+        title_course_ids = cc_course_ids.copy()
+
+    # find course ids that match all input filters
+    course_ids = list(set.intersection(*map(set, [cc_course_ids, desc_course_ids, title_course_ids])))
+    #print('returned course ids:',course_ids)
     if len(course_ids) == 0:
         return []
     if len(course_ids) > 10:
@@ -37,11 +74,13 @@ def search_course_by_code(s):
             '_id': i,
             'code': d['Code'],
             'name': d['Name'],
-            'description': "The quick brown fox jumps over the lazy dog. The quick brown fox jumps over the lazy dog. The quick brown fox jumps over the lazy dog.",
+            'description': d['Course Description'],
             'syllabus': "Course syllabus here.",
-            'prereq': ['APS101H1, ECE101H1'],
-            'coreq': ['APS102H1, ECE102H1'],
-            'exclusion': ['APS102H1, ECE102H1'] ,
+            'prereq': d['Pre-requisites'],
+            'coreq': d['Corequisite'],
+            'exclusion': d['Exclusion'] ,
+            'division': d['Division'],
+            'department': d['Department'] ,
         }
         res.append(res_d)
     return res
@@ -50,7 +89,6 @@ class SearchCourse(Resource):
     def get(self):
         input = request.args.get('input')
         courses = search_course_by_code(input)
-        # courses =[{'_id': 1, 'code': 'ECE444', 'name': 'SE'}, {'_id': 2,'code': 'ECE333', 'name': 'ur mom'}]
         if len(courses) > 0:
             try:
                 resp = jsonify(courses)
@@ -133,7 +171,7 @@ def serve(path):
 
 if __name__ == '__main__':
     # app.run(host='0.0.0.0', port=5000, extra_files=['app.py', 'controller.py', 'model.py'])
-    app.run(threaded=True, port=5000)
+    app.run(threaded=True, port=5050) # USE PORT 5050 CUZ 5000 IS BUGGY
     # with open("test.json") as f:
     #     data = json.load(f)
     # for i in range(75):

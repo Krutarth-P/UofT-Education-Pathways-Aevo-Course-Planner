@@ -17,8 +17,8 @@ class Result extends Component{
     this.state = {
       course_code : this.props.course_code,
       course_name: this.props.course_name,
-      division: "Division of Computer Engineering",
-      faculty: "Faculty of Applied Science and Engineering",
+      division: this.props.division,
+      department: this.props.department,
       starred: false,
       username: localStorage.getItem('username')
     };
@@ -42,7 +42,7 @@ class Result extends Component{
                 <h5>{this.state.course_name}</h5>
             </Col>
             <Col>{this.state.division}</Col>
-            <Col>{this.state.faculty}</Col>
+            <Col>{this.state.department}</Col>
             {/* <Col><img src={star} alt=""/></Col> */}
         </Row>
         </a>

@@ -33,25 +33,37 @@ class SearchResultDisplay extends Component{
       .then(res => {
         if (res.status === 200) {
           this.setState({results: []})
-          console.log(res.data.length)
-          if (res.data.length > 0) {
-            let len = res.data.length
-            let result_temp = []
-            result_temp.push(<Label></Label>)
-            for (let i = 0; i < len; i++) {
-                result_temp.push(<Result key={res.data[i]._id} course_code={res.data[i].code} course_name={res.data[i].name}></Result>)
-            }
-            this.setState({results: result_temp})
-          } 
-          else
-            if (res.data.length === 0) {
-              alert("Course not found")
-            }
-            else {
+          if (res.data != null) {
+            console.log(res.data.length)
+            if (res.data.length > 0) {
+              let len = res.data.length
               let result_temp = []
               result_temp.push(<Label></Label>)
-              result_temp.push(<Result key={res.data.course._id} course_code={res.data.course.code} course_name={res.data.course.name}></Result>)
+              for (let i = 0; i < len; i++) {
+                  result_temp.push(<Result key={res.data[i]._id} 
+                                    course_code={res.data[i].code} 
+                                    course_name={res.data[i].name} 
+                                    division={res.data[i].division}
+                                    department={res.data[i].department}></Result>)
+              }
               this.setState({results: result_temp})
+            } 
+            else
+              if (res.data.length === 0) {
+                alert("Course not found")
+              }
+              else {
+                let result_temp = []
+                result_temp.push(<Label></Label>)
+                result_temp.push(<Result key={res.data._id} 
+                                    course_code={res.data.code} 
+                                    course_name={res.data.name} 
+                                    division={res.data.division}
+                                    department={res.data.department}></Result>)
+                this.setState({results: result_temp})
+              }
+            } else {
+              alert("Course not found")
             }
         } else if (res.status === 400) {
           alert("System Error. Please refresh")

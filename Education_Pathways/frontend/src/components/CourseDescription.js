@@ -18,8 +18,8 @@ class CourseDescriptionPage extends Component {
     this.state = {
       course_code: "",
       course_name: "",
-      division: "Faculty of Applied Science and Engineering",
-      department: "Department of Edward S. Rogers Sr. Dept. of Electrical & Computer Engineering",
+      division: "",
+      department: "",
       graph : "",
       course_description: "",
       syllabus: "",
@@ -39,12 +39,22 @@ class CourseDescriptionPage extends Component {
       code: this.props.course_code
     })
       .then(res => {
-        console.log(res.data.course)
+        console.log("zxc",res.data)
         this.setState({course_code: res.data.course.code})
         this.setState({course_name: res.data.course.name})
+
+        this.setState({division: res.data.course.division})
+        this.setState({department: res.data.course.department})
+
         this.setState({course_description : res.data.course.description})
         this.setState({graph: res.data.course.graph})
+
+        res.data.course.prereq = JSON.parse(res.data.course.prereq.replace(/'/g, '"'))
+        res.data.course.coreq = JSON.parse(res.data.course.coreq.replace(/'/g, '"'))
+        res.data.course.exclusion =JSON.parse(res.data.course.exclusion.replace(/'/g, '"'))
+
         let prereq_len = res.data.course.prereq.length
+        console.log("prereq:",res.data.course.prereq)
         if (prereq_len > 1) {
           let prereq_str = ""
           for (let i = 0; i < prereq_len; i++) {
@@ -57,11 +67,14 @@ class CourseDescriptionPage extends Component {
         } else {
           this.setState({prerequisites : res.data.course.prereq})
         }
+
         let coreq_len = res.data.course.coreq.length
+        console.log("coreq:",res.data.course.coreq)
         if (coreq_len > 1) {
           let coreq_str = ""
-          for (let i = 0; i < coreq_str; i++) {
+          for (let i = 0; i < coreq_len; i++) {
             coreq_str += res.data.course.coreq[i]
+            console.log("coreq_str:",coreq_str)
             if (i !== coreq_len - 1) {
               coreq_str += ", "
             }
@@ -70,11 +83,14 @@ class CourseDescriptionPage extends Component {
         } else {
           this.setState({corequisites : res.data.course.coreq})
         }
+
         let exclusion_len = res.data.course.exclusion.length
+        console.log("exclusion:",res.data.course.exclusion)
         if (exclusion_len > 1) {
           let exclusion_str = ""
-          for (let i = 0; i < exclusion_str; i++) {
+          for (let i = 0; i < exclusion_len; i++) {
             exclusion_str += res.data.course.exclusion[i]
+            console.log("exclusion_str:",exclusion_str)
             if (i !== exclusion_len - 1) {
               exclusion_str += ", "
             }
@@ -106,6 +122,28 @@ class CourseDescriptionPage extends Component {
   }
 
 	render() {
+    let coreq_holder
+    let prereq_holder
+    let exclusion_holder
+
+    if (this.state.exclusions == ''){
+      exclusion_holder = <p>None</p>
+    } else {
+      exclusion_holder = <p>{this.state.exclusions}</p>
+    }
+
+    if (this.state.prerequisites == ''){
+      prereq_holder = <p>None</p>
+    } else {
+      prereq_holder = <p>{this.state.prerequisites}</p>
+    }
+
+    if (this.state.corequisites == ''){
+      coreq_holder = <p>None</p>
+    } else {
+      coreq_holder = <p>{this.state.corequisites}</p>
+    }
+    
 		return(
 
       <div className="page-content">
@@ -143,15 +181,15 @@ class CourseDescriptionPage extends Component {
             <Row>
               <Col className="requisites-display">
                 <h4>Pre-Requisites</h4>
-                <p>{this.state.prerequisites}</p>
+                <p>{prereq_holder}</p>
               </Col>
               <Col className="requisites-display">
                 <h4>Co-Requisites</h4>
-                <p>{this.state.corequisites}</p>
+                {coreq_holder}
               </Col>
               <Col className="requisites-display">
                 <h4>Exclusion</h4>
-                <p>{this.state.exclusions}</p>
+                <p>{exclusion_holder}</p>
               </Col>
             </Row>
             <Row>

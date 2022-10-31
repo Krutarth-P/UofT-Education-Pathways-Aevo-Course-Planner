@@ -5,18 +5,23 @@ import './css/Result.css'
 import Label from './Label'
 import "./css/styles.css";
 import API from '../api';
+import { withRouter } from 'react-router';
 
 
 class SearchResultDisplay extends Component{
 
-  constructor() {
-    super();
+  constructor(props) {
+    super(props);
     this.state = {
-      input: "",
+      input: this.props.location.state.input,
       results: []
     };
     this.handleChange = this.handleChange.bind(this);
     this.handleSubmit = this.handleSubmit.bind(this);
+  }
+
+  componentDidMount(){
+    this.getData(this.state.input)
   }
 
   handleChange(event) {
@@ -71,52 +76,31 @@ class SearchResultDisplay extends Component{
     })
   }
 
-  // search_render = (input) => {
-
-  //   <div className="SearchQuery">
-  //       <div style={{ marginTop: "10%" }}>
-  //           <h1> Education Pathways Search</h1>
-  //           <br></br>
-  //           <form onSubmit={this.handleSubmit} className={"search"}>
-  //               <input placeholder={"Search for course code, course name, keyword ..."} className={"text-input"} type="text" value={this.state.input} onChange={this.handleChange} />
-  //               <input type="submit" value="Submit" className={"submit-button"}/>
-  //           </form>
-  //       </div>
-
-  //       <div className={"search-result-display"} >
-  //           {this.state.results}
-  //       </div>
-
-       
-  //     </div>
-
-
-
-
-
-  // }
-
   render(){
     return (
-      <div className="SearchQuery">
-        <div style={{ marginTop: "10%" }}>
+      <div className={"SearchQuery"}>
+        <div style={{ marginTop: "3%" }}>
             <h1> Education Pathways</h1>
             <br></br>
-            {/* <div className = "body_text">
-      Welcome to CARTE's in-development tool for course selection at UofT. Education Pathways allows for more intelligent course searching, by matching not just the terms you search, but ones relevant to them. The more terms you search for, the more relevant your results will be! Even try searching across disciplines for the courses that best cover each.
-
-Whatever year you are looking for, Education Pathways will also suggest courses in earlier years that will best help you to prepare. To get the most out of this, try searching for courses in a later year and see what is suggested for your current one.
-
-We are looking for feedback to improve Education Pathways and make it more useful for students. If you have ideas or suggestions, please <a href = "mailto:alex.olson@utoronto.ca">  email us! </a>
-
-
-      </div> */}
-            <form onSubmit={this.handleSubmit} className={"search"}>
-                <input placeholder={"Search for course code"} className={"text-input"} type="text" value={this.state.input} onChange={this.handleChange} />
-                <input type="submit" value="Search" className={"submit-button"}/>
-            </form>
         </div>
 
+        <div className={"left-sidebar"} >
+          <p>You can use a delimiter to search blah blah</p>
+            <form onSubmit={this.handleSubmit} className={"search"}>
+                <input placeholder={"Search for course code"} className={"text-input small-search"} type="text" value={this.state.input} onChange={this.handleChange} />
+                <input type="submit" value="Search" className={"submit-button"}/>
+            </form>
+        
+            <div className={"minors-list"}>
+              <h4>Engineering Minors</h4>
+                <ul>
+                  <li><input type="checkbox"></input> checkbox 1</li>
+                  <li><input type="checkbox"></input> checkbox 2</li>
+                  <li><input type="checkbox"></input> checkbox 3</li>
+                  <li><input type="checkbox"></input> checkbox 4</li>
+                </ul>
+            </div>
+        </div>
         <div className={"search-result-display"} >
             {this.state.results}
         </div>
@@ -130,4 +114,4 @@ We are looking for feedback to improve Education Pathways and make it more usefu
   
 }
 
-export default SearchResultDisplay;
+export default withRouter(SearchResultDisplay)

@@ -8,7 +8,8 @@ import { BrowserRouter as Router, Route, Switch, Link, useLocation } from "react
 import CourseDescriptionPage from "./CourseDescription";
 // import Wishlist from './Wishlist';
 // import SignUp from './SignUp'
-import SearchResultDisplay from './ResultDisplay'
+import SearchResultDisplay from './ResultDisplay';
+import LandingPage from './LandingPage';
 
 function CourseDescription (props) {
   let query = useQuery();
@@ -58,10 +59,16 @@ export default class NavbarComp extends Component {
             <Navbar.Toggle />
             <Navbar.Collapse>
               <Nav>
-                <Nav.Link as={Link} to="/about">
-                  About Us
+                <Nav.Link as={Link} to="/">
+                  Course Search
                 </Nav.Link>
-
+                <Nav.Link as={Link} to="/about">
+                  Minors & Certificates
+                </Nav.Link>
+                <Nav.Link as={Link} to="/about">
+                  Timetable Builder
+                </Nav.Link>
+               
                 {/* <Nav.Link href="/search" style={{ color: "white", display: "inline" }}>
                   Search
                 </Nav.Link> */}
@@ -78,7 +85,7 @@ export default class NavbarComp extends Component {
             <div className = "body_text">
             <p>
 
-      Welcome to CARTE's in-development tool for course selection at UofT. Education Pathways allows for more intelligent course searching, by matching not just the terms you search, but ones relevant to them. The more terms you search for, the more relevant your results will be! Even try searching across disciplines for the courses that best cover each.
+      Welcome to CARTE'kasljdflka;sjdflk;adsjfs in-development tool for course selection at UofT. Education Pathways allows for more intelligent course searching, by matching not just the terms you search, but ones relevant to them. The more terms you search for, the more relevant your results will be! Even try searching across disciplines for the courses that best cover each.
 
 Whatever year you are looking for, Education Pathways will also suggest courses in earlier years that will best help you to prepare. To get the most out of this, try searching for courses in a later year and see what is suggested for your current one.
 
@@ -102,7 +109,7 @@ We are looking for feedback to improve Education Pathways and make it more usefu
               render={props =>(<CourseDescriptionPage {...props} />)}>
             </Route>
             <Route path="/">
-              <SearchResultDisplay />
+              <LandingPage />
             </Route>
 
           </Switch>

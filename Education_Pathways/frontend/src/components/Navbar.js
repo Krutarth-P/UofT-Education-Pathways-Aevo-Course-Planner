@@ -102,9 +102,8 @@ export default class NavbarComp extends Component {
               </div>
               {/* <SearchResultDisplay /> */}
             </Route>
-            <Route exact
-              path="/minors-certificates"
-              render={props => (<MinorsCertificatesMenuPage {...props} />)}>
+            <Route path="/minors-certificates">
+              <MinorsCertificatesMenuPage />
             </Route>
             <Route path="/timetable-builder">
               <div className="body_text">

@@ -7,8 +7,8 @@ import Row from 'react-bootstrap/Row'
 import API from '../api';
 
 class MinorCertificatesMenuPage extends Component {
-    constructor(props) {
-        super(props)
+    constructor() {
+        super()
 
         this.state = {
             minor1_link: "https://undergrad.engineering.utoronto.ca/academics-registration/minors-certificates/undergraduate-engineering-minors/advanced-manufacturing-minor/",
@@ -40,132 +40,147 @@ class MinorCertificatesMenuPage extends Component {
 
         return (
 
-            <div className="page-content">
-                <Container className="minor-certificates-template">
+            <div className="minor-cert-page-content">
+                <Container className="minors-template-card">
                     <Row float="center" className="minors-heading">
                         <Col>
                             <h1>Engineering Minors</h1>
                         </Col>
                     </Row>
-                    <Row className>
-                        <Col className="col-item">
+                    <Row className="minors-row-1">
+                        <Col className="minors-col-item">
                             <a href={this.state.minor1_link} target="_blank" rel="noreferrer">
                                 <h3>Advanced Manufacturing</h3>
                             </a>
                         </Col>
-                        <Col className="col-item">
+                        <Col className="minors-col-item">
                             <a href={this.state.minor2_link} target="_blank" rel="noreferrer">
                                 <h3>Artificial Intelligence Engineering</h3>
                             </a>
                         </Col>
-                        <Col className="col-item">
+                    </Row>
+                    <Row className="minors-row-2">
+                        <Col className="minors-col-item">
                             <a href={this.state.minor3_link} target="_blank" rel="noreferrer">
                                 <h3>Bioengineering</h3>
                             </a>
                         </Col>
-                        <Col className="col-item">
+                        <Col className="minors-col-item">
                             <a href={this.state.minor4_link} target="_blank" rel="noreferrer">
                                 <h3>Engineering Business</h3>
                             </a>
                         </Col>
-                        <Col className="col-item">
+                    </Row>
+                    <Row className="minors-row-3">
+                        <Col className="minors-col-item">
                             <a href={this.state.minor5_link} target="_blank" rel="noreferrer">
                                 <h3>Environmental Engineering</h3>
                             </a>
                         </Col>
-                    </Row>
-                    <Row>
-                        <Col className="col-item">
+                        <Col className="minors-col-item">
                             <a href={this.state.minor6_link} target="_blank" rel="noreferrer">
                                 <h3>Global Leadership</h3>
                             </a>
                         </Col>
-                        <Col className="col-item">
+                    </Row>
+                    <Row className="minors-row-4">
+                        <Col className="minors-col-item">
                             <a href={this.state.minor7_link} target="_blank" rel="noreferrer">
                                 <h3>Music Performance</h3>
                             </a>
                         </Col>
-                        <Col className="col-item">
+                        <Col className="minors-col-item">
                             <a href={this.state.minor8_link} target="_blank" rel="noreferrer">
                                 <h3>Nanoengineering</h3>
                             </a>
                         </Col>
-                        <Col className="col-item">
+                    </Row>
+                    <Row className="minors-row-4">
+                        <Col className="minors-col-item">
                             <a href={this.state.minor9_link} target="_blank" rel="noreferrer">
                                 <h3>Robotics & Mechatronics</h3>
                             </a>
                         </Col>
-                        <Col className="col-item">
+                        <Col className="minors-col-item">
                             <a href={this.state.minor10_link} target="_blank" rel="noreferrer">
                                 <h3>Sustainable Energy</h3>
                             </a>
                         </Col>
-
                     </Row>
+                </Container>
+                <Container className="certs-template-card">
                     <Row float="center" className="certs-heading">
                         <Col>
                             <h1>Engineering Certificates</h1>
                         </Col>
                     </Row>
-                    <Row>
-                        <Col className="col-item">
+                    <Row className="certs-row-1">
+                        <Col className="certs-col-item">
                             <a href={this.state.cert1_link} target="_blank" rel="noreferrer">
                                 <h3>Artificial Intelligence Engineering</h3>
                             </a>
                         </Col>
-                        <Col className="col-item">
+                        <Col className="certs-col-item">
                             <a href={this.state.cert2_link} target="_blank" rel="noreferrer">
                                 <h3>Entrepreneurship, Innovation and Small Business</h3>
                             </a>
                         </Col>
-                        <Col className="col-item">
+                    </Row>
+                    <Row className="certs-row-2">
+                        <Col className="certs-col-item">
                             <a href={this.state.cert3_link} target="_blank" rel="noreferrer">
                                 <h3>Engineering Business</h3>
                             </a>
                         </Col>
-                        <Col className="col-item">
+                        <Col className="certs-col-item">
                             <a href={this.state.cert4_link} target="_blank" rel="noreferrer">
                                 <h3>Public Health & Engineering</h3>
                             </a>
                         </Col>
-                        <Col className="col-item">
+                    </Row>
+                    <Row className="certs-row-3">
+                        <Col className="certs-col-item">
                             <a href={this.state.cert5_link} target="_blank" rel="noreferrer">
                                 <h3>Forensic Engineering</h3>
                             </a>
                         </Col>
-                        <Col className="col-item">
+                        <Col className="certs-col-item">
                             <a href={this.state.cert6_link} target="_blank" rel="noreferrer">
                                 <h3>Global Engineering</h3>
                             </a>
                         </Col>
                     </Row>
-                    <Row>
-                        <Col className="col-item">
+                    <Row className="certs-row-4">
+                        <Col className="certs-col-item">
                             <a href={this.state.cert7_link} target="_blank" rel="noreferrer">
                                 <h3>Mineral Resources</h3>
                             </a>
                         </Col>
-                        <Col className="col-item">
+                        <Col className="certs-col-item">
                             <a href={this.state.cert8_link} target="_blank" rel="noreferrer">
                                 <h3>Music Technology</h3>
                             </a>
                         </Col>
-                        <Col className="col-item">
+                    </Row>
+                    <Row className="certs-row-5">
+                        <Col className="certs-col-item">
                             <a href={this.state.cert9_link} target="_blank" rel="noreferrer">
                                 <h3>Nuclear Engineering</h3>
                             </a>
                         </Col>
-                        <Col className="col-item">
+                        <Col className="certs-col-item">
                             <a href={this.state.cert10_link} target="_blank" rel="noreferrer">
                                 <h3>Engineering Leadership</h3>
                             </a>
                         </Col>
-                        <Col className="col-item">
+                    </Row>
+                    <Row className="certs-row-6">
+                        <Col className="certs-col-item">
                             <a href={this.state.cert11_link} target="_blank" rel="noreferrer">
                                 <h3>Renewable Resources Engineering</h3>
                             </a>
                         </Col>
-                        <Col className="col-item">
+                        <Col className="certs-col-item">
                             <a href={this.state.cert12_link} target="_blank" rel="noreferrer">
                                 <h3>Communication</h3>
                             </a>

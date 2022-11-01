@@ -11,8 +11,8 @@ p {
     color: #8198B8;
 }
 
-.page-content {
-    background-color: #F2F4F8;
+.minor-cert-page-content {
+    background-color: RGB(232, 236, 241);
 }
 
 .minors-heading {
@@ -23,12 +23,29 @@ p {
     padding: 10px;
 }
 
-.minor-certificates-template {
-    padding-bottom: 3%;
+.minors-template-card {
+    border-radius: 10px;
+    padding: 3%;
+    margin: 20px 20px 20px 20px;
+    background-color: #8198B8;
 }
 
-.col-item {
-    background-color: white;
+.certs-template-card {
+    border-radius: 10px;
+    padding: 3%;
+    margin: 20px 20px 20px 20px;
+    background-color: #8198B8;
+}
+
+.minor-certificates-template {
+    padding: 3%;
+}
+
+.minors-col-item,
+.certs-col-item {
+    padding: 1%;
+    margin: 5px 5px 5px 5px;
+    background-color: RGB(242, 241, 239);
     border-radius: 10px;
     text-align: center;
     align-items: center;
@@ -36,11 +53,12 @@ p {
 
 }
 
-.col-item h3 {
-    padding: 4%;
-    font-size: medium;
+.minors-col-item h3,
+.certs-col-item h3 {
+    padding: 1%;
+    font-size: large;
     align-items: center;
     justify-content: center;
     text-align: center;
-    overflow: hidden;
+    overflow-wrap: break-word;
 }

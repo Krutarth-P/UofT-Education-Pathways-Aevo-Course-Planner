@@ -1,0 +1,46 @@
+@import url('https://fonts.googleapis.com/css2?family=Fredoka+One&display=swap');
+
+* {
+    font-family: 'Fredoka One', cursive;
+    letter-spacing: 3px !important;
+    color: #1C3E6E;
+    overflow-x: hidden;
+}
+
+p {
+    color: #8198B8;
+}
+
+.page-content {
+    background-color: #F2F4F8;
+}
+
+.minors-heading {
+    padding: 10px;
+}
+
+.certs-heading {
+    padding: 10px;
+}
+
+.minor-certificates-template {
+    padding-bottom: 3%;
+}
+
+.col-item {
+    background-color: white;
+    border-radius: 10px;
+    text-align: center;
+    align-items: center;
+    justify-content: center;
+
+}
+
+.col-item h3 {
+    padding: 4%;
+    font-size: medium;
+    align-items: center;
+    justify-content: center;
+    text-align: center;
+    overflow: hidden;
+}

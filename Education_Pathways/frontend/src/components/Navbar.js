@@ -48,11 +48,11 @@ export default class NavbarComp extends Component {
     return (
       <Router>
         <div>
-          <Navbar bg="myBlue" variant="dark" sticky="top" expand="lg">
+          <Navbar style={{position:"fixed"}} bg="myBlue" variant="dark" sticky="top" expand="lg">
             <Navbar.Brand>
               <img src={logo} alt="" />{" "}
               <Nav.Link href="/" style={{ color: "white", display: "inline" }}>
-                Education Pathways
+                Aevo 
               </Nav.Link>
             </Navbar.Brand>
 

@@ -156,6 +156,10 @@ class CourseDescriptionPage extends Component {
               <img src={star} onClick={this.check_star} alt="" />
             </Col> */}
           </Row>
+          <Row className="col-item course-description">
+            <h3>Instructor Information</h3>
+            <p>  Working in teams under the direct supervision of a faculty member, students develop a design project of their choice from an initial concept to a final working prototype. In the first session, a project proposal is submitted early on, followed by a project requirements specification. A design review meeting is then held to review the proposed design. Lectures given during the first session will develop expertise in various areas related to design and technical communication. In the second session, the teams present their work in a number of ways, including an oral presentation, a poster presentation, a final </p>
+          </Row>
           <Row>
             <Col className="col-item">
               <h3>Division</h3>
@@ -179,25 +183,25 @@ class CourseDescriptionPage extends Component {
               <h3>Course Requisites</h3>
             </Row>
             <Row>
-              <Col className="requisites-display">
+              <Col className="requisites-display prerequisites">
                 <h4>Pre-Requisites</h4>
                 <p>{prereq_holder}</p>
               </Col>
-              <Col className="requisites-display">
+              <Col className="requisites-display corequisites">
                 <h4>Co-Requisites</h4>
                 {coreq_holder}
               </Col>
-              <Col className="requisites-display">
-                <h4>Exclusion</h4>
+              <Col className="requisites-display exclusions">
+                <h4>Exclusions</h4>
                 <p>{exclusion_holder}</p>
               </Col>
             </Row>
-            <Row>
+            {/* <Row>
               <div className={"req-graph"}>
                 <img style={{width: "70%", marginBottom: "3%"}} alt="" src={requisite_label}></img>
                 <img src={`data:image/jpeg;base64,${this.state.graph}`} alt="" ></img>
               </div>
-            </Row>
+            </Row> */}
           </Row>
         </Container>
       </div>

@@ -22,15 +22,7 @@ class Label extends Component{
     return (
       <Container>
         <Row className={"label"}>
-            <Col>
-                <h5>{this.state.course_code}</h5>  
-            </Col>
-            <Col>
-                <h5>{this.state.course_name}</h5>
-            </Col>
-            <Col><h5>{this.state.division}</h5></Col>
-            <Col><h5>{this.state.faculty}</h5></Col>
-            {/* <Col><h5>{this.state.starred}</h5></Col> */}
+          <h5>Search Results</h5>
         </Row>
       </Container>
     );

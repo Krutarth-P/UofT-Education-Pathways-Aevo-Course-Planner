@@ -39,7 +39,7 @@ class LandingPage extends Component{
     return (
       <div className={"SearchQuery"}>
         <div style={{ marginTop: "10%" }}>
-            <h1> Education Pathways</h1>
+            <h1> Aevo</h1>
             <br></br>
 
         <form onSubmit={this.handleSubmit} className={"search"}>

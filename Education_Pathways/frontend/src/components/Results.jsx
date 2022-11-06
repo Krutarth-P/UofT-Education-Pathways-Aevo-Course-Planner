@@ -20,6 +20,7 @@ class Result extends Component{
       course_description: this.props.course_description,
       division: this.props.division,
       department: this.props.department,
+      eligible_minors: this.props.eligible_minors,
       starred: false,
       username: localStorage.getItem('username')
     };
@@ -56,7 +57,7 @@ class Result extends Component{
                 </Row>
                 <Row>
                   <Col>Eligibility for Minor:</Col>
-                  <Col>Artificial Intelligence</Col>  
+                  <Col>{this.state.eligible_minors}</Col>  
                 </Row>
             </div>
           </Col>

@@ -47,7 +47,7 @@ class MinorCertificatesMenuPage extends Component {
                             <h1>Minors</h1>
                         </Col>
                     </Row>
-                    <Row className="minors-row-1">
+                    <Row>
                         <Col className="minors-col-item">
                             <a href={this.state.minor1_link} target="_blank" rel="noreferrer">
                                 <h3>Advanced Manufacturing</h3>
@@ -59,7 +59,7 @@ class MinorCertificatesMenuPage extends Component {
                             </a>
                         </Col>
                     </Row>
-                    <Row className="minors-row-2">
+                    <Row>
                         <Col className="minors-col-item">
                             <a href={this.state.minor3_link} target="_blank" rel="noreferrer">
                                 <h3>Bioengineering</h3>
@@ -71,7 +71,7 @@ class MinorCertificatesMenuPage extends Component {
                             </a>
                         </Col>
                     </Row>
-                    <Row className="minors-row-3">
+                    <Row>
                         <Col className="minors-col-item">
                             <a href={this.state.minor5_link} target="_blank" rel="noreferrer">
                                 <h3>Environmental Engineering</h3>
@@ -83,7 +83,7 @@ class MinorCertificatesMenuPage extends Component {
                             </a>
                         </Col>
                     </Row>
-                    <Row className="minors-row-4">
+                    <Row>
                         <Col className="minors-col-item">
                             <a href={this.state.minor7_link} target="_blank" rel="noreferrer">
                                 <h3>Music Performance</h3>
@@ -95,7 +95,7 @@ class MinorCertificatesMenuPage extends Component {
                             </a>
                         </Col>
                     </Row>
-                    <Row className="minors-row-4">
+                    <Row>
                         <Col className="minors-col-item">
                             <a href={this.state.minor9_link} target="_blank" rel="noreferrer">
                                 <h3>Robotics & Mechatronics</h3>
@@ -114,7 +114,7 @@ class MinorCertificatesMenuPage extends Component {
                             <h1>Certificates</h1>
                         </Col>
                     </Row>
-                    <Row className="certs-row-1">
+                    <Row>
                         <Col className="certs-col-item">
                             <a href={this.state.cert1_link} target="_blank" rel="noreferrer">
                                 <h3>Artificial Intelligence Engineering</h3>
@@ -126,7 +126,7 @@ class MinorCertificatesMenuPage extends Component {
                             </a>
                         </Col>
                     </Row>
-                    <Row className="certs-row-2">
+                    <Row>
                         <Col className="certs-col-item">
                             <a href={this.state.cert3_link} target="_blank" rel="noreferrer">
                                 <h3>Engineering Business</h3>
@@ -138,7 +138,7 @@ class MinorCertificatesMenuPage extends Component {
                             </a>
                         </Col>
                     </Row>
-                    <Row className="certs-row-3">
+                    <Row>
                         <Col className="certs-col-item">
                             <a href={this.state.cert5_link} target="_blank" rel="noreferrer">
                                 <h3>Forensic Engineering</h3>
@@ -150,7 +150,7 @@ class MinorCertificatesMenuPage extends Component {
                             </a>
                         </Col>
                     </Row>
-                    <Row className="certs-row-4">
+                    <Row>
                         <Col className="certs-col-item">
                             <a href={this.state.cert7_link} target="_blank" rel="noreferrer">
                                 <h3>Mineral Resources</h3>
@@ -162,7 +162,7 @@ class MinorCertificatesMenuPage extends Component {
                             </a>
                         </Col>
                     </Row>
-                    <Row className="certs-row-5">
+                    <Row>
                         <Col className="certs-col-item">
                             <a href={this.state.cert9_link} target="_blank" rel="noreferrer">
                                 <h3>Nuclear Engineering</h3>
@@ -174,7 +174,7 @@ class MinorCertificatesMenuPage extends Component {
                             </a>
                         </Col>
                     </Row>
-                    <Row className="certs-row-6">
+                    <Row>
                         <Col className="certs-col-item">
                             <a href={this.state.cert11_link} target="_blank" rel="noreferrer">
                                 <h3>Renewable Resources Engineering</h3>

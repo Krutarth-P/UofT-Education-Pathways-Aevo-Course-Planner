@@ -12,7 +12,7 @@ p {
 }
 
 .minor-cert-page-content {
-    background-color: RGB(232, 236, 241);
+    background-color: #F2F4F8;
 }
 
 .minors-heading {
@@ -26,15 +26,19 @@ p {
 .minors-template-card {
     border-radius: 10px;
     padding: 3%;
-    margin: 20px 20px 20px 20px;
-    background-color: #8198B8;
+    margin-top: 5%;
+    margin-right: 1%;
+    margin-left: 1%;
+    background-color: #F2F4F8;
 }
 
 .certs-template-card {
     border-radius: 10px;
     padding: 3%;
-    margin: 20px 20px 20px 20px;
-    background-color: #8198B8;
+    margin-bottom: 20%;
+    margin-right: 20px;
+    margin-left: 20px;
+    background-color: #F2F4F8;
 }
 
 .minor-certificates-template {
@@ -43,14 +47,10 @@ p {
 
 .minors-col-item,
 .certs-col-item {
-    padding: 1%;
+    padding: 1.5%;
     margin: 5px 5px 5px 5px;
-    background-color: RGB(242, 241, 239);
+    background-color: white;
     border-radius: 10px;
-    text-align: center;
-    align-items: center;
-    justify-content: center;
-
 }
 
 .minors-col-item h3,

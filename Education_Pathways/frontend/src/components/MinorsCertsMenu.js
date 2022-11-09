@@ -44,7 +44,7 @@ class MinorCertificatesMenuPage extends Component {
                 <Container className="minors-template-card">
                     <Row float="center" className="minors-heading">
                         <Col>
-                            <h1>Engineering Minors</h1>
+                            <h1>Minors</h1>
                         </Col>
                     </Row>
                     <Row className="minors-row-1">
@@ -111,7 +111,7 @@ class MinorCertificatesMenuPage extends Component {
                 <Container className="certs-template-card">
                     <Row float="center" className="certs-heading">
                         <Col>
-                            <h1>Engineering Certificates</h1>
+                            <h1>Certificates</h1>
                         </Col>
                     </Row>
                     <Row className="certs-row-1">

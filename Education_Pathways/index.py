@@ -6,7 +6,7 @@ import os
 
 import pandas as pd
 df = pd.read_csv("resources/courses.csv")
-minors_df = pd.read_csv("resources/eng_minor_list_dummy.csv")
+minors_df = pd.read_csv("resources/eng_minor_list_dummy.csv") #TODO: WILL NEED TO BE UPDATED WITH FULL MINOR CSV
 import config
 app = Flask(__name__, static_folder='frontend/build')
 app.config['ENV'] = 'development'
@@ -76,7 +76,7 @@ def search_course_by_code(s):
             "Environmental Engineering": [course for course in minors_df["Environmental Engineering"].tolist() if course == course], 
             "Sustainable Energy": [course for course in minors_df["Sustainable Energy"].tolist() if course == course],
             "Engineering Business": [course for course in minors_df["Engineering Business"].tolist() if course == course],
-            "Biomedical Engineering": [course for course in minors_df["Biomedical Engineering"].tolist() if course == course],
+            "Global Leadership": [course for course in minors_df["Global Leadership"].tolist() if course == course],
             "Nanoengineering": [course for course in minors_df["Nanoengineering"].tolist() if course == course],
             "Music Performance":[course for course in minors_df["Music Performance"].tolist() if course == course]
         }
@@ -101,7 +101,7 @@ def search_course_by_code(s):
             'minor_Env': minor_dict["Environmental Engineering"],
             'minor_SE': minor_dict["Sustainable Energy"],
             'minor_EB': minor_dict["Engineering Business"],
-            'minor_BioMed': minor_dict["Biomedical Engineering"],
+            'minor_GL': minor_dict["Global Leadership"],
             'minor_NANO': minor_dict["Nanoengineering"],
             'minor_MP': minor_dict["Music Performance"]
         }

@@ -24,7 +24,7 @@ class SearchResultDisplay extends Component{
           "Environmental Engineering": false, 
           "Sustainable Energy": false, 
           "Engineering Business": false, 
-          "Biomedical Engineering": false, 
+          "Global Leadership": false, 
           "Nanoengineering": false, 
           "Music Performance": false
         },
@@ -36,7 +36,7 @@ class SearchResultDisplay extends Component{
           "Environmental Engineering": [], 
           "Sustainable Energy": [], 
           "Engineering Business": [], 
-          "Biomedical Engineering": [], 
+          "Global Leadership": [], 
           "Nanoengineering": [], 
           "Music Performance":[] 
         }
@@ -102,7 +102,7 @@ class SearchResultDisplay extends Component{
     "Environmental Engineering", 
     "Sustainable Energy", 
     "Engineering Business", 
-    "Biomedical Engineering", 
+    "Global Leadership", 
     "Nanoengineering", 
     "Music Performance"]
 
@@ -150,8 +150,8 @@ class SearchResultDisplay extends Component{
               this.setState({'minor_courses': minor_NANO})
               let minor_MP = Object.assign({}, this.state.minor_courses, {["Music Performance"]: res.data[0].minor_MP});
               this.setState({'minor_courses': minor_MP})
-              let minor_BioMed = Object.assign({}, this.state.minor_courses, {["Biomedical Engineering"]: res.data[0].minor_BioMed});
-              this.setState({'minor_courses': minor_BioMed})
+              let minor_GL = Object.assign({}, this.state.minor_courses, {["Global Leadership"]: res.data[0].minor_GL});
+              this.setState({'minor_courses': minor_GL})
               
               console.log(this.state.minor_courses)
 

@@ -173,10 +173,18 @@ class SearchResultDisplay extends Component{
                   if (eligible_minors.length == 0){
                     eligible_minors.push('None')
                   }
+                  
+                  let course_term = res.data[i].term.replaceAll("' '", "', '")
+                  course_term=course_term.replace("[", "")
+                  course_term=course_term.replace("]", "")
+                  course_term=course_term.replaceAll("'", "")                               
+                  course_term = course_term.split(',');
+     
                   result_temp.push(<Result key={res.data[i]._id} 
                                     course_code={res.data[i].code} 
                                     course_name={res.data[i].name} 
                                     course_description={res.data[i].description}
+                                    course_term={course_term}
                                     division={res.data[i].division}
                                     department={res.data[i].department}
                                     eligible_minors = {eligible_minors}>
@@ -217,9 +225,8 @@ class SearchResultDisplay extends Component{
             <br></br>
         </div>
 
-        <div className={"left-sidebar"} >
-        <br></br>
-          <p>Search for courses by entering the beginning of any course codes(ECE, MIE...etc) or by keywords using delimiters.<br></br>
+        <div className={"left-sidebar"}>
+          <p>Search for courses by entering the beginning of any course codes (ECE, MIE...etc) or by keywords using delimiters.<br></br>
           Use delimiters ;ti:keyword, ;de:keyword, to search for keywords in course titles and/or descriptions respectively.</p>
             <form onSubmit={this.handleSubmit} className={"search"} id={"search-results"}>
                 <input placeholder={"Search for course code"} className={"text-input small-search"} type="text" value={this.state.input} onChange={this.handleChange} />
@@ -239,8 +246,6 @@ class SearchResultDisplay extends Component{
         <div className={"search-result-display"} >
             {this.state.results}
         </div>
-
-       
       </div>
     );
   }

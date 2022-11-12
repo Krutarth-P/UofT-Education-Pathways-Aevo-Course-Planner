@@ -10,8 +10,10 @@ import CourseDescriptionPage from "./CourseDescription";
 // import SignUp from './SignUp'
 import SearchResultDisplay from './ResultDisplay';
 import LandingPage from './LandingPage';
+import TimetableHelper from './TimetableHelper';
 
-function CourseDescription (props) {
+
+function CourseDescription(props) {
   let query = useQuery();
   return <CourseDescriptionPage code={query.get("code")} />;
 }
@@ -25,7 +27,7 @@ function useQuery() {
 
 export default class NavbarComp extends Component {
 
-  constructor(props){
+  constructor(props) {
     super(props)
     this.state = {
       username: localStorage.getItem('username'),
@@ -35,24 +37,24 @@ export default class NavbarComp extends Component {
 
   componentDidMount() {
     if (localStorage.getItem('username') !== "") {
-      this.setState({username: localStorage.getItem('username')})
+      this.setState({ username: localStorage.getItem('username') })
     }
   }
 
   logOut = () => {
     localStorage.setItem('username', "");
-    this.setState({username: ""})
+    this.setState({ username: "" })
   }
 
   render() {
     return (
       <Router>
         <div>
-          <Navbar style={{position:"fixed"}} bg="myBlue" variant="dark" sticky="top" expand="lg">
+          <Navbar style={{ position: "fixed" }} bg="myBlue" variant="dark" sticky="top" expand="lg">
             <Navbar.Brand>
               <img src={logo} alt="" />{" "}
               <Nav.Link href="/" style={{ color: "white", display: "inline" }}>
-                Aevo 
+                Aevo
               </Nav.Link>
             </Navbar.Brand>
 
@@ -65,15 +67,15 @@ export default class NavbarComp extends Component {
                 <Nav.Link as={Link} to="/about">
                   Minors & Certificates
                 </Nav.Link>
-                <Nav.Link as={Link} to="/about">
-                  Timetable Builder
+                <Nav.Link as={Link} to="/timetable-helper">
+                  Timetable Helper
                 </Nav.Link>
-               
+
                 {/* <Nav.Link href="/search" style={{ color: "white", display: "inline" }}>
                   Search
                 </Nav.Link> */}
 
-                
+
 
               </Nav>
             </Navbar.Collapse>
@@ -81,24 +83,24 @@ export default class NavbarComp extends Component {
         </div>
         <div>
           <Switch>
-          <Route path="/about">
-            <div className = "body_text">
-            <p>
+            <Route path="/about">
+              <div className="body_text">
+                <p>
 
-      Welcome to CARTE'kasljdflka;sjdflk;adsjfs in-development tool for course selection at UofT. Education Pathways allows for more intelligent course searching, by matching not just the terms you search, but ones relevant to them. The more terms you search for, the more relevant your results will be! Even try searching across disciplines for the courses that best cover each.
+                  Welcome to CARTE'kasljdflka;sjdflk;adsjfs in-development tool for course selection at UofT. Education Pathways allows for more intelligent course searching, by matching not just the terms you search, but ones relevant to them. The more terms you search for, the more relevant your results will be! Even try searching across disciplines for the courses that best cover each.
 
-Whatever year you are looking for, Education Pathways will also suggest courses in earlier years that will best help you to prepare. To get the most out of this, try searching for courses in a later year and see what is suggested for your current one.
+                  Whatever year you are looking for, Education Pathways will also suggest courses in earlier years that will best help you to prepare. To get the most out of this, try searching for courses in a later year and see what is suggested for your current one.
 
-We are looking for feedback to improve Education Pathways and make it more useful for students. If you have ideas or suggestions, please <a href = "mailto:alex.olson@utoronto.ca">  email us! </a> <br></br>
-</p>
-<p> 
-  <b>Development Team: </b>
-</p>
-<p>Alexander Olson <a href="https://carte.utoronto.ca/"> (CARTE)</a> </p>
-<p>Student team from <a href="https://shuiblue.github.io/UofT-ECE444/">ECE444-Fall2021</a> : Janelle Cuevas, Jean Lin, Terry Luan, Cansin Varol, Nick Woo</p>
+                  We are looking for feedback to improve Education Pathways and make it more useful for students. If you have ideas or suggestions, please <a href="mailto:alex.olson@utoronto.ca">  email us! </a> <br></br>
+                </p>
+                <p>
+                  <b>Development Team: </b>
+                </p>
+                <p>Alexander Olson <a href="https://carte.utoronto.ca/"> (CARTE)</a> </p>
+                <p>Student team from <a href="https://shuiblue.github.io/UofT-ECE444/">ECE444-Fall2021</a> : Janelle Cuevas, Jean Lin, Terry Luan, Cansin Varol, Nick Woo</p>
 
 
-      </div>
+              </div>
               {/* <SearchResultDisplay /> */}
             </Route>
             <Route path="/search">
@@ -106,7 +108,10 @@ We are looking for feedback to improve Education Pathways and make it more usefu
             </Route>
             <Route exact
               path="/courseDetails/:code"
-              render={props =>(<CourseDescriptionPage {...props} />)}>
+              render={props => (<CourseDescriptionPage {...props} />)}>
+            </Route>
+            <Route path="/timetable-helper">
+              <TimetableHelper />
             </Route>
             <Route path="/">
               <LandingPage />
@@ -114,10 +119,10 @@ We are looking for feedback to improve Education Pathways and make it more usefu
 
           </Switch>
         </div>
-        
-        
-    
-      </Router>
+
+
+
+      </Router >
     );
   }
 }

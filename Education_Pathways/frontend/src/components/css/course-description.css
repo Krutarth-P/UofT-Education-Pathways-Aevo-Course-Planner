@@ -84,6 +84,27 @@ p {
   margin-bottom: 2%;
 }
 
+.req-list {
+  list-style: none;
+  padding-inline-start: 0;
+  display: inline-block;
+  padding: 2% 5%;
+}
+
+.req-list ::after {
+  content: ', '; 
+}
+
+.req-list :last-child:after {
+  content: "";
+}
+
+.req-list a {
+  color: #5C779C;
+  text-decoration: none;
+}
+
+
 .requisites-display.corequisites {
   background-color: #DFF0CA;
 }

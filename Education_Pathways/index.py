@@ -3,6 +3,8 @@
 from flask import Flask, send_from_directory, jsonify, request
 from flask_restful import Api,Resource, reqparse
 import os
+import logging
+import simplejson as json
 
 import pandas as pd
 df = pd.read_csv("resources/courses.csv")
@@ -116,8 +118,11 @@ class SearchCourse(Resource):
         courses = search_course_by_code(input)
         if len(courses) > 0:
             try:
-                resp = jsonify(courses)
-                resp.status_code = 200
+                resp = app.response_class(
+                    json.dumps(courses, ignore_nan=True),
+                    mimetype='application/json'
+                )
+                #resp.status_code = 200
                 return resp
             except Exception as e:
                 resp = jsonify({'error': str(e)})
@@ -132,8 +137,11 @@ class SearchCourse(Resource):
         courses = search_course_by_code(input)
         if len(courses) > 0:
             try:
-                resp = jsonify(courses)
-                resp.status_code = 200
+                resp = app.response_class(
+                    json.dumps(courses, ignore_nan=True),
+                    mimetype='application/json'
+                )
+                #resp.status_code = 200
                 return resp
             except Exception as e:
                 resp = jsonify({'error': 'something went wrong'})
@@ -145,16 +153,28 @@ class ShowCourse(Resource):
         code = request.args.get('code')
         courses = search_course_by_code(code)
         if len(courses) == 0:
-            resp = jsonify({'message': f"Course {code} doesn't exist"})
-            resp.status_code = 404
+            #resp = jsonify({'message': f"Course {code} doesn't exist"})
+            #resp.status_code = 404
+            resp = app.response_class(
+                    json.dumps({'message': f"Course {code} doesn't exist"}, ignore_nan=True),
+                    mimetype='application/json'
+                )
             return resp
         try:
-            resp = jsonify({'course': courses[0]})
-            resp.status_code = 200
+            resp = app.response_class(
+                    json.dumps({'course': courses[0]}, ignore_nan=True),
+                    mimetype='application/json'
+                )
+            # jsonify({'course': courses[0]})
+            # resp.status_code = 200
             return resp
         except Exception as e:
-            resp = jsonify({'error': 'something went wrong'})
-            resp.status_code = 400
+            resp = app.response_class(
+                    json.dumps({'error': 'something went wrong'}, ignore_nan=True),
+                    mimetype='application/json'
+                )
+            #resp = jsonify({'error': 'something went wrong'})
+            #resp.status_code = 400
             return resp
     
     def post(self):
@@ -164,16 +184,28 @@ class ShowCourse(Resource):
         code = data['code']
         courses = search_course_by_code(code)
         if len(courses) == 0:
-            resp = jsonify({'message': f"Course {code} doesn't exist"})
-            resp.status_code = 404
+            resp = app.response_class(
+                    json.dumps({'message': f"Course {code} doesn't exist"}, ignore_nan=True),
+                    mimetype='application/json'
+            )
+            #resp = jsonify({'message': f"Course {code} doesn't exist"})
+            #resp.status_code = 404
             return resp
         try:
-            resp = jsonify({'course': courses[0]})
-            resp.status_code = 200
+            resp = app.response_class(
+                    json.dumps({'course': courses[0]}, ignore_nan=True),
+                    mimetype='application/json'
+            )
+            #resp = jsonify({'course': courses[0]})
+            #resp.status_code = 200
             return resp
         except Exception as e:
-            resp = jsonify({'error': 'something went wrong'})
-            resp.status_code = 400
+            resp = app.response_class(
+                    json.dumps({'error': 'something went wrong'}, ignore_nan=True),
+                    mimetype='application/json'
+            )
+            #resp = jsonify({'error': 'something went wrong'})
+            #resp.status_code = 400
             return resp
 
 

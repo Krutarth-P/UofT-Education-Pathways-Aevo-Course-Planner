@@ -15,16 +15,16 @@ class TimingResult extends Component {
     constructor(props) {
         super(props);
         this.state = {
-            result_contents: this.props.res
-
+            course_activity: this.props.course_activity,
+            course_timing: this.props.course_timing
         };
-        console.log(this.state.result_contents)
+        // console.log(this.state.result_contents)
         star = unstarred
     }
 
-    redirectCourse = () => {
-        this.props.history.push(`/course/details/${this.props.course_code}`, { course_code: this.props.course_code })
-    }
+    // redirectCourse = () => {
+    //     this.props.history.push(`/course/details/${this.props.course_code}`, { course_code: this.props.course_code })
+    // }
 
 
     render() {
@@ -35,25 +35,13 @@ class TimingResult extends Component {
                 <Row className={"result-display"}>
                     <Col>
                         <Row>
-                            <h5>{this.state.result_contents.LEC0101}</h5>
+                            <h5>{this.state.course_activity}</h5>
                         </Row>
                         <div className="course-general-info">
                             <Row>
-                                <Col>Course Instructor:</Col>
-                                <Col>Dr. John Smith</Col>
+                                <Col>Timing:</Col>
+                                <Col>{this.state.course_timing}</Col>
                             </Row>
-                            <Row>
-                                <Col>Course Schedule (Lec/Tut/Pra):</Col>
-                                <Col></Col>
-                            </Row>
-                            {/* <Row>
-                                    <Col>LEC0101:</Col>
-                                    <Col>{this.state.course_activities[0]}</Col>
-                                </Row>
-                                <Row>
-                                    <Col>LEC0102:</Col>
-                                    <Col>{this.state.course_activities[1]}</Col>
-                                </Row> */}
                         </div>
                     </Col>
                 </Row>

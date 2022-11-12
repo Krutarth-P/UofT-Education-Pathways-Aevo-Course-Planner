@@ -48,16 +48,23 @@ class TimetableHelper extends Component {
                         if (res.data.length > 0) {
 
                             let len = res.data.length
-                            console.log(res.data[0].course_activities.len)
+                            let num_course_activities = Object.keys(res.data[0].course_activities).length
+                            // console.log(Object.keys(res.data[0].course_activities).length)
                             let result_temp = []
                             let result_course_code_temp = []
-                            result_temp.push(<h2>{res.data[0].code}: {res.data[0].name}</h2>)
-                            let eligible_minors = []
-                            for (let i = 0; i < len; i++) {
-                                result_course_code_temp.push(res.data[i].code.slice(0, -2)) //Remove last two characters of course code to remove H1, Y1...etc endings
+                            result_temp.push(<h2>{res.data[0].code.slice(0, -2)}: {res.data[0].name}</h2>)
+                            // let eligible_minors = []
+                            // for (let i = 0; i < len; i++) {
+                            //     result_course_code_temp.push(res.data[i].code.slice(0, -2)) //Remove last two characters of course code to remove H1, Y1...etc endings
 
-                                result_temp.push(<TimingResult res={res.data[i]}>
-                                </TimingResult>)
+                            //     result_temp.push(<TimingResult res={res.data[i]}>
+                            //     </TimingResult>)
+                            // }
+
+                            for (const [key, value] of Object.entries(res.data[0].course_activities)) {
+                                console.log(key, value);
+                                result_temp.push(<TimingResult course_activity={key} course_timing={value} >
+                                    //     </TimingResult>)
                             }
                             this.setState({ results: result_temp })
                             this.setState({ result_courses: result_course_code_temp })

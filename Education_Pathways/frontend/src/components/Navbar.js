@@ -9,6 +9,7 @@ import CourseDescriptionPage from "./CourseDescription";
 // import Wishlist from './Wishlist';
 // import SignUp from './SignUp'
 import SearchResultDisplay from './ResultDisplay'
+import AddCourseForm from './AddCourse'
 
 function CourseDescription (props) {
   let query = useQuery();
@@ -69,6 +70,11 @@ export default class NavbarComp extends Component {
                 
 
               </Nav>
+              <Nav>
+                <Nav.Link as={Link} to="/admin/password123">
+                  Temp Admin
+                </Nav.Link>
+              </Nav>
             </Navbar.Collapse>
           </Navbar>
         </div>
@@ -101,7 +107,12 @@ We are looking for feedback to improve Education Pathways and make it more usefu
               path="/courseDetails/:code"
               render={props =>(<CourseDescriptionPage {...props} />)}>
             </Route>
-            <Route path="/">
+           
+            <Route path="/admin/password123">
+              <AddCourseForm/>
+            </Route>
+
+             <Route path="/">
               <SearchResultDisplay />
             </Route>
 

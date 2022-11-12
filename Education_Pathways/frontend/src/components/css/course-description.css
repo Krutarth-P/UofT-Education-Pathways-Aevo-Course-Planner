@@ -115,3 +115,12 @@ p {
   justify-content: center;
   margin-bottom: 2%;
 }
+
+.course-offering table {
+  width: 100%;
+  margin-top: 2%;
+}
+
+.course-offering tr th:nth-child(4),tr td:nth-child(4), tr th:nth-child(6),tr td:nth-child(6), tr th:nth-child(7),tr td:nth-child(7){  
+  display:none; 
+}

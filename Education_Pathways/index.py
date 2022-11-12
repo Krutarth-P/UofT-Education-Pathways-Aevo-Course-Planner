@@ -89,6 +89,7 @@ def search_course_by_code(s):
             'name': d['Name'],
             'description': d['Course Description'],
             'term': d['Term'],
+            'activity': d['Activity'],
             'syllabus': "Course syllabus here.",
             'prereq': d['Pre-requisites'],
             'coreq': d['Corequisite'],

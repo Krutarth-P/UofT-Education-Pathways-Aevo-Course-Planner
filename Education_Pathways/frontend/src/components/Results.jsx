@@ -51,9 +51,6 @@ class Result extends Component{
                 <Row>
                   <Col>Course Terms:</Col>
                   <Col id="search-result-terms">
-                    {/* {this.state.course_term.map((item, index) => {
-                      return <span>{ (index ? ', ' : '') + item }</span>;
-                    })} */}
                     {this.state.course_term.map(term => {
                         return <ul>{term}</ul>
                     })}

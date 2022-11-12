@@ -20,8 +20,10 @@ class CourseDescriptionPage extends Component {
       course_name: "",
       division: "",
       department: "",
-      graph : "",
+      graph: "",
       course_description: "",
+      course_term: "",
+      activity: "",
       syllabus: "",
       prerequisites: "",
       corequisites: "",
@@ -47,11 +49,28 @@ class CourseDescriptionPage extends Component {
         this.setState({department: res.data.course.department})
 
         this.setState({course_description : res.data.course.description})
+        this.setState({course_term: res.data.course.term})
         this.setState({graph: res.data.course.graph})
 
         res.data.course.prereq = JSON.parse(res.data.course.prereq.replace(/'/g, '"'))
         res.data.course.coreq = JSON.parse(res.data.course.coreq.replace(/'/g, '"'))
         res.data.course.exclusion =JSON.parse(res.data.course.exclusion.replace(/'/g, '"'))
+
+        let course_activity = res.data.course.activity
+        course_activity=course_activity.replace("['", "")
+        course_activity=course_activity.replace("']", "")
+        course_activity=course_activity.replace(/\\n|\\r/g, "")
+        course_activity=course_activity.replace(/>'/g, ">")
+        course_activity=course_activity.replace(/'</g, "<")
+
+        let course_term = res.data.course.term.replaceAll("' '", "', '")
+        course_term=course_term.replace("['", "")
+        course_term=course_term.replace("']", "")
+        course_term=course_term.replaceAll("'", "")                               
+        
+        console.log("course term", course_term)
+        this.setState({course_offering: course_activity})    
+        this.setState({course_term: course_term})                     
 
         let prereq_len = res.data.course.prereq.length
         console.log("prereq:",res.data.course.prereq)
@@ -108,8 +127,6 @@ class CourseDescriptionPage extends Component {
 
 
     })
-
-
     console.log("new state: ", this.state)
   }
 
@@ -148,10 +165,8 @@ class CourseDescriptionPage extends Component {
 
       <div className="page-content">
         <Container className="course-template">
-          <Row float="center" className="course-title">
-            <Col xs={8}>
-              <h1>{this.state.course_code} : {this.state.course_name}</h1>
-            </Col>
+          <Row float="center" className="course-title">          
+            <h1>{this.state.course_code} : {this.state.course_name}</h1>
             {/* <Col xs={4}>
               <img src={star} onClick={this.check_star} alt="" />
             </Col> */}
@@ -177,6 +192,11 @@ class CourseDescriptionPage extends Component {
           <Row className="col-item course-description">
             <h3>Course Description</h3>
             <p>{this.state.course_description}</p>
+          </Row>
+          <Row className="col-item course-description">
+            <h3>Course Offerings</h3>
+            <h6>{this.state.course_term}</h6>
+            <div className="course-offering" dangerouslySetInnerHTML={{ __html: this.state.course_offering }} />
           </Row>
           <Row className="col-item course-requisite">
             <Row>

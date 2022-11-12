@@ -2,11 +2,27 @@
 
 *{
   font-family: 'Fredoka One', cursive;
-  letter-spacing: 3px !important;
+  letter-spacing: 2px !important;
   color: #1C3E6E;
 }
 
 p {
+  color: #8198B8;
+}
+
+.row h5 {
+  padding-left: 5%;
+}
+
+.course-description {
+  font-size: smaller;
+  color: #35598b;
+  margin-right: 2%;
+}
+
+.course-general-info .row {
+  padding-left: 5%;
+  font-size: smaller;
   color: #8198B8;
 }
 
@@ -15,7 +31,7 @@ p {
 }
 
 .course-template {
-  padding-bottom: 3%;
+  padding: 2% 0;
 }
 
 .course-template .course-title {
@@ -41,19 +57,16 @@ p {
 
 .course-template .col-item h3 {
   margin-top: 30px;
-  margin-left: 4%;
+
 }
 
 .course-template .col-item h4 {
   margin-top: 5%;
-  margin-left: 4%;
+
 }
 
 .course-template .col-item p {
-  margin-top: 20px;
-  width: 90%;;
-  margin-left: 4%;
-  margin-bottom: 3%;
+  padding: 1% 5%;
   color: #5C779C;
 }
 
@@ -62,14 +75,21 @@ p {
 }
 
 .requisites-display {
-  height: 120px;
-  margin-top: 2%;
+  margin-top: 2% !important;
   background-color: #EFF3FB;
   margin-left: 3%;
   border-radius: 15px;
   padding-top: 5px;
   padding-bottom: 5px;
-  margin-bottom: 4%;
+  margin-bottom: 2%;
+}
+
+.requisites-display.corequisites {
+  background-color: #DFF0CA;
+}
+
+.requisites-display.exclusions {
+  background-color: #eec1be;
 }
 
 .expand_button {

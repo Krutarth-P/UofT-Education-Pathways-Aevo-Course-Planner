@@ -9,6 +9,9 @@ df = pd.read_csv("resources/courses.csv")
 
 df_test = pd.read_csv("resources/test_courses.csv")
 
+minors_df = pd.read_csv("resources/eng_minor_list_dummy.csv") #TODO: WILL NEED TO BE UPDATED WITH FULL MINOR CSV
+
+
 
 import config
 app = Flask(__name__, static_folder='frontend/build')
@@ -75,8 +78,22 @@ def search_course_by_code(s):
     if len(course_ids) > 10:
         course_ids = course_ids[:10]
     res = []
+    minor_dict = {
+        # filter out NaNs with course == course
+            "Artificial Intelligence": [course for course in minors_df["Artificial Intelligence"].tolist() if course == course], 
+            "Robotics & Mechatronics": [course for course in minors_df["Robotics & Mechatronics"].tolist() if course == course], 
+            "Advanced Manufacturing": [course for course in minors_df["Advanced Manufacturing"].tolist() if course == course], 
+            "Bioengineering": [course for course in minors_df["Bioengineering"].tolist() if course == course], 
+            "Environmental Engineering": [course for course in minors_df["Environmental Engineering"].tolist() if course == course], 
+            "Sustainable Energy": [course for course in minors_df["Sustainable Energy"].tolist() if course == course],
+            "Engineering Business": [course for course in minors_df["Engineering Business"].tolist() if course == course],
+            "Global Leadership": [course for course in minors_df["Global Leadership"].tolist() if course == course],
+            "Nanoengineering": [course for course in minors_df["Nanoengineering"].tolist() if course == course],
+            "Music Performance":[course for course in minors_df["Music Performance"].tolist() if course == course]
+        }
     for i, course_id in enumerate(course_ids):
         d = df.iloc[course_id].to_dict()
+        
         res_d = {
             '_id': i,
             'code': d['Code'],
@@ -88,6 +105,16 @@ def search_course_by_code(s):
             'exclusion': d['Exclusion'] ,
             'division': d['Division'],
             'department': d['Department'] ,
+            'minor_AI': minor_dict["Artificial Intelligence"],
+            'minor_RM': minor_dict["Robotics & Mechatronics"],
+            'minor_AM': minor_dict["Advanced Manufacturing"],
+            'minor_Bio': minor_dict["Bioengineering"],
+            'minor_Env': minor_dict["Environmental Engineering"],
+            'minor_SE': minor_dict["Sustainable Energy"],
+            'minor_EB': minor_dict["Engineering Business"],
+            'minor_GL': minor_dict["Global Leadership"],
+            'minor_NANO': minor_dict["Nanoengineering"],
+            'minor_MP': minor_dict["Music Performance"]
         }
         res.append(res_d)
     return res
@@ -259,6 +286,7 @@ def serve(path):
 
 if __name__ == '__main__':
     # app.run(host='0.0.0.0', port=5000, extra_files=['app.py', 'controller.py', 'model.py'])
+
     app.run(threaded=True, port=5050) # USE PORT 5050 CUZ 5000 IS BUGGY
     # with open("test.json") as f:
     #     data = json.load(f)

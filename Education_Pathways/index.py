@@ -240,7 +240,7 @@ class ShowCourse(Resource):
             resp.status_code = 400
             return resp
 
-class SearchCourse2(Resource):
+class SearchCourseTiming(Resource):
     def get(self):
         input = request.args.get('input')
         courses = search_course_timings(input)
@@ -275,7 +275,7 @@ rest_api = Api(app)
 rest_api.add_resource(SearchCourse, '/searchc')
 # rest_api.add_resource(controller.ShowCourse, '/course/details')
 rest_api.add_resource(ShowCourse, '/course/details')
-rest_api.add_resource(SearchCourse2, '/timetable-helper')
+rest_api.add_resource(SearchCourseTiming, '/timetable-helper')
 
 
 @app.route("/", defaults={'path': ''})

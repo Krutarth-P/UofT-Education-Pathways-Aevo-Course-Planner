@@ -63,7 +63,7 @@ class TimetableHelper extends Component {
 
                             for (const [key, value] of Object.entries(res.data[0].course_activities)) {
                                 console.log(key, value);
-                                result_temp.push(<TimingResult course_activity={key} course_timing={value} >
+                                result_temp.push(<TimingResult course_activity={key} course_timing={value} course_code={res.data[0].code} >
                                     //     </TimingResult>)
                             }
                             this.setState({ results: result_temp })
@@ -75,7 +75,7 @@ class TimetableHelper extends Component {
                             }
 
                     } else {
-                        alert("Course not found")
+                        //alert("Course not found")
                     }
                 } else if (res.status === 400) {
                     alert("System Error. Please refresh")

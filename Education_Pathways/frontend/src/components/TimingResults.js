@@ -71,7 +71,7 @@ class TimingResult extends Component {
 
     handleAddClick = (event) => {
         console.log("Course Added", this.state.course_activity, this.state.course_timing)         //(1)
-        let str = this.state.course_code + ", " + this.state.course_activity + ", " + this.state.course_timing
+        let str = [this.state.course_code + ", " + this.state.course_activity + ", " + this.state.course_timing]
         //this.state.course_info_to_send.push(str)
         arrayStrings.push(str)
         //console.log(this.state.course_info_to_send)

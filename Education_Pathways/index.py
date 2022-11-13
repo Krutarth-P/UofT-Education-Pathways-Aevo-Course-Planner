@@ -188,7 +188,7 @@ def export_course_timing(input):
     courseCode, courseActivity, courseTiming = ""
     indexCode, indexActivity, indexTiming = 0
     for entry in input: 
-        if (check is not entry)
+        if (check is not entry):
             enumerate_input = enumerate(entry) #Expected 3 fields
             #for idx, param in enumerate(entry): 
             indexCode, courseCode = next(enumerate_input)
@@ -335,7 +335,9 @@ rest_api.add_resource(SearchCourse, '/searchc')
 # rest_api.add_resource(controller.ShowCourse, '/course/details')
 rest_api.add_resource(ShowCourse, '/course/details')
 rest_api.add_resource(SearchCourseTiming, '/timetable-helper')
-rest_api.add_resource(ExportCourseTiming, '/timetable-helper')
+
+rest_api.add_resource(ExportCourseTiming, '/timetable-helper-export')
+#rest_api.add_resource(ImportCourseTiming, '/timetable-helper')
 
 
 @app.route("/", defaults={'path': ''})

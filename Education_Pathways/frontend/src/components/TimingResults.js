@@ -81,22 +81,6 @@ class TimingResult extends Component {
 
     render() {
         return (
-            /*  //Code to add import and export buttons, but not implemented yet for ONLY ONE of each 
-            <div>
-                <Row className={"display-export-import"}>
-                    <Col>
-                        <button className="clickExport" type="button" onClick={this.handleExportClick}>
-                            Export
-                        </button>
-                    </Col>
-                    <Col>
-                        <button className="clickExport" type="button" onClick={this.handleImportClick}>
-                            Import
-                        </button>
-                    </Col>
-                </Row>
-            </div>
-            */
             <Container>
                 {/* <a href={`courseDetails/${this.state.course_code}`} onClick={this.redirectCourse} className={"search-result-item"} style={{ textDecoration: "none" }}> */}
             

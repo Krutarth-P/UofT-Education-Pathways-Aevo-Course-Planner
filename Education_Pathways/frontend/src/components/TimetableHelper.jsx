@@ -6,6 +6,8 @@ import Label from './Label'
 import "./css/styles.css";
 import API from '../api';
 import { withRouter } from 'react-router';
+import Row from 'react-bootstrap/Row'
+import Col from 'react-bootstrap/Col'
 
 
 
@@ -85,29 +87,43 @@ class TimetableHelper extends Component {
 
     render() {
         return (
-            <div className={"SearchQuery"}>
-                <div style={{ marginTop: "5%" }}>
-                    <h1>Timetable Helper</h1>
-                    <br></br>
+            <div>
+                <div className={"SearchQuery"}>
+                    <div style={{ marginTop: "5%" }}>
+                        <h1>Timetable Helper</h1>
+                        <br></br>
+                    </div>
+
+                    <div className={"left-sidebar"} >
+                        <br></br>
+
+                        <form onSubmit={this.handleSubmit} className={"search"} id={"search-results"}>
+                            <input placeholder={"Search for course code"} className={"text-input small-search"} type="text" value={this.state.input} onChange={this.handleChange} />
+                            <input type="submit" value="Search" className={"submit-button"} />
+                        </form>
+
+
+
+                    </div>
+                    <div className={"search-result-display"} >
+                        {this.state.results}
+                    </div>
+
                 </div>
-
-                <div className={"left-sidebar"} >
-                    <br></br>
-
-                    <form onSubmit={this.handleSubmit} className={"search"} id={"search-results"}>
-                        <input placeholder={"Search for course code"} className={"text-input small-search"} type="text" value={this.state.input} onChange={this.handleChange} />
-                        <input type="submit" value="Search" className={"submit-button"} />
-                    </form>
-
-
-
-                </div>
-                <div className={"search-result-display"} >
-                    {this.state.results}
-                </div>
-
-
+                <Row className={"display-export-import"}>
+                    <Col>
+                        <button className="clickExport" type="button" onClick={this.handleExportClick}>
+                            Export
+                        </button>
+                    </Col>
+                    <Col>
+                        <button className="clickExport" type="button" onClick={this.handleImportClick}>
+                            Import
+                        </button>
+                    </Col>
+                </Row>
             </div>
+            
         );
     }
 

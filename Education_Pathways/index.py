@@ -174,6 +174,13 @@ def search_course_by_code(s):
         res.append(res_d)
     return res
 
+def export_course_timing(input): 
+    #Return a list of course codes (keys) and their timings (course_code + course_activity + course_timing)
+    #as first a json 
+    #then csv
+    if ',' in line: 
+        parsed_input = input.parse(',')
+        
 class SearchCourse(Resource):
     def get(self):
         input = request.args.get('input')
@@ -269,6 +276,36 @@ class SearchCourseTiming(Resource):
                 resp = jsonify({'error': 'something went wrong'})
                 resp.status_code = 400
                 return resp
+
+class ExportCourseTiming(Resource):
+    def get(self):
+        input = request.args.get('input')
+        courses = export_course_timing(input)
+        if len(courses) > 0:
+            try:
+                resp = jsonify(courses)
+                resp.status_code = 200
+                return resp
+            except Exception as e:
+                resp = jsonify({'error': str(e)})
+                resp.status_code = 400
+                return resp
+
+    def post(self):
+        parser = reqparse.RequestParser()
+        parser.add_argument('input', required=True)
+        data = parser.parse_args()
+        input = data['input']
+        courses = search_course_timings(input)
+        if len(courses) > 0:
+            try:
+                resp = jsonify(courses)
+                resp.status_code = 200
+                return resp
+            except Exception as e:
+                resp = jsonify({'error': 'something went wrong'})
+                resp.status_code = 400
+                return resp
 # API Endpoints
 rest_api = Api(app)
 # rest_api.add_resource(controller.SearchCourse, '/searchc')
@@ -276,6 +313,7 @@ rest_api.add_resource(SearchCourse, '/searchc')
 # rest_api.add_resource(controller.ShowCourse, '/course/details')
 rest_api.add_resource(ShowCourse, '/course/details')
 rest_api.add_resource(SearchCourseTiming, '/timetable-helper')
+rest_api.add_resource(ExportCourseTiming, '/timetable-helper')
 
 
 @app.route("/", defaults={'path': ''})

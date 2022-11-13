@@ -7,6 +7,8 @@ import './css/timing-results.css'
 import unstarred from './img/star.png'
 import starred from './img/starred.png'
 import API from '../api';
+import { BrowserRouter as Router, Route, Link, Switch} 
+        from "react-router-dom";
 
 let star;
 
@@ -49,9 +51,18 @@ class TimingResult extends Component {
 
     }
     */
-
+    /*
+    postData (input) {
+        console.log("Currently Posting Data", input)
+    }
+    */
     handleExportClick = (event) => {
-        console.log("Export Course Loadout", this.state.did_export)
+        console.log("Exporting Course Loadout", this.state.did_export)
+        //postData(arrayStrings)
+        this.state.did_export = true
+        console.log("Exported", this.state.did_export)
+        this.state.did_export = false
+        arrayStrings = [];
     }
 
     handleImportClick = (event) => {
@@ -60,7 +71,7 @@ class TimingResult extends Component {
 
     handleAddClick = (event) => {
         console.log("Course Added", this.state.course_activity, this.state.course_timing)         //(1)
-        let str = this.state.course_code + " " + this.state.course_activity + " " + this.state.course_timing
+        let str = this.state.course_code + ", " + this.state.course_activity + ", " + this.state.course_timing
         //this.state.course_info_to_send.push(str)
         arrayStrings.push(str)
         //console.log(this.state.course_info_to_send)
@@ -70,22 +81,25 @@ class TimingResult extends Component {
 
     render() {
         return (
+            /*  //Code to add import and export buttons, but not implemented yet for ONLY ONE of each 
+            <div>
+                <Row className={"display-export-import"}>
+                    <Col>
+                        <button className="clickExport" type="button" onClick={this.handleExportClick}>
+                            Export
+                        </button>
+                    </Col>
+                    <Col>
+                        <button className="clickExport" type="button" onClick={this.handleImportClick}>
+                            Import
+                        </button>
+                    </Col>
+                </Row>
+            </div>
+            */
             <Container>
                 {/* <a href={`courseDetails/${this.state.course_code}`} onClick={this.redirectCourse} className={"search-result-item"} style={{ textDecoration: "none" }}> */}
-                <div>
-                    <Row className={"display-export-import"}>
-                        <Col>
-                            <button className="clickExport" type="button" onClick={this.handleExportClick}>
-                                Export
-                            </button>
-                        </Col>
-                        <Col>
-                            <button className="clickExport" type="button" onClick={this.handleImportClick}>
-                                Import
-                            </button>
-                        </Col>
-                    </Row>
-                </div>
+            
                 <Row className={"result-display"}>
                     <Col>
                         <Row>

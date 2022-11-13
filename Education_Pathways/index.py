@@ -19,6 +19,9 @@ app.config['TESTING'] = True
 # DB_URI = "mongodb+srv://Cansin:cv190499@a-star.roe6s.mongodb.net/A-Star?retryWrites=true&w=majority"
 # app.config["MONGODB_HOST"] = DB_URI
 
+import numpy as np 
+import csv
+
 config.init_app(app)
 config.init_db(app)
 config.init_cors(app)
@@ -178,9 +181,28 @@ def export_course_timing(input):
     #Return a list of course codes (keys) and their timings (course_code + course_activity + course_timing)
     #as first a json 
     #then csv
-    if ',' in line: 
-        parsed_input = input.parse(',')
-        
+ #   if ',' in input: 
+ #       parsed_input = input.parse(',')
+ #       for entry in parse
+    check = []
+    courseCode, courseActivity, courseTiming = ""
+    indexCode, indexActivity, indexTiming = 0
+    for entry in input: 
+        if (check is not entry)
+            enumerate_input = enumerate(entry) #Expected 3 fields
+            #for idx, param in enumerate(entry): 
+            indexCode, courseCode = next(enumerate_input)
+            indexActivity, courseActivity = next(enumerate_input)
+            indexTiming, courseTiming = next(enumerate_input)
+            #courseCode, courseActivity, courseTiming = (idx, param)
+            arr = np.asarray(entry)
+            with open('User Profile', 'w') as f:
+                mywriter = csv.writer(f, delimiter=' ')
+                mywriter.writerows(arr)
+
+    check = entry                   #We can skip repeated additions of the same course activity 
+
+
 class SearchCourse(Resource):
     def get(self):
         input = request.args.get('input')

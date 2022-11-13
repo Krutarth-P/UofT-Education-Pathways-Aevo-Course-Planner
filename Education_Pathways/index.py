@@ -196,7 +196,7 @@ def export_course_timing(input):
             indexTiming, courseTiming = next(enumerate_input)
             #courseCode, courseActivity, courseTiming = (idx, param)
             arr = np.asarray(entry)
-            with open('User Profile', 'w') as f:
+            with open('User Profile.csv', 'w') as f:
                 mywriter = csv.writer(f, delimiter=' ')
                 mywriter.writerows(arr)
 

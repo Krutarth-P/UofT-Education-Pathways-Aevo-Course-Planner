@@ -129,9 +129,9 @@ export default class NavbarComp extends Component {
               <AddCourseForm/>
             </Route>
 
-             <Route path="/">
+            {/*<Route path="/">
               <SearchResultDisplay />
-            </Route>
+            </Route>*/}
             
             <Route path="/">
               <LandingPage />

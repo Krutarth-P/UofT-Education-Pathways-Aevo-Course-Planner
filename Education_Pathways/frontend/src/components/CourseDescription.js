@@ -161,10 +161,6 @@ class CourseDescriptionPage extends Component {
               <img src={star} onClick={this.check_star} alt="" />
             </Col> */}
           </Row>
-          <Row className="col-item course-description">
-            <h3>Instructor Information</h3>
-            <p>  Working in teams under the direct supervision of a faculty member, students develop a design project of their choice from an initial concept to a final working prototype. In the first session, a project proposal is submitted early on, followed by a project requirements specification. A design review meeting is then held to review the proposed design. Lectures given during the first session will develop expertise in various areas related to design and technical communication. In the second session, the teams present their work in a number of ways, including an oral presentation, a poster presentation, a final </p>
-          </Row>
           <Row>
             <Col className="col-item">
               <h3>Division</h3>

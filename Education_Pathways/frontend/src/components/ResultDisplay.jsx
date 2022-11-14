@@ -226,7 +226,7 @@ class SearchResultDisplay extends Component{
         </div>
 
         <div className={"left-sidebar"}>
-          <p>Search for courses by entering the beginning of any course codes (ECE, MIE...etc) or by keywords using delimiters.<br></br>
+          <p>Search for courses by entering the beginning of any course codes (ECE, MIE...etc) and/or by keywords using delimiters.<br></br>
           Use delimiters ;ti:keyword, ;de:keyword, to search for keywords in course titles and/or descriptions respectively.</p>
             <form onSubmit={this.handleSubmit} className={"search"} id={"search-results"}>
                 <input placeholder={"Search for course code"} className={"text-input small-search"} type="text" value={this.state.input} onChange={this.handleChange} />

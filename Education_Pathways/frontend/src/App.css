@@ -39,13 +39,7 @@
 .footer img {
   /* make the footer appear in the centre of the page
   */
-  background-color: white;
-  color: white;
+  background-color: transparent;
   text-align: center;
-  width: 50%;
-  height: 30%;
-  margin-top: 150px;
-  /* make the footer appear in the centre of the page
-  */
-  
+  width: 35%;
 }

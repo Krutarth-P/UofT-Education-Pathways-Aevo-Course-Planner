@@ -10,6 +10,8 @@ import CourseDescriptionPage from "./CourseDescription";
 // import SignUp from './SignUp'
 import SearchResultDisplay from './ResultDisplay'
 import AddCourseForm from './AddCourse'
+import EditCourseForm from './EditCourse'
+import AdminSearchResultDisplay from './AdminSearch'
 
 function CourseDescription (props) {
   let query = useQuery();
@@ -103,16 +105,30 @@ We are looking for feedback to improve Education Pathways and make it more usefu
             <Route path="/search">
               <SearchResultDisplay />
             </Route>
+            
             <Route exact
               path="/courseDetails/:code"
               render={props =>(<CourseDescriptionPage {...props} />)}>
             </Route>
            
             <Route path="/admin/password123">
+              <AdminSearchResultDisplay/>
+            </Route>
+
+            <Route path="/admin/add">
               <AddCourseForm/>
             </Route>
 
-             <Route path="/">
+            <Route path="/admin/edit"
+              render={props =>(<EditCourseForm {...props} />)}>
+            </Route>
+           
+            <Route path="/admin/search">
+              <AdminSearchResultDisplay/>
+            </Route>
+
+
+            <Route path="/">
               <SearchResultDisplay />
             </Route>
 

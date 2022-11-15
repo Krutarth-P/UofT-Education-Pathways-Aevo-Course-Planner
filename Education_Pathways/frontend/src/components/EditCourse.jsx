@@ -9,27 +9,43 @@ import Row from 'react-bootstrap/Row'
 import API from '../api';
 
 
-class AddCourseForm extends Component{
+class EditCourseForm extends Component{
     
     constructor(props) {
         super(props);
         this.state = {
-            action: "add",
-            course_code: "",
-            course_name: "",
-            division: "",
-            department: "",
-            course_description: "",
-            prerequisites: "",
-            corequisites: "",
-            exclusions: "",
+        
+            action: "edit",
+            index: this.props.location.state.input.index,
+            course_code: this.props.location.state.input.course_code,
+            course_name: this.props.location.state.input.course_name,
+            division: this.props.location.state.input.division,
+            department: this.props.location.state.input.department,
+            course_description: this.props.location.state.input.course_description,
+            /*prerequisites: this.props.location.state.input.prerequisites,
+            corequisites: this.props.location.state.input.corequisites,
+            exclusions: this.props.location.state.input.exclusions,*/
+            prerequisites: (JSON.parse(this.props.location.state.input.prerequisites.replace(/'/g, '"'))).toString(),
+            corequisites: (JSON.parse(this.props.location.state.input.corequisites.replace(/'/g, '"'))).toString(),
+            exclusions: (JSON.parse(this.props.location.state.input.exclusions.replace(/'/g, '"'))).toString(),
             msg: "",
-            status: "",
+            status: ""
         };
         this.handleChange = this.handleChange.bind(this);
         this.handleSubmit = this.handleSubmit.bind(this);
-        //console.log("in constructor "+JSON.stringify(this.props.location.state));
-        
+        console.log("in constructor"+JSON.stringify(this.props.location.state.input));
+        console.log(typeof this.state.prerequisites);
+        console.log(this.state.prerequisites);
+
+        /*
+        let temp_prereq=(JSON.parse(this.state.prerequisites.replace(/'/g, '"'))).toString();
+        let temp_coreq=(JSON.parse(this.state.corequisites.replace(/'/g, '"'))).toString();
+        let temp_exclusions=(JSON.parse(this.state.exclusions.replace(/'/g, '"'))).toString();
+
+        console.log("in from "+this.state.course_code + " "+ this.state.prerequisites+" "+typeof this.state.prerequisite+" "+temp_prereq +" "+ typeof temp_prereq);
+        console.log("in from "+this.state.course_code + " "+ this.props.location.state.input.corequisites+" "+typeof this.state.corequisites+" "+temp_coreq +" "+ typeof temp_coreq);
+        console.log("in from "+this.state.course_code + " "+ this.props.location.state.input.exclusions+" "+typeof this.state.exclusions+" "+temp_exclusions +" "+ typeof temp_exclusions);
+        */
     }
 
     handleChange(event) {
@@ -45,6 +61,8 @@ class AddCourseForm extends Component{
         event.preventDefault();
         this.postData(this.state);
         console.log("inhandelsubmit", this.state);
+        console.log(typeof this.state.prerequisites);
+        console.log(this.state.prerequisites);
     }
     
     
@@ -52,37 +70,33 @@ class AddCourseForm extends Component{
         
 
         console.log("in postdata", input)
-        API.post(`/admin/add`,{input})
+        API.post(`/admin/edit`,{input})
         .then((response) => {
             console.log("api success",response);
             alert("Success: ");
-            this.state.status="Success";
-            this.state.msg=response.data;
+            this.status="Success";
+            this.msg=response.data;
         }).catch((error) => {
             console.log("api error",JSON.stringify(error));
             console.log("api error",error.response);
             alert("Error: " + error.response.data['error']);
-            this.state.status="Error";
-            this.state.msg=error.response.data['error'];
+            this.status="Error";
+            this.msg=error.response.data['error'];
 
         });
     
     }
     render(){
-        console.log("in form "+this.state.action)
-        console.log(this.state.msg +" and " + this.state.status);
         return (
-          <div className="CourseForm">
-
-            <br></br>
+          <div className="CourseForm"> 
 
             <Row>
-                <Col><Link to="/admin/add"><button className={"submit-button"} type="button">Add</button></Link></Col>
-                <Col><Link to="/admin/search"><button className={"submit-button"} type="button">Edit</button></Link></Col>
-                <Col><Link to="/admin/search"><button className={"submit-button"} type="button">Delete</button></Link></Col>
+            <Col><Link to="/admin/add"><button className={"submit-button"} type="button">Add</button></Link></Col>
+            <Col><Link to="/admin/search"><button className={"submit-button"} type="button">Edit</button></Link></Col>
+            <Col><Link to="/admin/search"><button className={"submit-button"} type="button">Delete</button></Link></Col>
             </Row>
-            
-            <h1> Education Pathways: Add New Course </h1>
+
+            <h1> Education Pathways: Edit Course</h1>
             <br></br>
 
             <form onSubmit={this.handleSubmit} className={"modify"}>
@@ -129,12 +143,12 @@ class AddCourseForm extends Component{
 
                 <input type="submit" value="Submit" className={"submit-button"}/>
 
-                { this.state.status=="Success" ? (
-                <h4>Success: {JSON.stringify(this.state.msg)}</h4>
-                ) : this.state.status == "Error" ? (
-                <h4>Error: {JSON.stringify(this.state.msg)}</h4>
+                { this.status=="Success" ? (
+                <h4>Success: {JSON.stringify(this.msg)}</h4>
+                ) : this.status == "Error" ? (
+                <h4>Error: {JSON.stringify(this.msg)}</h4>
                 ) : (
-                    <h4>anthing?</h4>
+                    <h4></h4>
                 )}
             </form>
     
@@ -145,4 +159,4 @@ class AddCourseForm extends Component{
 
 }
 
-export default AddCourseForm;
+export default EditCourseForm;

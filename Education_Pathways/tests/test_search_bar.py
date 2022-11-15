@@ -4,6 +4,7 @@ import pytest
 from index import app
 import json
 
+# Unit test function to test search bar functionalities by Jayce Wang
 @pytest.mark.parametrize("course_query", [
                                         ("ECE;ti:computer;de:circuit")
                                         ])

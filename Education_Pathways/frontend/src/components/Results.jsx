@@ -17,8 +17,10 @@ class Result extends Component{
     this.state = {
       course_code : this.props.course_code,
       course_name: this.props.course_name,
+      course_description: this.props.course_description,
       division: this.props.division,
       department: this.props.department,
+      eligible_minors: this.props.eligible_minors,
       starred: false,
       username: localStorage.getItem('username')
     };
@@ -34,16 +36,35 @@ class Result extends Component{
     return (
       <Container>
         <a href={`courseDetails/${this.state.course_code}`} onClick={this.redirectCourse} className={"search-result-item"} style={{textDecoration: "none"}}>
+        
         <Row className={"result-display"}>
-            <Col>
-                <h5>{this.state.course_code}</h5>  
-            </Col>
-            <Col>
-                <h5>{this.state.course_name}</h5>
-            </Col>
-            <Col>{this.state.division}</Col>
-            <Col>{this.state.department}</Col>
-            {/* <Col><img src={star} alt=""/></Col> */}
+          <Col sm={4}>
+            <Row>
+              <h5>{this.state.course_code}: {this.state.course_name}</h5> 
+            </Row>
+            <div className="course-general-info">
+                <Row>
+                  <Col>Course Instructor:</Col>
+                  <Col>Dr. John Smith</Col>
+                </Row>
+                <Row>
+                  <Col>Course Schedule (Lec/Tut/Pra):</Col>
+                  <Col>3H/2H/0H</Col>
+                </Row>
+                <Row>
+                  <Col>Course Offering:</Col>
+                  <Col>F/W/S</Col>
+                </Row>
+                <Row>
+                  <Col>Eligibility for Minor:</Col>
+                  <Col>{this.state.eligible_minors}</Col>  
+                </Row>
+            </div>
+          </Col>
+          <Col className={"course-description"}>
+            {this.state.course_description}
+          </Col>
+            
         </Row>
         </a>
       </Container>

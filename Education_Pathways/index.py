@@ -177,7 +177,7 @@ def search_course_by_code(s):
         res.append(res_d)
     return res
 
-def export_course_timing(input): 
+def export_schedule(input):   #input in this case is a 2D array that we want to change to print our each sub-array into a row in CSV
     #Return a list of course codes (keys) and their timings (course_code + course_activity + course_timing)
     #as first a json 
     #then csv
@@ -187,7 +187,7 @@ def export_course_timing(input):
     check = []
     courseCode, courseActivity, courseTiming = ""
     indexCode, indexActivity, indexTiming = 0
-    for entry in input: 
+    for entry in input:             #Go through each of the rows in the input CSV
         if (check is not entry):
             enumerate_input = enumerate(entry) #Expected 3 fields
             #for idx, param in enumerate(entry): 
@@ -196,12 +196,28 @@ def export_course_timing(input):
             indexTiming, courseTiming = next(enumerate_input)
             #courseCode, courseActivity, courseTiming = (idx, param)
             arr = np.asarray(entry)
-            with open('User Profile.csv', 'w') as f:
+            res = 'User Profile.csv'
+            with open(res, 'w') as f:
                 mywriter = csv.writer(f, delimiter=' ')
                 mywriter.writerows(arr)
 
     check = entry                   #We can skip repeated additions of the same course activity 
+    return res
 
+def import_schedule(input):
+#    items = []
+#    with open('file.csv') as csvFile:
+#        CSV_reader = csv.reader(csvFile)
+#        for row in CSV_reader: 
+#            items.append(row[0])
+
+    #We are expecting an input type that is convinient for us 
+    file = open(input)
+    res = np.loadtxt(file, delimiter=',')
+    return res
+
+def receive_selected_sessions(input): 
+    return input
 
 class SearchCourse(Resource):
     def get(self):
@@ -299,10 +315,10 @@ class SearchCourseTiming(Resource):
                 resp.status_code = 400
                 return resp
 
-class ExportCourseTiming(Resource):
+class ExportSchedule(Resource):
     def get(self):
         input = request.args.get('input')
-        courses = export_course_timing(input)
+        courses = export_schedule(input)
         if len(courses) > 0:
             try:
                 resp = jsonify(courses)
@@ -318,7 +334,7 @@ class ExportCourseTiming(Resource):
         parser.add_argument('input', required=True)
         data = parser.parse_args()
         input = data['input']
-        courses = search_course_timings(input)
+        courses = export_schedule(input)
         if len(courses) > 0:
             try:
                 resp = jsonify(courses)
@@ -328,6 +344,67 @@ class ExportCourseTiming(Resource):
                 resp = jsonify({'error': 'something went wrong'})
                 resp.status_code = 400
                 return resp
+
+class ImportSchedule(Resource):
+    def get(self):
+        input = request.args.get('input')
+        courses = import_schedule(input)
+        if len(courses) > 0:
+            try:
+                resp = jsonify(courses)
+                resp.status_code = 200
+                return resp
+            except Exception as e:
+                resp = jsonify({'error': str(e)})
+                resp.status_code = 400
+                return resp
+
+    def post(self):
+        parser = reqparse.RequestParser()
+        parser.add_argument('input', required=True)
+        data = parser.parse_args()
+        input = data['input']
+        courses = import_schedule(input)
+        if len(courses) > 0:
+            try:
+                resp = jsonify(courses)
+                resp.status_code = 200
+                return resp
+            except Exception as e:
+                resp = jsonify({'error': 'something went wrong'})
+                resp.status_code = 400
+                return resp
+
+class ReceiveSelectedSessions(Resource): 
+    def get(self):
+        input = request.args.get('input')
+        courses = receive_selected_sessions(input)
+        if len(courses) > 0:
+            try:
+                resp = jsonify(courses)
+                resp.status_code = 200
+                return resp
+            except Exception as e:
+                resp = jsonify({'error': str(e)})
+                resp.status_code = 400
+                return resp
+
+    def post(self):
+        parser = reqparse.RequestParser()
+        parser.add_argument('input', required=True)
+        data = parser.parse_args()
+        input = data['input']
+        courses = receive_selected_sessions(input)
+        if len(courses) > 0:
+            try:
+                resp = jsonify(courses)
+                resp.status_code = 200
+                return resp
+            except Exception as e:
+                resp = jsonify({'error': 'something went wrong'})
+                resp.status_code = 400
+                return resp
+
 # API Endpoints
 rest_api = Api(app)
 # rest_api.add_resource(controller.SearchCourse, '/searchc')
@@ -336,8 +413,9 @@ rest_api.add_resource(SearchCourse, '/searchc')
 rest_api.add_resource(ShowCourse, '/course/details')
 rest_api.add_resource(SearchCourseTiming, '/timetable-helper')
 
-rest_api.add_resource(ExportCourseTiming, '/timetable-helper-export')
-#rest_api.add_resource(ImportCourseTiming, '/timetable-helper')
+rest_api.add_resource(ExportSchedule, '/timetable-helper-export')
+rest_api.add_resource(ImportSchedule, '/timetable-helper-import')
+rest_api.add_resource(ReceiveSelectedSessions, '/timing-results-selected-sessions')
 
 
 @app.route("/", defaults={'path': ''})

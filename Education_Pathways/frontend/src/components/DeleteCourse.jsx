@@ -86,13 +86,13 @@ class DeleteCourseForm extends Component{
 
             <form onSubmit={this.handleSubmit} className={"modify"}>
                 <Row>
-                    <label>Course Code</label>
+                    <label>Course Code<span class="req">*</span></label>
                     <textarea disabled required name="course_code" placeholder={"Enter Course Code"} className={"input-area"} value={this.state.course_code} onChange={this.handleChange} />
                     
                 </Row>
 
                 <Row>
-                    <label>Course Name</label>
+                    <label>Course Name<span class="req">*</span></label>
                     <textarea disabled required name="course_name" placeholder={"Enter Course Name"} className={"input-area"} value={this.state.course_name} onChange={this.handleChange} />
                 </Row>
 
@@ -108,7 +108,7 @@ class DeleteCourseForm extends Component{
 
                 <Row>
                     <label>Course Description</label>
-                    <textarea disabled name="course_description" required placeholder={"Enter Course Description"} className={"input-area"} value={this.state.course_description} onChange={this.handleChange} />
+                    <textarea disabled name="course_description" placeholder={"Enter Course Description"} className={"input-area"} value={this.state.course_description} onChange={this.handleChange} />
                 </Row>
 
                 <Row>
@@ -126,6 +126,7 @@ class DeleteCourseForm extends Component{
                     <textarea disabled name="exclusions" placeholder={"Enter comma seperated Course Exclusions. Example: course1, course2, course3"} className={"input-area"} value={this.state.exclusions} onChange={this.handleChange} />
                 </Row>
 
+                <p><span class="req">*</span> - Required field</p>
                 <input type="submit" value="Delete" className={"submit-button"}/>
 
                 { this.status=="Success" ? (

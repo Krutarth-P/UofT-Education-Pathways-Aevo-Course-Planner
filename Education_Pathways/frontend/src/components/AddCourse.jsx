@@ -76,13 +76,13 @@ class AddCourseForm extends Component{
 
             <br></br>
 
-            <Row>
+            <Row className="justify-content-md-center" xs="auto">
                 <Col><Link to="/admin/add"><button className={"submit-button"} type="button">Add</button></Link></Col>
                 <Col><Link to="/admin/search"><button className={"submit-button"} type="button">Edit</button></Link></Col>
                 <Col><Link to="/admin/search"><button className={"submit-button"} type="button">Delete</button></Link></Col>
             </Row>
             
-            <h1> Education Pathways: Add New Course </h1>
+            <h1> Aevo: Add New Course </h1>
             <br></br>
 
             <form onSubmit={this.handleSubmit} className={"modify"}>
@@ -114,28 +114,20 @@ class AddCourseForm extends Component{
 
                 <Row>
                     <label>Pre-Requisites (comma seperated)</label>
-                    <textarea name="prerequisites" placeholder={"Enter comma seperated Course Pre-Requisites. Example: course1, course2, course3"} className={"input-area"} value={this.state.prerequisites} onChange={this.handleChange} />
+                    <textarea name="prerequisites" placeholder={"Enter comma seperated Course Pre-Requisites. Example: course1,course2,course3"} className={"input-area"} value={this.state.prerequisites} onChange={this.handleChange} />
                 </Row>
 
                 <Row>
                     <label>Co-Requisites (comma seperated)</label>
-                    <textarea name="corequisites"  placeholder={"Enter comma seperated Course Co-Requisites. Example: course1, course2, course3"} className={"input-area"} value={this.state.corequisites} onChange={this.handleChange} />
+                    <textarea name="corequisites"  placeholder={"Enter comma seperated Course Co-Requisites. Example: course1,course2,course3"} className={"input-area"} value={this.state.corequisites} onChange={this.handleChange} />
                 </Row>
 
                 <Row>
                     <label>Exclusions (comma seperated)</label>
-                    <textarea name="exclusions" placeholder={"Enter comma seperated Course Exclusions. Example: course1, course2, course3"} className={"input-area"} value={this.state.exclusions} onChange={this.handleChange} />
+                    <textarea name="exclusions" placeholder={"Enter comma seperated Course Exclusions. Example: course1,course2,course3"} className={"input-area"} value={this.state.exclusions} onChange={this.handleChange} />
                 </Row>
 
                 <input type="submit" value="Submit" className={"submit-button"}/>
-
-                { this.state.status=="Success" ? (
-                <h4>Success: {JSON.stringify(this.state.msg)}</h4>
-                ) : this.state.status == "Error" ? (
-                <h4>Error: {JSON.stringify(this.state.msg)}</h4>
-                ) : (
-                    <h4>anthing?</h4>
-                )}
             </form>
     
            

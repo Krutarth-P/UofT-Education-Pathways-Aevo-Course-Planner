@@ -3,7 +3,7 @@ import { BrowserRouter as Router, Route, Switch, Link, useLocation } from "react
 import axios from 'axios'
 import AdminResult from './AdminResults'
 import './css/Result.css'
-import Label from './Label'
+import AdminLabel from './AdminLabel'
 import "./css/styles.css";
 import API from '../api';
 
@@ -39,7 +39,7 @@ class AdminSearchResultDisplay extends Component{
             if (res.data.length > 0) {
               let len = res.data.length
               let result_temp = []
-              //result_temp.push(<Label></Label>)
+              result_temp.push(<AdminLabel></AdminLabel>)
               for (let i = 0; i < len; i++){
                   console.log(res.data[i].iloc_index);
                   //console.log(res.data[i])
@@ -171,9 +171,9 @@ class AdminSearchResultDisplay extends Component{
     return (
       <div className="SearchQuery">
         <div style={{ marginTop: "10%" }}>
-            <h1> Education Pathways</h1>
-            <h3>Search below for course to be edited or deleted</h3>
-            <h3>Or click Add to add new course</h3>
+            <h1> Aevo: Admin Page</h1>
+            <h4>Search below for course to be edited or deleted</h4>
+            <h4>Or click Add to add new course</h4>
             <br></br>
             {/* <div className = "body_text">
       Welcome to CARTE's in-development tool for course selection at UofT. Education Pathways allows for more intelligent course searching, by matching not just the terms you search, but ones relevant to them. The more terms you search for, the more relevant your results will be! Even try searching across disciplines for the courses that best cover each.
@@ -191,7 +191,7 @@ We are looking for feedback to improve Education Pathways and make it more usefu
             </form>
         </div>
 
-        <div className={"search-result-display"} >
+        <div className={"admin-search-result-display"} >
             {this.state.results}
         </div>
 

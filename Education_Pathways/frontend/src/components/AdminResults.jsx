@@ -86,19 +86,18 @@ class AdminResult extends Component {
             <Container>
                 <Row className={"result-display"}>
                     <Col>
-                        <h5>{this.state.action+" "+this.state.course_code}</h5>
+                        <h5>{this.state.course_code}</h5>
                     </Col>
                     <Col>
                         <h5>{this.state.course_name}</h5>
                     </Col>
                     <Col>{this.state.division}</Col>
                     <Col>{this.state.department}</Col>
-                    <Col>{this.state.prerequisites}</Col>
                     {/* <Col><img src={star} alt=""/></Col> */}
                     
-                    <Row>
-                        <Col><button onClick={this.handleSubmit} type="submit" value="Edit" className={"submit-button"}>Edit Course</button></Col>
-                        <Col><button onClick={this.handleSubmit} type="submit" value="Delete" className={"submit-button"}>Delete Course</button></Col>
+                    <Row xs={2} md={4} lg={6}>
+                        <Col><button onClick={this.handleSubmit} type="submit" value="Edit" className={"submit-button"}>Edit</button></Col>
+                        <Col><button onClick={this.handleSubmit} type="submit" value="Delete" className={"submit-button"}>Delete</button></Col>
                     </Row>
                 </Row>
 

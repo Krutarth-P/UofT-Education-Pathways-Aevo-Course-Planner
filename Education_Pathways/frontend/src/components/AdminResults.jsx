@@ -37,7 +37,7 @@ class AdminResult extends Component {
         if (event.target.value == "Edit")
             this.props.history.push('/admin/edit', { input: { ...this.state } })
         else
-            this.props.history.push('/')
+            this.props.history.push('/admin/delete', {input: {...this.state}})
     }
 
     redirectQuery = () => {

@@ -8,9 +8,13 @@ import { BrowserRouter as Router, Route, Switch, Link, useLocation } from "react
 import CourseDescriptionPage from "./CourseDescription";
 // import Wishlist from './Wishlist';
 // import SignUp from './SignUp'
-import SearchResultDisplay from './ResultDisplay';
+import SearchResultDisplay from './ResultDisplay'
+import AddCourseForm from './AddCourse'
+import EditCourseForm from './EditCourse'
+import AdminSearchResultDisplay from './AdminSearch'
 import LandingPage from './LandingPage';
 import MinorsCertificatesMenuPage from "./MinorsCertsMenu";
+
 
 function CourseDescription(props) {
   let query = useQuery();
@@ -77,6 +81,11 @@ export default class NavbarComp extends Component {
 
 
               </Nav>
+              <Nav>
+                <Nav.Link as={Link} to="/admin/password123">
+                  Temp Admin
+                </Nav.Link>
+              </Nav>
             </Navbar.Collapse>
           </Navbar>
         </div>
@@ -113,10 +122,33 @@ export default class NavbarComp extends Component {
             <Route path="/search">
               <SearchResultDisplay />
             </Route>
+            
             <Route exact
               path="/courseDetails/:code"
               render={props => (<CourseDescriptionPage {...props} />)}>
             </Route>
+           
+            <Route path="/admin/password123">
+              <AdminSearchResultDisplay/>
+            </Route>
+
+            <Route path="/admin/add">
+              <AddCourseForm/>
+            </Route>
+
+            <Route path="/admin/edit"
+              render={props =>(<EditCourseForm {...props} />)}>
+            </Route>
+           
+            <Route path="/admin/search">
+              <AdminSearchResultDisplay/>
+            </Route>
+
+
+            {/*<Route path="/">
+              <SearchResultDisplay />
+            </Route>*/}
+            
             <Route path="/">
               <LandingPage />
             </Route>

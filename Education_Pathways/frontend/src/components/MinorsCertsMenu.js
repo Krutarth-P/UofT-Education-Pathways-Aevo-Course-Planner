@@ -43,9 +43,9 @@ class MinorCertificatesMenuPage extends Component {
             <div className="minor-cert-page-content">
                 <Container className="minors-template-card">
                     <Row float="center" className="minors-heading">
-                        <Col>
-                            <h1>Minors</h1>
-                        </Col>
+
+                        <h1>Minors</h1>
+
                     </Row>
                     <Row>
                         <Col className="minors-col-item">

@@ -18,6 +18,7 @@ class Result extends Component{
       course_code : this.props.course_code,
       course_name: this.props.course_name,
       course_description: this.props.course_description,
+      course_term: this.props.course_term,
       division: this.props.division,
       department: this.props.department,
       eligible_minors: this.props.eligible_minors,
@@ -26,7 +27,7 @@ class Result extends Component{
     };
     star = unstarred
   }
-
+  
   redirectCourse = () => {
     this.props.history.push(`/course/details/${this.props.course_code}`, {course_code: this.props.course_code})
   }
@@ -48,12 +49,12 @@ class Result extends Component{
                   <Col>Dr. John Smith</Col>
                 </Row>
                 <Row>
-                  <Col>Course Schedule (Lec/Tut/Pra):</Col>
-                  <Col>3H/2H/0H</Col>
-                </Row>
-                <Row>
-                  <Col>Course Offering:</Col>
-                  <Col>F/W/S</Col>
+                  <Col>Course Terms:</Col>
+                  <Col id="search-result-terms">
+                    {this.state.course_term.map(term => {
+                        return <ul>{term}</ul>
+                    })}
+                  </Col>
                 </Row>
                 <Row>
                   <Col>Eligibility for Minor:</Col>

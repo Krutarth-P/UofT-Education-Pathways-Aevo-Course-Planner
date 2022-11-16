@@ -107,17 +107,17 @@ class DeleteCourseForm extends Component {
 
                     <Row>
                         <label>Pre-Requisites (comma seperated)</label>
-                        <textarea disabled name="prerequisites" placeholder={"Enter comma seperated Course Pre-Requisites. Example: course1, course2, course3"} className={"input-area"} value={this.state.prerequisites} onChange={this.handleChange} />
+                        <textarea disabled name="prerequisites" placeholder={"Enter comma seperated Course Pre-Requisites. Example: course1,course2,course3"} className={"input-area"} value={this.state.prerequisites} onChange={this.handleChange} />
                     </Row>
 
                     <Row>
                         <label>Co-Requisites (comma seperated)</label>
-                        <textarea disabled name="corequisites" placeholder={"Enter comma seperated Course Co-Requisites. Example: course1, course2, course3"} className={"input-area"} value={this.state.corequisites} onChange={this.handleChange} />
+                        <textarea disabled name="corequisites" placeholder={"Enter comma seperated Course Co-Requisites. Example: course1,course2,course3"} className={"input-area"} value={this.state.corequisites} onChange={this.handleChange} />
                     </Row>
 
                     <Row>
                         <label>Exclusions (comma seperated)</label>
-                        <textarea disabled name="exclusions" placeholder={"Enter comma seperated Course Exclusions. Example: course1, course2, course3"} className={"input-area"} value={this.state.exclusions} onChange={this.handleChange} />
+                        <textarea disabled name="exclusions" placeholder={"Enter comma seperated Course Exclusions. Example: course1,course2,course3"} className={"input-area"} value={this.state.exclusions} onChange={this.handleChange} />
                     </Row>
 
                     <p><span class="req">*</span> - Required field</p>

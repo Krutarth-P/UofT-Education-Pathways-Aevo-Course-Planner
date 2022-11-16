@@ -13,7 +13,8 @@ df_test = pd.read_csv("resources/test_courses.csv")
 
 minors_df = pd.read_csv("resources/eng_minor_list_dummy.csv") #TODO: WILL NEED TO BE UPDATED WITH FULL MINOR CSV
 
-
+#print(df_test.loc[df_test['Code'] == 'ECE972'])
+#print(df_test.iloc[df_test[df_test['Code'].str.contains('TEST')].index.tolist()])
 
 import config
 app = Flask(__name__, static_folder='frontend/build')
@@ -246,7 +247,7 @@ def addNewCourse(input):
         exclusion = exclusion.split(",")
 
         new_course = {'Code': code, 'Name': name, 'Division': division, 'Department': department, 'Course Description': description, 
-        'Pre-requisites': prereq, 'Corequisites': coreq, 'Exclusions': exclusion}
+        'Pre-requisites': prereq, 'Corequisite': coreq, 'Exclusion': exclusion}
         df_test = pd.concat([df_test , pd.DataFrame([new_course])],ignore_index=True)
 
         error_code = 1 # new course successfully added
@@ -336,7 +337,7 @@ def editCourse(input):
         exclusion = exclusion.split(",")
 
         new_course = {'Code': code, 'Name': name, 'Division': division, 'Department': department, 'Course Description': description, 
-        'Pre-requisites': prereq, 'Corequisites': coreq, 'Exclusions': exclusion}
+        'Pre-requisites': prereq, 'Corequisite': coreq, 'Exclusion': exclusion}
 
         df_test.at[index, 'Code'] = code
         df_test.at[index, 'Name'] = name

@@ -83,13 +83,13 @@ class EditCourseForm extends Component {
 
                 <form onSubmit={this.handleSubmit} className={"modify"}>
                     <Row>
-                        <label>Course Code</label>
+                        <label>Course Code<span class="req">*</span></label>
                         <textarea required name="course_code" placeholder={"Enter Course Code"} className={"input-area"} value={this.state.course_code} onChange={this.handleChange} />
 
                     </Row>
 
                     <Row>
-                        <label>Course Name</label>
+                        <label>Course Name<span class="req">*</span></label>
                         <textarea required name="course_name" placeholder={"Enter Course Name"} className={"input-area"} value={this.state.course_name} onChange={this.handleChange} />
                     </Row>
 
@@ -123,6 +123,7 @@ class EditCourseForm extends Component {
                         <textarea name="exclusions" placeholder={"Enter comma seperated Course Exclusions. Example: course1,course2,course3"} className={"input-area"} value={this.state.exclusions} onChange={this.handleChange} />
                     </Row>
 
+                    <p><span class="req">*</span> - Required field</p>
                     <input type="submit" value="Submit" className={"submit-button"} />
 
                 </form>

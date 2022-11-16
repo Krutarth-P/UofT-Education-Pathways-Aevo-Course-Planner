@@ -11,6 +11,7 @@ import CourseDescriptionPage from "./CourseDescription";
 import SearchResultDisplay from './ResultDisplay'
 import AddCourseForm from './AddCourse'
 import EditCourseForm from './EditCourse'
+import DeleteCourseForm from './DeleteCourse'
 import AdminSearchResultDisplay from './AdminSearch'
 import LandingPage from './LandingPage';
 import MinorsCertificatesMenuPage from "./MinorsCertsMenu";
@@ -139,11 +140,14 @@ export default class NavbarComp extends Component {
             <Route path="/admin/edit"
               render={props =>(<EditCourseForm {...props} />)}>
             </Route>
+
+            <Route path="/admin/delete"
+              render={props =>(<DeleteCourseForm {...props} />)}>
+            </Route>
            
             <Route path="/admin/search">
               <AdminSearchResultDisplay/>
             </Route>
-
 
             {/*<Route path="/">
               <SearchResultDisplay />

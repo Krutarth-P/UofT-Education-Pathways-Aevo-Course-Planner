@@ -287,8 +287,6 @@ def editCourse(input):
     coreq=input['corequisites'].upper()
     exclusion=input['exclusions'].upper()
 
-    print(df_test.loc[1])
-
     matching_index = df_test.index[df_test['Code']==code].tolist()
 
     exists = False
@@ -322,12 +320,13 @@ def editCourse(input):
 
         print(df_test.loc[df_test['Code'] == code])
 
-        error_code = 1 # new course successfully added
+        error_code = 1 # new course successfully modified
         res = new_course
 
         df_test.to_csv("resources/test_courses.csv", index=False)
 
         return error_code, res
+
 
 
 
@@ -381,6 +380,84 @@ class AdminEdit(Resource):
             resp.status_code = 400
             return resp
 
+
+def deleteCourse(input):
+
+    index=input['index']
+    code=input['course_code'].upper()
+    name=input['course_name']
+    division=input['division']
+    department=input['department']
+    description=input['course_description']
+    prereq=input['prerequisites'].upper()
+    coreq=input['corequisites'].upper()
+    exclusion=input['exclusions'].upper()
+
+    new_course = {'Code': code, 'Name': name, 'Division': division, 'Department': department, 'Course Description': description, 
+    'Pre-requisites': prereq, 'Corequisites': coreq, 'Exclusions': exclusion}
+
+    global df_test
+
+    print('before drop',df_test.loc[index])
+    df_test = df_test.drop(index)
+    #print('after drop',df_test.loc[index])
+
+    error_code = 1 # new course successfully added
+    res = new_course
+
+    df_test.to_csv("resources/test_courses.csv", index=False)
+
+    return error_code, res
+
+class AdminDelete(Resource):
+    def get(self):
+        input = request.args.get('input')
+        
+        courses = search_course_by_code(input)
+
+        if len(courses) > 0:
+            try:
+                resp = jsonify(courses)
+                resp.status_code = 200
+                return resp
+            except Exception as e:
+                resp = jsonify({'error': str(e)})
+                resp.status_code = 400
+                return resp
+
+    def post(self):
+
+        #input = request.args.get('input')
+        #parser = reqparse.RequestParser()
+        #parser.add_argument('input', required=True)
+        data = request.get_json(force=True)
+        #data = parser.parse_args()
+        input = data['input']
+        print(type(input))
+        print(input)
+
+        if(input["action"]=="delete"):
+            error, new_course = deleteCourse(input)
+            
+            print("inpost:",new_course)
+            if len(new_course) > 0:
+                try:
+                    resp = jsonify(new_course)
+                    resp.status_code = 200
+                    return resp
+                except Exception as e:
+                    resp = jsonify({'error': 'something went wrong'})
+                    resp.status_code = 400
+                    return resp
+            elif(error == 0):
+                resp = jsonify({'error': 'something went wrong'})
+                resp.status_code = 400
+                return resp
+        
+        else:
+            resp = jsonify({'error': 'something went wrong'})
+            resp.status_code = 400
+            return resp
 
 def admin_search(input):
     courseCode = input
@@ -458,9 +535,10 @@ rest_api.add_resource(SearchCourse, '/searchc')
 rest_api.add_resource(ShowCourse, '/course/details')
 
 rest_api.add_resource(AdminAdd, '/admin/add')
-
-rest_api.add_resource(AdminSearch, '/admin/search')
 rest_api.add_resource(AdminEdit, '/admin/edit')
+rest_api.add_resource(AdminDelete, '/admin/delete')
+rest_api.add_resource(AdminSearch, '/admin/search')
+
 
 @app.route("/", defaults={'path': ''})
 @app.route('/<path:path>')

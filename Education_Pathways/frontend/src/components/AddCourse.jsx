@@ -55,7 +55,7 @@ class AddCourseForm extends Component{
         API.post(`/admin/add`,{input})
         .then((response) => {
             console.log("api success",response);
-            alert("Success: ");
+            alert("Success: New course added");
             this.state.status="Success";
             this.state.msg=response.data;
         }).catch((error) => {

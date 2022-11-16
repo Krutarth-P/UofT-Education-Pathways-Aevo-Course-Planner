@@ -7,6 +7,56 @@
     color: #1c3e6f;
   } */
   
+  .landing-banner {
+    background: 
+      /* linear-gradient(#1c3e6f, 70%, #061436), */
+      linear-gradient(
+        rgba(0, 0, 0, 0.7), 
+        rgba(0, 0, 0, 0.6)
+      ),
+      url(https://images.dailyhive.com/20220202133402/shutterstock_450746794.jpg);
+    background-size: cover;
+  }
+
+
+  .landing-banner h1 {
+    color: rgba(255, 255, 255, 0.95);
+  }
+
+  
+  .landing-banner h6 {
+    padding-top: 10px;
+    color: rgba(255, 255, 255, 0.65);
+  }
+
+  .landing-card {
+    box-shadow: 0 4px 8px 0 rgba(0,0,0,0.2);
+    transition: 0.3s;
+    padding: 16px;
+    margin-bottom: 5%;
+    text-align: center;
+    border-radius: 15px; 
+    height: 250px;
+    background-color: white;
+  }
+
+  .landing-card-row {
+    margin-left: 17%;
+    margin-right: 10%;
+  }
+
+  .landing-card-column {
+    float: left;
+    width: 25%;
+    padding: 10px;
+    align-self: stretch;
+    margin: 0 2%;
+  }
+
+  .landing-container {
+    padding: 2px 16px;
+  }
+
   .bg-myBlue {
     background-color: #1c3e6f;
   }

@@ -110,3 +110,8 @@ Unnamed: 0,Code,Name,Division,Course Description,Department,Pre-requisites,Cours
 ,ECE972,c1,,c1,,[''],,,,,,,,,,,,,,,,,,,,,[''],['']
 ,TESTING5,t,,c1,,"['C1', 'C2', 'C3']",,,,,,,,,,,,,,,,,,,,,[''],['']
 ,COURSENEW,testing,,testing,,[''],,,,,,,,,,,,,,,,,,,,,[''],['']
+,COURSETEST,test,,test,,[''],,,,,,,,,,,,,,,,,,,,,[''],['']
+,COURSETEST1,test,,test,,[''],,,,,,,,,,,,,,,,,,,,,[''],['']
+,COURSETEST2,test,,test,,[''],,,,,,,,,,,,,,,,,,,,,[''],['']
+,COURSETEST3,test,,test,,[''],,,,,,,,,,,,,,,,,,,,,[''],['']
+,XYZ123,test,,test,,[''],,,,,,,,,,,,,,,,,,,,,[''],['']

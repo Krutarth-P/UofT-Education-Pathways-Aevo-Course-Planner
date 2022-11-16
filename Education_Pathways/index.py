@@ -199,7 +199,7 @@ def addNewCourse(input):
 
     global df_test
 
-    print(df_test.loc[1])
+
 
     exists=df_test['Code'].str.contains(code).any()
     if(exists):
@@ -215,7 +215,6 @@ def addNewCourse(input):
         'Pre-requisites': prereq, 'Corequisites': coreq, 'Exclusions': exclusion}
         df_test = pd.concat([df_test , pd.DataFrame([new_course])],ignore_index=True)
 
-        print(df_test.loc[df_test['Code'] == code])
         error_code = 1 # new course successfully added
         res = new_course
 
@@ -242,14 +241,9 @@ class AdminAdd(Resource):
 
     def post(self):
 
-        #input = request.args.get('input')
-        #parser = reqparse.RequestParser()
-        #parser.add_argument('input', required=True)
         data = request.get_json(force=True)
-        #data = parser.parse_args()
+
         input = data['input']
-        print(type(input))
-        print(input)
 
         if(input["action"]=="add"):
             error, new_course = addNewCourse(input)
@@ -309,7 +303,6 @@ def editCourse(input):
 
         new_course = {'Code': code, 'Name': name, 'Division': division, 'Department': department, 'Course Description': description, 
         'Pre-requisites': prereq, 'Corequisites': coreq, 'Exclusions': exclusion}
-        #df_test = pd.concat([df_test , pd.DataFrame([new_course])])
 
         df_test.at[index, 'Code'] = code
         df_test.at[index, 'Name'] = name
@@ -319,8 +312,6 @@ def editCourse(input):
         df_test.at[index, 'Pre-requisites'] = prereq
         df_test.at[index, 'Corequisites'] = coreq
         df_test.at[index, 'Exclusions'] = exclusion
-
-        print(df_test.loc[df_test['Code'] == code])
 
         error_code = 1 # new course successfully added
         res = new_course
@@ -349,14 +340,8 @@ class AdminEdit(Resource):
 
     def post(self):
 
-        #input = request.args.get('input')
-        #parser = reqparse.RequestParser()
-        #parser.add_argument('input', required=True)
         data = request.get_json(force=True)
-        #data = parser.parse_args()
         input = data['input']
-        print(type(input))
-        print(input)
 
         if(input["action"]=="edit"):
             error, new_course = editCourse(input)
@@ -409,12 +394,7 @@ def admin_search(input):
         }
         res.append(res_d)
     
-    #print(res)
     return res
-    #print(df_test.iloc[course_ids])
-
-    #for i in course_ids:
-        #print(df_test.loc[i])
 
 
 
@@ -458,7 +438,6 @@ rest_api.add_resource(SearchCourse, '/searchc')
 rest_api.add_resource(ShowCourse, '/course/details')
 
 rest_api.add_resource(AdminAdd, '/admin/add')
-
 rest_api.add_resource(AdminSearch, '/admin/search')
 rest_api.add_resource(AdminEdit, '/admin/edit')
 

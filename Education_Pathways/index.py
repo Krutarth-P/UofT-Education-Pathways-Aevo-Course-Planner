@@ -217,11 +217,11 @@ def import_schedule(input):
     res = np.loadtxt(file, delimiter=',')
     return res
 
-def receive_selected_sessions(input): 
-    return input
+# def receive_selected_sessions(input): 
+#     return input
 
-def send_selected_sessions(input): 
-    return input
+# def send_selected_sessions(input): 
+    # return input
 class SearchCourse(Resource):
     def get(self):
         input = request.args.get('input')
@@ -321,10 +321,10 @@ class SearchCourseTiming(Resource):
 class ExportSchedule(Resource):
     def get(self):
         input = request.args.get('input')
-        courses = export_schedule(input)
-        if len(courses) > 0:
+        timetable = export_schedule(timetable)
+        if len(timetable) > 0:
             try:
-                resp = jsonify(courses)
+                resp = jsonify(timetable)
                 resp.status_code = 200
                 return resp
             except Exception as e:

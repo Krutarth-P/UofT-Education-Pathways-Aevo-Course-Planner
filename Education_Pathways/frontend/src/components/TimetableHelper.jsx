@@ -10,6 +10,7 @@ import Row from 'react-bootstrap/Row'
 import Col from 'react-bootstrap/Col'
 import { arrayStrings } from './TimingResults'
 let course_selections = []
+export let arrayStringsJSON = [];
 class TimetableHelper extends Component {
 
     constructor(props) {
@@ -44,7 +45,17 @@ class TimetableHelper extends Component {
         this.getData(this.state.input)
     }
 
-    
+    JSONarray() {
+        //Convert arrayStrings --> arrayStringsJSON
+        let temp_dict = {}
+        for (let i = 0; i < arrayStrings.length; i++) {
+            temp_dict[i] = arrayStrings[i]
+        }
+        console.log("Temporary Dictionary prior to JSON conversion:", temp_dict)
+        //arrayStringsJSON = JSON.stringify(arrayStrings)
+        arrayStringsJSON = JSON.stringify(temp_dict)
+        console.log("JSON conversion", arrayStringsJSON)
+    }
 
     handleExportClick = (event) => {
         // Make my course_selections --> JSON format where 
@@ -55,11 +66,11 @@ class TimetableHelper extends Component {
         course_selections = arrayStrings
         console.log("list: ", course_selections)
         console.log("After getArrayStrings")
-        console.log(event)
-        console.log("Exporting Course Loadout", course_selections)
-        
-        //postData(arrayStrings)
-        //this.state.did_export = true
+        console.log("Before altering our course activities into JSON")
+        arrayStringsJSON = this.JSONarray()
+        console.log("After altering our course activities into JSON")
+        this.state.did_export = true
+
         console.log("Exported", this.state.did_export)
         //this.state.did_export = false
         //this.props.course_list = []
@@ -78,7 +89,7 @@ class TimetableHelper extends Component {
         fileReader.readAsText(file)
         
 
-        //Now store into CSV file 
+        //Now load from CSV
 
         //Display   
         console.log("Imported: ", this.state.file)
@@ -101,6 +112,7 @@ class TimetableHelper extends Component {
 
     //// NEED a new "getData" API GET request called "getArrayStrings" where we get arrayStrings or equivalent from the backend ////
 
+    /*
     getArrayStrings = (input) => {
         API.get(`/timetable-helper/timing-results-selected-sessions-sent?input=${input}`)
             .then(result => {
@@ -116,6 +128,7 @@ class TimetableHelper extends Component {
                 }
             })
     }
+    */
 
 
     getData = (input) => {

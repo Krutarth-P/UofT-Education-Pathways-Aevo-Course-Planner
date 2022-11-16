@@ -13,6 +13,7 @@ import { BrowserRouter as Router, Route, Link, Switch}
 let star;
 
 export let arrayStrings = [];
+
 class TimingResult extends Component {
 
     constructor(props) {
@@ -43,33 +44,23 @@ class TimingResult extends Component {
     }
     */
 
+    
+
     handleAddClick = (event) => {
         event.preventDefault()
         
-        let str = [this.state.course_code + ", " + this.state.course_activity + ", " + this.state.course_timing]
+        let str = [this.state.course_code + " " + this.state.course_activity + " " + this.state.course_timing]
         //this.state.course_info_to_send.push(str)
         arrayStrings.push(str)
         //console.log(this.state.course_info_to_send)
         this.course_list = arrayStrings
+        
         //this.postArrayStrings(this.state.course_list)
         console.log("Course List: ", this.course_list)
         console.log("Course Added", this.state.course_activity, this.state.course_timing)         //(1)
-        
-
-        ////  Failed attempts at making arrayStrings more accessible to props  ////
-        //this.props.course_info_to_send = arrayStrings
-
-        //Object.preventExtensions(this.props.course_list)
-        //this.props.course_list = arrayStrings
-
-        //// API call attempt at storing arrayStrings to the backend ////
-        //postData(arrayStrings)
-
-
-
-
         // Debug check
         console.log(arrayStrings)
+        
 
 
         //// Changing button text from "Add" to "Added" ////

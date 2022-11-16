@@ -26,7 +26,7 @@ config.init_app(app)
 config.init_db(app)
 config.init_cors(app)
 
-print(df_test.loc[1])
+print(df.loc[1])
 
 #def add_course(course):
     
@@ -212,7 +212,7 @@ def addNewCourse(input):
         exclusion = exclusion.split(",")
 
         new_course = {'Code': code, 'Name': name, 'Division': division, 'Department': department, 'Course Description': description, 
-        'Pre-requisites': prereq, 'Corequisites': coreq, 'Exclusions': exclusion}
+        'Pre-requisites': prereq, 'Corequisite': coreq, 'Exclusion': exclusion}
         df_test = pd.concat([df_test , pd.DataFrame([new_course])],ignore_index=True)
 
         print(df_test.loc[df_test['Code'] == code])
@@ -306,7 +306,7 @@ def editCourse(input):
         exclusion = exclusion.split(",")
 
         new_course = {'Code': code, 'Name': name, 'Division': division, 'Department': department, 'Course Description': description, 
-        'Pre-requisites': prereq, 'Corequisites': coreq, 'Exclusions': exclusion}
+        'Pre-requisites': prereq, 'Corequisite': coreq, 'Exclusion': exclusion}
         #df_test = pd.concat([df_test , pd.DataFrame([new_course])])
 
         df_test.at[index, 'Code'] = code
@@ -315,16 +315,16 @@ def editCourse(input):
         df_test.at[index, 'Department'] = department
         df_test.at[index, 'Course Description'] = description
         df_test.at[index, 'Pre-requisites'] = prereq
-        df_test.at[index, 'Corequisites'] = coreq
-        df_test.at[index, 'Exclusions'] = exclusion
+        df_test.at[index, 'Corequisite'] = coreq
+        df_test.at[index, 'Exclusion'] = exclusion
 
-        print(df_test.loc[df_test['Code'] == code])
+        #print(df_test.loc[df_test['Code'] == code])
 
         error_code = 1 # new course successfully modified
         res = new_course
 
         df_test.to_csv("resources/test_courses.csv", index=False)
-
+        print(df_test.loc[df_test['Code'] == code])
         return error_code, res
 
 
@@ -394,7 +394,7 @@ def deleteCourse(input):
     exclusion=input['exclusions'].upper()
 
     new_course = {'Code': code, 'Name': name, 'Division': division, 'Department': department, 'Course Description': description, 
-    'Pre-requisites': prereq, 'Corequisites': coreq, 'Exclusions': exclusion}
+    'Pre-requisites': prereq, 'Corequisite': coreq, 'Exclusion': exclusion}
 
     global df_test
 

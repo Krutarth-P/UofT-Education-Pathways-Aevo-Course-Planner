@@ -43,20 +43,22 @@ def search_course_by_code(s):
     courseDesc = ''
     courseTitle = ''
     course_ids = []
+    # Delimiter usage detection and processing
     if ';' in s:
         parsed_input = s.split(';')
         for term in parsed_input:
             if len(term) > 0: #if empty string skip it
-                if (':' not in term or 'cc:' in term) and courseCode=='':
+                # now parse query using different delimiters
+                if (':' not in term or 'cc:' in term) and courseCode=='': #if no delimiter used assume course code query
                     courseCode = term if ':' not in term else term.split(':')[-1]
-                elif 'ti:' in term and courseTitle == '':
+                elif 'ti:' in term and courseTitle == '': #if title delimiter is used
                     courseTitle = term.split(':')[-1]
-                elif 'de:' in term and courseDesc == '':
+                elif 'de:' in term and courseDesc == '':  #if description delimiter is used
                     courseDesc = term.split(':')[-1]
                 else:
                     return [] # invalid use of delimiters and symbols will return nothing
     else:
-        courseCode = s
+        courseCode = s #if no delimiter used assume course code search
 
     cc_course_ids = df[df['Code'].str.contains(courseCode.upper())].index.tolist()
 
@@ -71,15 +73,15 @@ def search_course_by_code(s):
     else:
         title_course_ids = cc_course_ids.copy()
 
-    # find course ids that match all input filters
+    # find course ids that match all input filters by the intersection of the lists
     course_ids = list(set.intersection(*map(set, [cc_course_ids, desc_course_ids, title_course_ids])))
-    #print('returned course ids:',course_ids)
     if len(course_ids) == 0:
         return []
     if len(course_ids) > 10:
         course_ids = course_ids[:10]
     res = []
     minor_dict = {
+        # Parse all course codes from csv dataframe into a list of course code strings for each corresponding minor
         # filter out NaNs with course == course
             "Artificial Intelligence": [course for course in minors_df["Artificial Intelligence"].tolist() if course == course], 
             "Robotics & Mechatronics": [course for course in minors_df["Robotics & Mechatronics"].tolist() if course == course], 
@@ -108,6 +110,7 @@ def search_course_by_code(s):
             'exclusion': d['Exclusion'] ,
             'division': d['Division'],
             'department': d['Department'] ,
+            # include information about corresponding courses for each minor as part of api request for frontend use
             'minor_AI': minor_dict["Artificial Intelligence"],
             'minor_RM': minor_dict["Robotics & Mechatronics"],
             'minor_AM': minor_dict["Advanced Manufacturing"],

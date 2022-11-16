@@ -8,9 +8,8 @@ import API from '../api';
 import { withRouter } from 'react-router';
 import Row from 'react-bootstrap/Row'
 import Col from 'react-bootstrap/Col'
-
-
-
+import { arrayStrings } from './TimingResults'
+let course_selections = []
 class TimetableHelper extends Component {
 
     constructor(props) {
@@ -19,6 +18,13 @@ class TimetableHelper extends Component {
             // input: this.props.location.state.input,
             results: [],
             result_courses: [],
+            course_selection_strings: [],
+            file: ""
+
+            //[file, setFile] = useState();
+
+            //fileReader = new FileReader();
+
         };
         this.handleChange = this.handleChange.bind(this);
         this.handleSubmit = this.handleSubmit.bind(this);
@@ -38,6 +44,78 @@ class TimetableHelper extends Component {
         this.getData(this.state.input)
     }
 
+    
+
+    handleExportClick = (event) => {
+        // Make my course_selections --> JSON format where 
+        // 
+        event.preventDefault()
+        console.log("Before getArrayStrings")
+        //course_selections = this.getArrayStrings(event)
+        course_selections = arrayStrings
+        console.log("list: ", course_selections)
+        console.log("After getArrayStrings")
+        console.log(event)
+        console.log("Exporting Course Loadout", course_selections)
+        
+        //postData(arrayStrings)
+        //this.state.did_export = true
+        console.log("Exported", this.state.did_export)
+        //this.state.did_export = false
+        //this.props.course_list = []
+    }
+
+    handleImportClick = (e) => {
+        console.log("Import Course Loadout", this.state.did_import)
+        e.preventDefault()
+
+            //Syntax Error?/
+        const [file, setFile] = this.state.file
+        const fileReader = new FileReader()
+
+         
+        //fileReader.onload = event
+        fileReader.readAsText(file)
+        
+
+        //Now store into CSV file 
+
+        //Display   
+        console.log("Imported: ", this.state.file)
+    }
+
+    postData = (input) => {
+        console.log("in postdata", input)
+        API.post(`/timetable-helper/timetable-helper-export`,{input})
+        .then((response) => {
+            console.log("api success",response);
+            alert("Success: ");
+        }).catch((error) => {
+            console.log("api error",JSON.stringify(error));
+            console.log("api error",error.response);
+            alert("Error: " + error.response.data['error']);
+
+        });
+
+    }
+
+    //// NEED a new "getData" API GET request called "getArrayStrings" where we get arrayStrings or equivalent from the backend ////
+
+    getArrayStrings = (input) => {
+        API.get(`/timetable-helper/timing-results-selected-sessions-sent?input=${input}`)
+            .then(result => {
+                if (result.status === 200) {
+                    this.setState({ results: []})
+                    if (result.data != null) {
+                        console.log(result.data)
+                        if (result.length > 0) {
+                            this.props.course_selection_strings = this.props.course_list//result.data
+                            console.log("It worked", this.props.course_selection_strings)
+                        }
+                    }
+                }
+            })
+    }
 
 
     getData = (input) => {
@@ -66,7 +144,7 @@ class TimetableHelper extends Component {
                             for (const [key, value] of Object.entries(res.data[0].course_activities)) {
                                 console.log(key, value);
                                 result_temp.push(<TimingResult course_activity={key} course_timing={value} course_code={res.data[0].code} >
-                                    //     </TimingResult>)
+                                         </TimingResult>)
                             }
                             this.setState({ results: result_temp })
                             this.setState({ result_courses: result_course_code_temp })
@@ -117,13 +195,15 @@ class TimetableHelper extends Component {
                         </button>
                     </Col>
                     <Col>
-                        <button className="clickExport" type="button" onClick={this.handleImportClick}>
-                            Import
-                        </button>
+                        <form>
+                            <input type={"file"} accept={".csv"}/>
+                                <button className="clickExport" type="button" onClick={this.handleImportClick}>
+                                    Import
+                                </button>
+                        </form>
                     </Col>
                 </Row>
             </div>
-            
         );
     }
 

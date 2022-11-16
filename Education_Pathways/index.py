@@ -212,6 +212,7 @@ def import_schedule(input):
 #            items.append(row[0])
 
     #We are expecting an input type that is convinient for us 
+    #Make sure it's in OUR specific format
     file = open(input)
     res = np.loadtxt(file, delimiter=',')
     return res
@@ -219,6 +220,8 @@ def import_schedule(input):
 def receive_selected_sessions(input): 
     return input
 
+def send_selected_sessions(input): 
+    return input
 class SearchCourse(Resource):
     def get(self):
         input = request.args.get('input')
@@ -375,36 +378,65 @@ class ImportSchedule(Resource):
                 resp.status_code = 400
                 return resp
 
-class ReceiveSelectedSessions(Resource): 
-    def get(self):
-        input = request.args.get('input')
-        courses = receive_selected_sessions(input)
-        if len(courses) > 0:
-            try:
-                resp = jsonify(courses)
-                resp.status_code = 200
-                return resp
-            except Exception as e:
-                resp = jsonify({'error': str(e)})
-                resp.status_code = 400
-                return resp
+# class ReceiveSelectedSessions(Resource): 
+#     def get(self):
+#         input = request.args.get('input')
+#         courses = receive_selected_sessions(input)
+#         if len(courses) > 0:
+#             try:
+#                 resp = jsonify(courses)
+#                 resp.status_code = 200
+#                 return resp
+#             except Exception as e:
+#                 resp = jsonify({'error': str(e)})
+#                 resp.status_code = 400
+#                 return resp
 
-    def post(self):
-        parser = reqparse.RequestParser()
-        parser.add_argument('input', required=True)
-        data = parser.parse_args()
-        input = data['input']
-        courses = receive_selected_sessions(input)
-        if len(courses) > 0:
-            try:
-                resp = jsonify(courses)
-                resp.status_code = 200
-                return resp
-            except Exception as e:
-                resp = jsonify({'error': 'something went wrong'})
-                resp.status_code = 400
-                return resp
+#     def post(self):
+#         parser = reqparse.RequestParser()
+#         parser.add_argument('input', required=True)
+#         data = parser.parse_args()
+#         input = data['input']
+#         courses = receive_selected_sessions(input)
+#         if len(courses) > 0:
+#             try:
+#                 resp = jsonify(courses)
+#                 resp.status_code = 200
+#                 return resp
+#             except Exception as e:
+#                 resp = jsonify({'error': 'something went wrong'})
+#                 resp.status_code = 400
+#                 return resp
 
+# class SendSelectedSessions(Resource):
+#     def get(self):
+#         input = request.args.get('input')
+#         courses = send_selected_sessions(input)
+#         if len(courses) > 0:
+#             try:
+#                 resp = jsonify(courses)
+#                 resp.status_code = 200
+#                 return resp
+#             except Exception as e:
+#                 resp = jsonify({'error': str(e)})
+#                 resp.status_code = 400
+#                 return resp
+
+#     def post(self):
+#         parser = reqparse.RequestParser()
+#         parser.add_argument('input', required=True)
+#         data = parser.parse_args()
+#         input = data['input']
+#         courses = send_selected_sessions(input)
+#         if len(courses) > 0:
+#             try:
+#                 resp = jsonify(courses)
+#                 resp.status_code = 200
+#                 return resp
+#             except Exception as e:
+#                 resp = jsonify({'error': 'something went wrong'})
+#                 resp.status_code = 400
+#                 return resp
 # API Endpoints
 rest_api = Api(app)
 # rest_api.add_resource(controller.SearchCourse, '/searchc')
@@ -413,9 +445,10 @@ rest_api.add_resource(SearchCourse, '/searchc')
 rest_api.add_resource(ShowCourse, '/course/details')
 rest_api.add_resource(SearchCourseTiming, '/timetable-helper')
 
-rest_api.add_resource(ExportSchedule, '/timetable-helper-export')
-rest_api.add_resource(ImportSchedule, '/timetable-helper-import')
-rest_api.add_resource(ReceiveSelectedSessions, '/timing-results-selected-sessions')
+rest_api.add_resource(ExportSchedule, '/timetable-helper/timetable-helper-export')
+rest_api.add_resource(ImportSchedule, '/timetable-helper/timetable-helper-import')
+#rest_api.add_resource(ReceiveSelectedSessions, '/timetable-helper/timing-results-selected-sessions-receive')
+#rest_api.add_resource(SendSelectedSessions, '/timetable-helper/timing-results-selected-sessions-send')
 
 
 @app.route("/", defaults={'path': ''})

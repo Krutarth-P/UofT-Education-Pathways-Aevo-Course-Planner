@@ -12,7 +12,7 @@ import { BrowserRouter as Router, Route, Link, Switch}
 
 let star;
 
-let arrayStrings = [];
+export let arrayStrings = [];
 class TimingResult extends Component {
 
     constructor(props) {
@@ -21,12 +21,15 @@ class TimingResult extends Component {
             course_activity: this.props.course_activity,
             course_timing: this.props.course_timing,
             course_code: this.props.course_code,
-            course_info_to_send: [],     // course_name + course_activity + course_timing
+            //course_info_to_send: [],     
             if_added: false, 
             did_export: false,
-            did_import: false
+            did_import: false,
+            course_list: this.props.course_list // course_name + course_activity + course_timing
+            
         };
         // console.log(this.state.result_contents)
+        
         star = unstarred
     }
 
@@ -39,46 +42,46 @@ class TimingResult extends Component {
         this.setState({'text': newState});
     }
     */
-    /*
-    postData(arrayStrings) {
-        //Look at Krutarth's PR 
-    }
-
-    onExport = (event) => {
-        postData(arrayStrings);
-
-        arrayStrings = []
-
-    }
-    */
-    /*
-    postData (input) {
-        console.log("Currently Posting Data", input)
-    }
-    */
-    handleExportClick = (event) => {
-        console.log("Exporting Course Loadout", this.state.did_export)
-        //postData(arrayStrings)
-        this.state.did_export = true
-        console.log("Exported", this.state.did_export)
-        this.state.did_export = false
-        arrayStrings = [];
-    }
-
-    handleImportClick = (event) => {
-        console.log("Import Course Loadout", this.state.did_import)
-    }
 
     handleAddClick = (event) => {
-        console.log("Course Added", this.state.course_activity, this.state.course_timing)         //(1)
+        event.preventDefault()
+        
         let str = [this.state.course_code + ", " + this.state.course_activity + ", " + this.state.course_timing]
         //this.state.course_info_to_send.push(str)
         arrayStrings.push(str)
         //console.log(this.state.course_info_to_send)
-        console.log(arrayStrings)
-        //onExport() 
-    }
+        this.course_list = arrayStrings
+        //this.postArrayStrings(this.state.course_list)
+        console.log("Course List: ", this.course_list)
+        console.log("Course Added", this.state.course_activity, this.state.course_timing)         //(1)
+        
 
+        ////  Failed attempts at making arrayStrings more accessible to props  ////
+        //this.props.course_info_to_send = arrayStrings
+
+        //Object.preventExtensions(this.props.course_list)
+        //this.props.course_list = arrayStrings
+
+        //// API call attempt at storing arrayStrings to the backend ////
+        //postData(arrayStrings)
+
+
+
+
+        // Debug check
+        console.log(arrayStrings)
+
+
+        //// Changing button text from "Add" to "Added" ////
+        //<button className="clickCourse" type="button" onClick={this.handleAddClick}>Added</button>
+    }
+    /*
+    function courseSessionAdded {
+        return (
+
+        );
+    }
+    */
     render() {
         return (
             <Container>
@@ -94,7 +97,9 @@ class TimingResult extends Component {
                                 <Col>Timing:</Col>
                                 <Col>{this.state.course_timing}</Col>
                                 <Col>
-                                    <button className="clickCourse" type="button" onClick={this.handleAddClick}>Add</button>
+                                    <button className="clickCourse" type="button" onClick={this.handleAddClick}>
+                                        Add
+                                    </button>
                                 </Col>
                             </Row>
                         </div>

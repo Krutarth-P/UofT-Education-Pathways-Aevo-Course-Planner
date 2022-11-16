@@ -1,14 +1,15 @@
 import React, { Component } from "react";
 import axios from 'axios'
 import TimingResult from './TimingResults'
-import './css/timing-results.css'
-import Label from './Label'
+import './css/timetable-helper.css'
 import "./css/styles.css";
 import API from '../api';
 import { withRouter } from 'react-router';
 import Row from 'react-bootstrap/Row'
 import Col from 'react-bootstrap/Col'
 import { arrayStrings } from './TimingResults'
+
+
 let course_selections = []
 export let arrayStringsJSON = [];
 class TimetableHelper extends Component {
@@ -31,6 +32,7 @@ class TimetableHelper extends Component {
         this.handleSubmit = this.handleSubmit.bind(this);
 
     }
+
 
     componentDidMount() {
         this.getData(this.state.input)
@@ -80,14 +82,14 @@ class TimetableHelper extends Component {
         console.log("Import Course Loadout", this.state.did_import)
         e.preventDefault()
 
-            //Syntax Error?/
+        //Syntax Error?/
         const [file, setFile] = this.state.file
         const fileReader = new FileReader()
 
-         
+
         //fileReader.onload = event
         fileReader.readAsText(file)
-        
+
 
         //Now load from CSV
 
@@ -97,18 +99,20 @@ class TimetableHelper extends Component {
 
     postData = (input) => {
         console.log("in postdata", input)
-        API.post(`/timetable-helper/timetable-helper-export`,{input})
-        .then((response) => {
-            console.log("api success",response);
-            alert("Success: ");
-        }).catch((error) => {
-            console.log("api error",JSON.stringify(error));
-            console.log("api error",error.response);
-            alert("Error: " + error.response.data['error']);
+        API.post(`/timetable-helper/timetable-helper-export`, { input })
+            .then((response) => {
+                console.log("api success", response);
+                alert("Success: ");
+            }).catch((error) => {
+                console.log("api error", JSON.stringify(error));
+                console.log("api error", error.response);
+                alert("Error: " + error.response.data['error']);
 
-        });
+            });
 
     }
+
+
 
     //// NEED a new "getData" API GET request called "getArrayStrings" where we get arrayStrings or equivalent from the backend ////
 
@@ -157,7 +161,7 @@ class TimetableHelper extends Component {
                             for (const [key, value] of Object.entries(res.data[0].course_activities)) {
                                 console.log(key, value);
                                 result_temp.push(<TimingResult course_activity={key} course_timing={value} course_code={res.data[0].code} >
-                                         </TimingResult>)
+                                </TimingResult>)
                             }
                             this.setState({ results: result_temp })
                             this.setState({ result_courses: result_course_code_temp })
@@ -185,7 +189,7 @@ class TimetableHelper extends Component {
                         <br></br>
                     </div>
 
-                    <div className={"left-sidebar"} >
+                    <div className={"split left"} >
                         <br></br>
 
                         <form onSubmit={this.handleSubmit} className={"search"} id={"search-results"}>
@@ -193,29 +197,32 @@ class TimetableHelper extends Component {
                             <input type="submit" value="Search" className={"submit-button"} />
                         </form>
 
-
-
+                        <div className={"display-course-code-search-results"} >
+                            {this.state.results}
+                        </div>
                     </div>
-                    <div className={"search-result-display"} >
-                        {this.state.results}
+
+                    <div className={"split right"}>
+                        <h4>Your Selected Courses</h4>
+                        <Row className={"display-export-import"}>
+                            <Col>
+                                <button className={"export-button"} type="button" onClick={this.handleExportClick}>
+                                    Export
+                                </button>
+                            </Col>
+                            <Col>
+                                <form>
+                                    <input type={"file"} accept={".csv"} />
+                                    <button className="import-button" type="button" onClick={this.handleImportClick}>
+                                        Import
+                                    </button>
+                                </form>
+                            </Col>
+                        </Row>
                     </div>
 
                 </div>
-                <Row className={"display-export-import"}>
-                    <Col>
-                        <button className="clickExport" type="button" onClick={this.handleExportClick}>
-                            Export
-                        </button>
-                    </Col>
-                    <Col>
-                        <form>
-                            <input type={"file"} accept={".csv"}/>
-                                <button className="clickExport" type="button" onClick={this.handleImportClick}>
-                                    Import
-                                </button>
-                        </form>
-                    </Col>
-                </Row>
+
             </div>
         );
     }

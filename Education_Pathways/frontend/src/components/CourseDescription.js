@@ -77,6 +77,12 @@ class CourseDescriptionPage extends Component {
         if (coreq == null) {
           coreq=[]
         }
+        if (prereq == null) {
+          prereq=[]
+        }
+        if (exclusion == null) {
+          exclusion=[]
+        }
         this.setState({prereqs:prereq})
         this.setState({coreqs: coreq})
         this.setState({excls: exclusion})

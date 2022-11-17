@@ -1,7 +1,7 @@
 from index import app
 from cgitb import reset
 import pytest
-from index import app, addNewCourse, editCourse
+from index import app, addNewCourse, editCourse, deleteCourse
 import json
 import csv
 import pandas as pd
@@ -72,6 +72,33 @@ def test_course_edit_csv(edit_input):
         assert("BLEH BLEH BLEH" in csvReader[-1][4]) #check course description
         assert("Testing Department" in csvReader[-1][5]) #check course department
         assert("test" not in csvReader[-1]) #check not in any course info
+
+
+# Unit test function to test the delete course feature by Nafio Miah
+@pytest.mark.parametrize("input", [{
+    "course_code":"ECE4444",
+    "course_name":"TESTinggggg",
+    "division":"TESTDIV",
+    "department":"",
+    "course_description":"BLEH",
+    "prerequisites":"",
+    "corequisites":"",
+    "exclusions":""}])
+
+
+def test_delete_course_csv(input):
+    # read CSV file
+    test_courses = pd.read_csv("resources/courses.csv")
+    last_element = len(test_courses) -1 
+    input["index"] = last_element
+    deleteCourse(input)
+    with open('resources/courses.csv', 'r+', encoding="utf-8") as fp:
+        csvReader = list(csv.reader(fp, delimiter=","))
+        assert("ECE4444" not in csvReader[-1][1])
+        assert("TESTinggggg Course Name" not in csvReader[-1][2]) #check course name
+        assert("TESTDIV" not in csvReader[-1][3]) #check course division
+        
+
 
 # Unit test function to test search bar functionalities by Jayce Wang
 @pytest.mark.parametrize("course_query", [

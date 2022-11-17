@@ -8,7 +8,7 @@ import Col from 'react-bootstrap/Col'
 import Row from 'react-bootstrap/Row'
 import API from '../api';
 
-
+//component that renders the admin delete course functioonality
 class DeleteCourseForm extends Component {
 
     constructor(props) {
@@ -48,6 +48,7 @@ class DeleteCourseForm extends Component {
 
 
     postData = (input) => {
+        console.log("in postdata", input)
         API.post(`/admin/delete`, { input })
             .then((response) => {
                 console.log("api success", response);
@@ -56,7 +57,6 @@ class DeleteCourseForm extends Component {
                 this.status = "Success";
                 this.msg = response.data;
             }).catch((error) => {
-                console.log("api error", JSON.stringify(error));
                 console.log("api error", error.response);
                 alert("Error: " + error.response.data['error']);
                 this.status = "Error";
@@ -69,7 +69,7 @@ class DeleteCourseForm extends Component {
         return (
             <div className="CourseForm">
 
-                <Row>
+                <Row className="justify-content-md-center" xs="auto">
                     <Col><Link to="/admin/add"><button className={"submit-button"} type="button">Add</button></Link></Col>
                     <Col><Link to="/admin/search"><button className={"submit-button"} type="button">Edit</button></Link></Col>
                     <Col><Link to="/admin/search"><button className={"submit-button"} type="button">Delete</button></Link></Col>
@@ -107,23 +107,22 @@ class DeleteCourseForm extends Component {
 
                     <Row>
                         <label>Pre-Requisites (comma seperated)</label>
-                        <textarea disabled name="prerequisites" placeholder={"Enter comma seperated Course Pre-Requisites. Example: course1, course2, course3"} className={"input-area"} value={this.state.prerequisites} onChange={this.handleChange} />
+                        <textarea disabled name="prerequisites" placeholder={"Enter comma seperated Course Pre-Requisites. Example: course1,course2,course3"} className={"input-area"} value={this.state.prerequisites} onChange={this.handleChange} />
                     </Row>
 
                     <Row>
                         <label>Co-Requisites (comma seperated)</label>
-                        <textarea disabled name="corequisites" placeholder={"Enter comma seperated Course Co-Requisites. Example: course1, course2, course3"} className={"input-area"} value={this.state.corequisites} onChange={this.handleChange} />
+                        <textarea disabled name="corequisites" placeholder={"Enter comma seperated Course Co-Requisites. Example: course1,course2,course3"} className={"input-area"} value={this.state.corequisites} onChange={this.handleChange} />
                     </Row>
 
                     <Row>
                         <label>Exclusions (comma seperated)</label>
-                        <textarea disabled name="exclusions" placeholder={"Enter comma seperated Course Exclusions. Example: course1, course2, course3"} className={"input-area"} value={this.state.exclusions} onChange={this.handleChange} />
+                        <textarea disabled name="exclusions" placeholder={"Enter comma seperated Course Exclusions. Example: course1,course2,course3"} className={"input-area"} value={this.state.exclusions} onChange={this.handleChange} />
                     </Row>
 
                     <p><span class="req">*</span> - Required field</p>
                     <input type="submit" value="Delete" className={"submit-button"} />
                 </form>
-
 
             </div>
         );

@@ -10,7 +10,7 @@ import starred from './img/starred.png'
 import API from '../api';
 import AddCourse from './AddCourse'
 
-
+//child component that helps render admin search results functionality
 class AdminResult extends Component {
 
     constructor(props) {
@@ -35,16 +35,10 @@ class AdminResult extends Component {
         event.preventDefault();
 
         if (event.target.value == "Edit")
-            this.props.history.push('/admin/edit', { input: { ...this.state } })
+            this.props.history.push('/admin/edit', { input: { ...this.state }})
         else
             this.props.history.push('/admin/delete', {input: {...this.state}})
     }
-
-    redirectQuery = () => {
-
-        //
-    }
-
 
     render() {
         return (

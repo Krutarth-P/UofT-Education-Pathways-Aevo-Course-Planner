@@ -82,11 +82,11 @@ export default class NavbarComp extends Component {
 
 
               </Nav>
-              <Nav>
+              {/*<Nav>
                 <Nav.Link as={Link} to="/admin/password123">
                   Temp Admin
                 </Nav.Link>
-              </Nav>
+              </Nav>*/}
             </Navbar.Collapse>
           </Navbar>
         </div>
@@ -129,22 +129,27 @@ export default class NavbarComp extends Component {
               render={props => (<CourseDescriptionPage {...props} />)}>
             </Route>
            
+            {/*admin homepage*/}
             <Route path="/admin/password123">
               <AdminSearchResultDisplay/>
             </Route>
 
+            {/*admin add new course form*/}    
             <Route path="/admin/add">
               <AddCourseForm/>
             </Route>
 
+            {/*admin edit existing course from*/}
             <Route path="/admin/edit"
               render={props =>(<EditCourseForm {...props} />)}>
             </Route>
 
+            {/*admin delete course form*/}
             <Route path="/admin/delete"
               render={props =>(<DeleteCourseForm {...props} />)}>
             </Route>
            
+           {/*admin search course page*/}
             <Route path="/admin/search">
               <AdminSearchResultDisplay/>
             </Route>

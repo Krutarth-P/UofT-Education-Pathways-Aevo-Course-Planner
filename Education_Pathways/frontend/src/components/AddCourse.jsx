@@ -8,7 +8,7 @@ import Col from 'react-bootstrap/Col'
 import Row from 'react-bootstrap/Row'
 import API from '../api';
 
-
+//component that renders the admin add new course functioonality 
 class AddCourseForm extends Component {
 
     constructor(props) {
@@ -28,6 +28,7 @@ class AddCourseForm extends Component {
         };
         this.handleChange = this.handleChange.bind(this);
         this.handleSubmit = this.handleSubmit.bind(this);
+
     }
 
     handleChange(event) {
@@ -41,7 +42,6 @@ class AddCourseForm extends Component {
     handleSubmit(event) {
         event.preventDefault();
         this.postData(this.state);
-        console.log("inhandelsubmit", this.state);
     }
 
 
@@ -52,11 +52,10 @@ class AddCourseForm extends Component {
         API.post(`/admin/add`, { input })
             .then((response) => {
                 console.log("api success", response);
-                alert("Success: ");
+                alert("Success: New Course added");
                 this.state.status = "Success";
                 this.state.msg = response.data;
             }).catch((error) => {
-                console.log("api error", JSON.stringify(error));
                 console.log("api error", error.response);
                 alert("Error: " + error.response.data['error']);
                 this.state.status = "Error";
@@ -66,8 +65,6 @@ class AddCourseForm extends Component {
 
     }
     render() {
-        console.log("in form " + this.state.action)
-        console.log(this.state.msg + " and " + this.state.status);
         return (
             <div className="CourseForm">
 
@@ -84,13 +81,13 @@ class AddCourseForm extends Component {
 
                 <form onSubmit={this.handleSubmit} className={"modify"}>
                     <Row>
-                        <label>Course Code</label>
+                        <label>Course Code<span class="req">*</span></label>
                         <textarea required name="course_code" placeholder={"Enter Course Code"} className={"input-area"} value={this.state.course_code} onChange={this.handleChange} />
 
                     </Row>
 
                     <Row>
-                        <label>Course Name</label>
+                        <label>Course Name<span class="req">*</span></label>
                         <textarea required name="course_name" placeholder={"Enter Course Name"} className={"input-area"} value={this.state.course_name} onChange={this.handleChange} />
                     </Row>
 
@@ -106,7 +103,7 @@ class AddCourseForm extends Component {
 
                     <Row>
                         <label>Course Description</label>
-                        <textarea name="course_description" required placeholder={"Enter Course Description"} className={"input-area"} value={this.state.course_description} onChange={this.handleChange} />
+                        <textarea name="course_description" placeholder={"Enter Course Description"} className={"input-area"} value={this.state.course_description} onChange={this.handleChange} />
                     </Row>
 
                     <Row>
@@ -124,9 +121,9 @@ class AddCourseForm extends Component {
                         <textarea name="exclusions" placeholder={"Enter comma seperated Course Exclusions. Example: course1,course2,course3"} className={"input-area"} value={this.state.exclusions} onChange={this.handleChange} />
                     </Row>
 
+                    <p><span class="req">*</span> - Required field</p>
                     <input type="submit" value="Submit" className={"submit-button"} />
                 </form>
-
 
             </div>
         );

@@ -1,9 +1,23 @@
 from index import app
 from cgitb import reset
 import pytest
-from index import app, addNewCourse
+from index import app, addNewCourse, editCourse
 import json
 import csv
+import pandas as pd
+import sys
+
+maxInt = sys.maxsize
+
+while True:
+    # decrease the maxInt value by factor 10 
+    # as long as the OverflowError occurs.
+    try:
+        csv.field_size_limit(maxInt)
+        break
+    except OverflowError:
+        maxInt = int(maxInt/10)
+
 
 # Unit test to ensure entries are being added to CSVs properly by Priscilla Deng
 @pytest.mark.parametrize("input", [{
@@ -17,7 +31,7 @@ import csv
     "exclusions":""}])
 
 def test_course_add_csv(input):
-    with open('resources/test_courses.csv', 'r+') as fp:
+    with open('resources/courses.csv', 'r+', encoding="utf-8") as fp:
         addNewCourse(input)
         csvReader = list(csv.reader(fp, delimiter=","))
         assert("ECE4444" in csvReader[-1][1])
@@ -26,6 +40,38 @@ def test_course_add_csv(input):
         assert('BLEH' in csvReader[-1][4])
         assert("test" not in csvReader[-1])
     
+
+
+# Unit test to ensure edited courses are being added to CSVs properly by Krutarth Patel
+@pytest.mark.parametrize("edit_input", [{
+    "index": 0,
+    "course_code":"ECE4444",
+    "course_name":"TESTinggggg Course Name",
+    "division":"TESTDIV",
+    "department":"Testing Department",
+    "course_description":"BLEH BLEH BLEH",
+    "prerequisites":"",
+    "corequisites":"",
+    "exclusions":""}])
+
+def test_course_edit_csv(edit_input):
+
+    df_test = pd.read_csv("resources/courses.csv")
+    rows=len(df_test)
+    edit_input["index"]=rows-1 #set index of the newest added course
+
+    with open('resources/courses.csv', 'r+', encoding="utf-8") as fp:
+
+        editCourse(edit_input)
+
+        csvReader = list(csv.reader(fp, delimiter=","))
+
+        assert("ECE4444" in csvReader[-1][1]) #check course code
+        assert("TESTinggggg Course Name" in csvReader[-1][2]) #check course name
+        assert("TESTDIV" in csvReader[-1][3]) #check course division
+        assert("BLEH BLEH BLEH" in csvReader[-1][4]) #check course description
+        assert("Testing Department" in csvReader[-1][5]) #check course department
+        assert("test" not in csvReader[-1]) #check not in any course info
 
 # Unit test function to test search bar functionalities by Jayce Wang
 @pytest.mark.parametrize("course_query", [

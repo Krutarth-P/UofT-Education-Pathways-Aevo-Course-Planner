@@ -13,6 +13,8 @@ import { BrowserRouter as Router, Route, Link, Switch }
 let star;
 
 export let arrayStrings = [];
+export var arraySelectionDicts = []
+export var arrayDicts = {"Code": "", "Activity": "", "Timing": ""};
 
 class TimingResult extends Component {
 
@@ -50,8 +52,13 @@ class TimingResult extends Component {
         event.preventDefault()
         event.currentTarget.disabled = true;
         let str = [this.state.course_code + " " + this.state.course_activity + " " + this.state.course_timing]
+        arrayDicts["Code"] = this.state.course_code
+        arrayDicts["Activity"] = this.state.course_activity
+        arrayDicts["Timing"] = this.state.course_activity
+        //arraySelectionDicts.push(arrayDicts)
         //this.state.course_info_to_send.push(str)
         arrayStrings.push(str)
+        console.log("arraySelectionDicts: ", arraySelectionDicts)
         //console.log(this.state.course_info_to_send)
         this.course_list = arrayStrings
 
@@ -60,6 +67,7 @@ class TimingResult extends Component {
         console.log("Course Added", this.state.course_activity, this.state.course_timing)         //(1)
         // Debug check
         console.log(arrayStrings)
+        console.log(arrayDicts)
 
 
 

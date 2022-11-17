@@ -1,6 +1,7 @@
 import React, { Component } from "react";
 import axios from 'axios'
 import TimingResult from './TimingResults'
+import ScheduleResult from './ScheduleResults'
 import './css/timetable-helper.css'
 import "./css/styles.css";
 import API from '../api';
@@ -8,10 +9,14 @@ import { withRouter } from 'react-router';
 import Row from 'react-bootstrap/Row'
 import Col from 'react-bootstrap/Col'
 import { arrayStrings } from './TimingResults'
+import { arrayDicts } from './TimingResults'
+import { arraySelectionDicts } from './TimingResults'
 
 
 let course_selections = []
 export let arrayStringsJSON = [];
+//export let arrayOfDicts = [];
+
 class TimetableHelper extends Component {
 
     constructor(props) {
@@ -19,6 +24,7 @@ class TimetableHelper extends Component {
         this.state = {
             // input: this.props.location.state.input,
             results: [],
+            schedule_results: [],
             result_courses: [],
             course_selection_strings: [],
             file: ""
@@ -66,13 +72,26 @@ class TimetableHelper extends Component {
         console.log("Before getArrayStrings")
         //course_selections = this.getArrayStrings(event)
         course_selections = arrayStrings
+        let schedule_results_temp = []
+        for (let i = 0; i < arrayStrings.length; i++) {
+            let temp = ""
+            temp = arrayStrings[i][0]
+            schedule_results_temp.push(<ScheduleResult course_schedule_sel={temp}> </ScheduleResult>)
+            
+            console.log("temp", temp)
+            console.log("each entry", arrayStrings[i])
+            //console.log(temp.split(" "))
+        }
+        this.setState({schedule_results: schedule_results_temp})
+
         console.log("list: ", course_selections)
         console.log("After getArrayStrings")
         console.log("Before altering our course activities into JSON")
         arrayStringsJSON = this.JSONarray()
         console.log("After altering our course activities into JSON")
         this.state.did_export = true
-
+        console.log("Array Dicts", arrayDicts)
+        console.log("Array of Dicts", arraySelectionDicts)
         console.log("Exported", this.state.did_export)
         //this.state.did_export = false
         //this.props.course_list = []
@@ -96,6 +115,8 @@ class TimetableHelper extends Component {
         //Display   
         console.log("Imported: ", this.state.file)
     }
+
+    //postArrayStrings = (input) 
 
     postData = (input) => {
         console.log("in postdata", input)
@@ -212,13 +233,22 @@ class TimetableHelper extends Component {
                             </Col>
                             <Col>
                                 <form>
-                                    <input type={"file"} accept={".csv"} />
+                                    {/*<input type={"file"} accept={".csv"} />*/}
                                     <button className="import-button" type="button" onClick={this.handleImportClick}>
                                         Import
                                     </button>
                                 </form>
                             </Col>
                         </Row>
+                        <Row className={"display-courses-selected"}>
+                            <br></br>
+                            <Row></Row>
+                            <Col>
+                                {this.state.schedule_results}
+                            </Col>
+                        </Row>
+
+
                     </div>
 
                 </div>

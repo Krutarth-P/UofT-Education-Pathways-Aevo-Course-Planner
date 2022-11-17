@@ -15,6 +15,7 @@ import DeleteCourseForm from './DeleteCourse'
 import AdminSearchResultDisplay from './AdminSearch'
 import LandingPage from './LandingPage';
 import MinorsCertificatesMenuPage from "./MinorsCertsMenu";
+import TimetableHelper from './TimetableHelper';
 
 
 function CourseDescription(props) {
@@ -71,8 +72,8 @@ export default class NavbarComp extends Component {
                 <Nav.Link as={Link} to="/minors-certificates">
                   Minors & Certificates
                 </Nav.Link>
-                <Nav.Link as={Link} to="/timetable-builder">
-                  Timetable Builder
+                <Nav.Link as={Link} to="/timetable-helper">
+                  Timetable Helper
                 </Nav.Link>
 
                 {/* <Nav.Link href="/search" style={{ color: "white", display: "inline" }}>
@@ -115,10 +116,8 @@ export default class NavbarComp extends Component {
             <Route path="/minors-certificates">
               <MinorsCertificatesMenuPage />
             </Route>
-            <Route path="/timetable-builder">
-              <div className="body_text">
-                <p>This is the timetable builder page</p>
-              </div>
+            <Route path="/timetable-helper">
+              <TimetableHelper />
             </Route>
             <Route path="/search">
               <SearchResultDisplay />

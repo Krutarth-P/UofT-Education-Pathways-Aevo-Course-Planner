@@ -82,10 +82,10 @@ class LandingPage extends Component{
             </div>
             
             <div class="landing-card-column">
-            <Link to="/timetable-builder" style={{textDecoration:"none"}}>
+            <Link to="/timetable-helper" style={{textDecoration:"none"}}>
               <div class="landing-card">
                 <img src={timetableIcon} alt="timetable" style={{height:"30%", marginBottom:"15px"}}/>
-                <h3>Timetable Builder</h3>
+                <h3>Timetable Helper</h3>
                 <p>Generate next semester's timetable here at Aevo.</p>
               </div>
             </Link>

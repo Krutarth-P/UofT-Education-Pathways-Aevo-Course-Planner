@@ -12,6 +12,7 @@ df = pd.read_csv("resources/courses.csv")
 #df_test = pd.read_csv("resources/test_courses.csv")
 
 minors_df = pd.read_csv("resources/eng_minor_list_dummy.csv") #TODO: WILL NEED TO BE UPDATED WITH FULL MINOR CSV
+timetable_df = pd.read_csv("resources/course_times.csv")
 
 import config
 app = Flask(__name__, static_folder='frontend/build')
@@ -28,6 +29,70 @@ config.init_cors(app)
 
 
 # route functions
+def search_course_timings(s):
+        # return all the courses whose course code contains the str s
+    # Use delimiter to specify search: no delimiter assumes course code but can also use ;cc:,  ;ti: means title, ;de:description
+    # inclusion of delimiter assumes forced AND of search terms
+    # look for delimiter
+    # courseCode = ''
+    # courseDesc = ''
+    # courseTitle = ''
+    # course_ids = []
+    # if ';' in s:
+    #     parsed_input = s.split(';')
+    #     for term in parsed_input:
+    #         if len(term) > 0: #if empty string skip it
+    #             if (':' not in term or 'cc:' in term) and courseCode=='':
+    #                 courseCode = term if ':' not in term else term.split(':')[-1]
+    #             elif 'ti:' in term and courseTitle == '':
+    #                 courseTitle = term.split(':')[-1]
+    #             elif 'de:' in term and courseDesc == '':
+    #                 courseDesc = term.split(':')[-1]
+    #             else:
+    #                 return [] # invalid use of delimiters and symbols will return nothing
+    # else:
+    courseCode = s
+
+    cc_course_ids = timetable_df[timetable_df['Code'].str.contains(courseCode.upper())].index.tolist()
+
+    # if courseDesc != '':
+    #     desc_course_ids = timetable_df[timetable_df['Course Description'].str.contains(courseDesc,na=False)].index.tolist()
+    # else:
+    #     desc_course_ids = cc_course_ids.copy()
+
+    # if courseTitle != '':
+    #     #capitalize title term string by default since all words in course names are capitalized
+    #     title_course_ids = timetable_df[timetable_df['Name'].str.contains(courseTitle.capitalize(),na=False)].index.tolist() 
+    # else:
+    #     title_course_ids = cc_course_ids.copy()
+
+    # find course ids that match all input filters
+    # course_ids = list(set.intersection(*map(set, [cc_course_ids, desc_course_ids, title_course_ids])))
+    course_ids = cc_course_ids
+    print(course_ids)
+    #print('returned course ids:',course_ids)
+    if len(course_ids) == 0:
+        return []
+    if len(course_ids) > 2:
+        course_ids = course_ids[:1]
+    res = []
+    
+    for i, course_id in enumerate(course_ids):
+        d = timetable_df.iloc[course_id].to_dict()
+        course_activity_times = json.loads(d['course_activity_times'])
+        
+        res_d = {
+            '_id': i,
+            'code': d['Code'],
+            'name': d['Name'],
+            'description': d['Course Description'],
+            'course_activities': course_activity_times
+        }
+        # for key in course_activity_times:
+        #     res_d[key]= course_activity_times[key]
+        res.append(res_d)
+    return res
+
 def search_course_by_code(s):
     # return all the courses whose course code contains the str s
     # Use delimiter to specify search: no delimiter assumes course code but can also use ;cc:,  ;ti: means title, ;de:description
@@ -215,6 +280,35 @@ class ShowCourse(Resource):
             #resp.status_code = 400
             return resp
 
+class SearchCourseTiming(Resource):
+    def get(self):
+        input = request.args.get('input')
+        courses = search_course_timings(input)
+        if len(courses) > 0:
+            try:
+                resp = jsonify(courses)
+                resp.status_code = 200
+                return resp
+            except Exception as e:
+                resp = jsonify({'error': str(e)})
+                resp.status_code = 400
+                return resp
+
+    def post(self):
+        parser = reqparse.RequestParser()
+        parser.add_argument('input', required=True)
+        data = parser.parse_args()
+        input = data['input']
+        courses = search_course_timings(input)
+        if len(courses) > 0:
+            try:
+                resp = jsonify(courses)
+                resp.status_code = 200
+                return resp
+            except Exception as e:
+                resp = jsonify({'error': 'something went wrong'})
+                resp.status_code = 400
+                return resp
 
 #helper function for admin add course request
 def addNewCourse(input):
@@ -542,7 +636,7 @@ rest_api.add_resource(AdminAdd, '/admin/add')
 rest_api.add_resource(AdminEdit, '/admin/edit')
 rest_api.add_resource(AdminDelete, '/admin/delete')
 rest_api.add_resource(AdminSearch, '/admin/search')
-
+rest_api.add_resource(SearchCourseTiming, '/timetable-helper')
 
 @app.route("/", defaults={'path': ''})
 @app.route('/<path:path>')

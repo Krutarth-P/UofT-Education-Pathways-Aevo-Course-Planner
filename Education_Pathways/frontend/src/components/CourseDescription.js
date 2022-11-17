@@ -74,6 +74,9 @@ class CourseDescriptionPage extends Component {
         coreq = JSON.parse(coreq.replace(/'/g, '"'))
         exclusion =JSON.parse(exclusion.replace(/'/g, '"'))
 
+        if (coreq == null) {
+          coreq=[]
+        }
         this.setState({prereqs:prereq})
         this.setState({coreqs: coreq})
         this.setState({excls: exclusion})
@@ -88,6 +91,7 @@ class CourseDescriptionPage extends Component {
         } else {
           course_activity = []
         }
+        
         let course_term = res.data.course.term
         if (course_term != null){
           course_term=course_term.replaceAll("' '", "', '")
@@ -108,6 +112,7 @@ class CourseDescriptionPage extends Component {
         let temp_graph = []
         //temp_graph.push(<ShowGraph graph_src={this.state.graph}></ShowGraph>)
         this.setState({graphics: temp_graph})
+        console.log("again",res.data)
 
 
     })

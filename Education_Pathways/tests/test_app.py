@@ -5,6 +5,19 @@ from index import app, addNewCourse, editCourse
 import json
 import csv
 import pandas as pd
+import sys
+
+maxInt = sys.maxsize
+
+while True:
+    # decrease the maxInt value by factor 10 
+    # as long as the OverflowError occurs.
+    try:
+        csv.field_size_limit(maxInt)
+        break
+    except OverflowError:
+        maxInt = int(maxInt/10)
+
 
 # Unit test to ensure entries are being added to CSVs properly by Priscilla Deng
 @pytest.mark.parametrize("input", [{
@@ -18,7 +31,7 @@ import pandas as pd
     "exclusions":""}])
 
 def test_course_add_csv(input):
-    with open('resources/courses.csv', 'r+') as fp:
+    with open('resources/courses.csv', 'r+', encoding="utf-8") as fp:
         addNewCourse(input)
         csvReader = list(csv.reader(fp, delimiter=","))
         assert("ECE4444" in csvReader[-1][1])
@@ -47,7 +60,7 @@ def test_course_edit_csv(edit_input):
     rows=len(df_test)
     edit_input["index"]=rows-1 #set index of the newest added course
 
-    with open('resources/courses.csv', 'r+') as fp:
+    with open('resources/courses.csv', 'r+', encoding="utf-8") as fp:
 
         editCourse(edit_input)
 

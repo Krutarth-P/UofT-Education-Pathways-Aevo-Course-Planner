@@ -8,7 +8,7 @@ import Col from 'react-bootstrap/Col'
 import Row from 'react-bootstrap/Row'
 import API from '../api';
 
-
+//component that renders the admin delete course functioonality
 class DeleteCourseForm extends Component {
 
     constructor(props) {
@@ -48,6 +48,7 @@ class DeleteCourseForm extends Component {
 
 
     postData = (input) => {
+        console.log("in postdata", input)
         API.post(`/admin/delete`, { input })
             .then((response) => {
                 console.log("api success", response);
@@ -56,7 +57,6 @@ class DeleteCourseForm extends Component {
                 this.status = "Success";
                 this.msg = response.data;
             }).catch((error) => {
-                console.log("api error", JSON.stringify(error));
                 console.log("api error", error.response);
                 alert("Error: " + error.response.data['error']);
                 this.status = "Error";
@@ -123,7 +123,6 @@ class DeleteCourseForm extends Component {
                     <p><span class="req">*</span> - Required field</p>
                     <input type="submit" value="Delete" className={"submit-button"} />
                 </form>
-
 
             </div>
         );

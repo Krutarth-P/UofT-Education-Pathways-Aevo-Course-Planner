@@ -8,7 +8,7 @@ import Col from 'react-bootstrap/Col'
 import Row from 'react-bootstrap/Row'
 import API from '../api';
 
-
+//component that renders the admin add new course functioonality 
 class AddCourseForm extends Component {
 
     constructor(props) {
@@ -42,7 +42,6 @@ class AddCourseForm extends Component {
     handleSubmit(event) {
         event.preventDefault();
         this.postData(this.state);
-        console.log("inhandelsubmit", this.state);
     }
 
 
@@ -53,11 +52,10 @@ class AddCourseForm extends Component {
         API.post(`/admin/add`, { input })
             .then((response) => {
                 console.log("api success", response);
-                alert("Success: ");
+                alert("Success: New Course added");
                 this.state.status = "Success";
                 this.state.msg = response.data;
             }).catch((error) => {
-                console.log("api error", JSON.stringify(error));
                 console.log("api error", error.response);
                 alert("Error: " + error.response.data['error']);
                 this.state.status = "Error";
@@ -67,8 +65,6 @@ class AddCourseForm extends Component {
 
     }
     render() {
-        console.log("in form " + this.state.action)
-        console.log(this.state.msg + " and " + this.state.status);
         return (
             <div className="CourseForm">
 
@@ -128,7 +124,6 @@ class AddCourseForm extends Component {
                     <p><span class="req">*</span> - Required field</p>
                     <input type="submit" value="Submit" className={"submit-button"} />
                 </form>
-
 
             </div>
         );

@@ -7,7 +7,7 @@ import AdminLabel from './AdminLabel'
 import "./css/styles.css";
 import API from '../api';
 
-
+//component that renders the admin search and result functioonality
 class AdminSearchResultDisplay extends Component {
 
     constructor() {
@@ -30,7 +30,7 @@ class AdminSearchResultDisplay extends Component {
     }
 
     getData = (input) => {
-        API.get(`/admin/search?input=${input}`)
+        API.get(`/admin/search?input=${input}`)//gets search results from backend
             .then(res => {
                 if (res.status === 200) {
                     this.setState({ results: [] })
@@ -40,10 +40,10 @@ class AdminSearchResultDisplay extends Component {
                             let result_temp = []
                             result_temp.push(<AdminLabel></AdminLabel>)
                             for (let i = 0; i < len; i++) {
-                                console.log(res.data[i].iloc_index);
                                 let prereq = res.data[i].prereq;
                                 let coreq = res.data[i].coreq;
                                 let exclusion = res.data[i].exclusion;
+                                //fix string formatting
                                 if (typeof res.data[i].prereq == "object") {
                                     prereq = JSON.stringify(prereq);
                                 }
@@ -53,7 +53,8 @@ class AdminSearchResultDisplay extends Component {
                                 if (typeof res.data[i].exclusion == "object") {
                                     exclusion = JSON.stringify(exclusion);
                                 }
-
+                                
+                                //call shild component to organize and render search result
                                 result_temp.push(<AdminResult key={res.data[i].iloc_index}
                                     index={res.data[i].iloc_index}
                                     course_code={res.data[i].code}

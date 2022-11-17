@@ -8,7 +8,7 @@ import Col from 'react-bootstrap/Col'
 import Row from 'react-bootstrap/Row'
 import API from '../api';
 
-
+//component that renders the admin edit existing course functioonality
 class EditCourseForm extends Component {
 
     constructor(props) {
@@ -47,17 +47,14 @@ class EditCourseForm extends Component {
 
 
     postData = (input) => {
-
-
         console.log("in postdata", input)
         API.post(`/admin/edit`, { input })
             .then((response) => {
                 console.log("api success", response);
-                alert("Success: ");
+                alert("Success: Course edited");
                 this.status = "Success";
                 this.msg = response.data;
             }).catch((error) => {
-                console.log("api error", JSON.stringify(error));
                 console.log("api error", error.response);
                 alert("Error: " + error.response.data['error']);
                 this.status = "Error";

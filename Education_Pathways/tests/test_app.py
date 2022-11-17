@@ -92,7 +92,7 @@ def test_delete_course_csv(input):
     last_element = len(test_courses) -1 
     input["index"] = last_element
     deleteCourse(input)
-    with open('resources/test_courses.csv', 'r+') as fp:
+    with open('resources/courses.csv', 'r+', encoding="utf-8") as fp:
         csvReader = list(csv.reader(fp, delimiter=","))
         assert("ECE4444" not in csvReader[-1][1])
         assert("TESTinggggg Course Name" not in csvReader[-1][2]) #check course name

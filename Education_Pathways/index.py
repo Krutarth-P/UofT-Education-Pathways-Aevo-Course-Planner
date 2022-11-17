@@ -54,7 +54,7 @@ def search_course_by_code(s):
     else:
         courseCode = s #if no delimiter used assume course code search
 
-    cc_course_ids = df[df['Code'].str.contains(courseCode.upper())].index.tolist()
+    cc_course_ids = df[df['Code'].str.contains(courseCode.upper(),na=False)].index.tolist()
 
     if courseDesc != '':
         desc_course_ids = df[df['Course Description'].str.contains(courseDesc,na=False)].index.tolist()
@@ -260,8 +260,10 @@ class AdminAdd(Resource):
 
         if len(courses) > 0:
             try:
-                resp = jsonify(courses)
-                resp.status_code = 200
+                resp = app.response_class(
+                    json.dumps(courses, ignore_nan=True),
+                    mimetype='application/json'
+                )
                 return resp
             except Exception as e:
                 resp = jsonify({'error': str(e)})
@@ -280,8 +282,10 @@ class AdminAdd(Resource):
             print("inpost:",new_course)
             if len(new_course) > 0:
                 try:
-                    resp = jsonify(new_course)
-                    resp.status_code = 200
+                    resp = app.response_class(
+                    json.dumps(new_course, ignore_nan=True),
+                    mimetype='application/json'
+                )
                     return resp
                 except Exception as e:
                     resp = jsonify({'error': 'something went wrong'})
@@ -470,7 +474,7 @@ class AdminDelete(Resource):
 def admin_search(input):
     courseCode = input
 
-    course_ids = df[df['Code'].str.contains(courseCode.upper())].index.tolist()
+    course_ids = df[df['Code'].str.contains(courseCode.upper(),na=False)].index.tolist()
 
     if len(course_ids) == 0:
         return []
@@ -505,8 +509,10 @@ class AdminSearch(Resource):
         #courses=search_course_by_code(input)
         if len(courses) > 0:
             try:
-                resp = jsonify(courses)
-                resp.status_code = 200
+                resp = app.response_class(
+                    json.dumps(courses, ignore_nan=True),
+                    mimetype='application/json'
+                )
                 return resp
             except Exception as e:
                 resp = jsonify({'error': str(e)})
@@ -521,8 +527,10 @@ class AdminSearch(Resource):
         courses = search_course_by_code(input)
         if len(courses) > 0:
             try:
-                resp = jsonify(courses)
-                resp.status_code = 200
+                resp = app.response_class(
+                    json.dumps(courses, ignore_nan=True),
+                    mimetype='application/json'
+                )
                 return resp
             except Exception as e:
                 resp = jsonify({'error': 'something went wrong'})

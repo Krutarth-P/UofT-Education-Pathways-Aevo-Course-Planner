@@ -175,12 +175,16 @@ class SearchResultDisplay extends Component{
                   if (eligible_minors.length == 0){   // if not part of any engineering minor, display None string
                     eligible_minors.push('None')
                   }
-                  
-                  let course_term = res.data[i].term.replaceAll("' '", "', '")
-                  course_term=course_term.replace("[", "")
-                  course_term=course_term.replace("]", "")
-                  course_term=course_term.replaceAll("'", "")                               
-                  course_term = course_term.split(',');
+                  let course_term = res.data[i].term
+                  if (course_term != null){
+                    course_term = course_term.replaceAll("' '", "', '")
+                    course_term=course_term.replace("[", "")
+                    course_term=course_term.replace("]", "")
+                    course_term=course_term.replaceAll("'", "")                               
+                    course_term = course_term.split(',');
+                  } else {
+                    course_term=[]
+                  }
      
                   result_temp.push(<Result key={res.data[i]._id} 
                                     course_code={res.data[i].code} 

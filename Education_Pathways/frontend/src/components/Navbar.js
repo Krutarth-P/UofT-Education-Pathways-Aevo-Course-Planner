@@ -1,3 +1,5 @@
+
+
 import React, { Component } from 'react';
 import './css/navbar.css'
 import 'bootstrap/dist/css/bootstrap.css';
@@ -8,8 +10,13 @@ import { BrowserRouter as Router, Route, Switch, Link, useLocation } from "react
 import CourseDescriptionPage from "./CourseDescription";
 // import Wishlist from './Wishlist';
 // import SignUp from './SignUp'
-import SearchResultDisplay from './ResultDisplay';
+import SearchResultDisplay from './ResultDisplay'
+import AddCourseForm from './AddCourse'
+import EditCourseForm from './EditCourse'
+import DeleteCourseForm from './DeleteCourse'
+import AdminSearchResultDisplay from './AdminSearch'
 import LandingPage from './LandingPage';
+import MinorsCertificatesMenuPage from "./MinorsCertsMenu";
 import TimetableHelper from './TimetableHelper';
 
 
@@ -50,11 +57,11 @@ export default class NavbarComp extends Component {
     return (
       <Router>
         <div>
-          <Navbar style={{ position: "fixed" }} bg="myBlue" variant="dark" sticky="top" expand="lg">
+          <Navbar style={{position:"fixed"}} bg="myBlue" variant="dark" sticky="top" expand="lg">
             <Navbar.Brand>
               <img src={logo} alt="" />{" "}
               <Nav.Link href="/" style={{ color: "white", display: "inline" }}>
-                Aevo
+                Aevo 
               </Nav.Link>
             </Navbar.Brand>
 
@@ -64,7 +71,7 @@ export default class NavbarComp extends Component {
                 <Nav.Link as={Link} to="/">
                   Course Search
                 </Nav.Link>
-                <Nav.Link as={Link} to="/about">
+                <Nav.Link as={Link} to="/minors-certificates">
                   Minors & Certificates
                 </Nav.Link>
                 <Nav.Link as={Link} to="/timetable-helper">
@@ -78,6 +85,11 @@ export default class NavbarComp extends Component {
 
 
               </Nav>
+              {/*<Nav>
+                <Nav.Link as={Link} to="/admin/password123">
+                  Temp Admin
+                </Nav.Link>
+              </Nav>*/}
             </Navbar.Collapse>
           </Navbar>
         </div>
@@ -103,16 +115,50 @@ export default class NavbarComp extends Component {
               </div>
               {/* <SearchResultDisplay /> */}
             </Route>
-            <Route path="/search">
-              <SearchResultDisplay />
-            </Route>
-            <Route exact
-              path="/courseDetails/:code"
-              render={props => (<CourseDescriptionPage {...props} />)}>
+            <Route path="/minors-certificates">
+              <MinorsCertificatesMenuPage />
             </Route>
             <Route path="/timetable-helper">
               <TimetableHelper />
             </Route>
+            <Route path="/search">
+              <SearchResultDisplay />
+            </Route>
+            
+            <Route exact
+              path="/courseDetails/:code"
+              render={props => (<CourseDescriptionPage {...props} />)}>
+            </Route>
+           
+            {/*admin homepage*/}
+            <Route path="/admin/password123">
+              <AdminSearchResultDisplay/>
+            </Route>
+
+            {/*admin add new course form*/}    
+            <Route path="/admin/add">
+              <AddCourseForm/>
+            </Route>
+
+            {/*admin edit existing course from*/}
+            <Route path="/admin/edit"
+              render={props =>(<EditCourseForm {...props} />)}>
+            </Route>
+
+            {/*admin delete course form*/}
+            <Route path="/admin/delete"
+              render={props =>(<DeleteCourseForm {...props} />)}>
+            </Route>
+           
+           {/*admin search course page*/}
+            <Route path="/admin/search">
+              <AdminSearchResultDisplay/>
+            </Route>
+
+            {/*<Route path="/">
+              <SearchResultDisplay />
+            </Route>*/}
+            
             <Route path="/">
               <LandingPage />
             </Route>
@@ -122,7 +168,7 @@ export default class NavbarComp extends Component {
 
 
 
-      </Router >
+      </Router>
     );
   }
 }

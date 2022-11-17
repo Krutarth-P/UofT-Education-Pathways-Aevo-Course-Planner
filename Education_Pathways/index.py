@@ -2,14 +2,17 @@
 
 from flask import Flask, send_from_directory, jsonify, request
 from flask_restful import Api,Resource, reqparse
-import json
 import os
+import logging
+import simplejson as json
 
 import pandas as pd
 df = pd.read_csv("resources/courses.csv")
+
+#df_test = pd.read_csv("resources/test_courses.csv")
+
 minors_df = pd.read_csv("resources/eng_minor_list_dummy.csv") #TODO: WILL NEED TO BE UPDATED WITH FULL MINOR CSV
 timetable_df = pd.read_csv("resources/course_times.csv")
-
 import config
 app = Flask(__name__, static_folder='frontend/build')
 app.config['ENV'] = 'development'
@@ -19,21 +22,12 @@ app.config['TESTING'] = True
 # DB_URI = "mongodb+srv://Cansin:cv190499@a-star.roe6s.mongodb.net/A-Star?retryWrites=true&w=majority"
 # app.config["MONGODB_HOST"] = DB_URI
 
-import numpy as np 
-import csv
-import json
-import sys
-import logging 
-
-logging.basicConfig(level=logging.DEBUG)
-
 config.init_app(app)
 config.init_db(app)
 config.init_cors(app)
 
-local_selections = {}
-# route functions
 
+# route functions
 def search_course_timings(s):
         # return all the courses whose course code contains the str s
     # Use delimiter to specify search: no delimiter assumes course code but can also use ;cc:,  ;ti: means title, ;de:description
@@ -96,6 +90,8 @@ def search_course_timings(s):
         #     res_d[key]= course_activity_times[key]
         res.append(res_d)
     return res
+
+
 def search_course_by_code(s):
     # return all the courses whose course code contains the str s
     # Use delimiter to specify search: no delimiter assumes course code but can also use ;cc:,  ;ti: means title, ;de:description
@@ -105,20 +101,22 @@ def search_course_by_code(s):
     courseDesc = ''
     courseTitle = ''
     course_ids = []
+    # Delimiter usage detection and processing
     if ';' in s:
         parsed_input = s.split(';')
         for term in parsed_input:
             if len(term) > 0: #if empty string skip it
-                if (':' not in term or 'cc:' in term) and courseCode=='':
+                # now parse query using different delimiters
+                if (':' not in term or 'cc:' in term) and courseCode=='': #if no delimiter used assume course code query
                     courseCode = term if ':' not in term else term.split(':')[-1]
-                elif 'ti:' in term and courseTitle == '':
+                elif 'ti:' in term and courseTitle == '': #if title delimiter is used
                     courseTitle = term.split(':')[-1]
-                elif 'de:' in term and courseDesc == '':
+                elif 'de:' in term and courseDesc == '':  #if description delimiter is used
                     courseDesc = term.split(':')[-1]
                 else:
                     return [] # invalid use of delimiters and symbols will return nothing
     else:
-        courseCode = s
+        courseCode = s #if no delimiter used assume course code search
 
     cc_course_ids = df[df['Code'].str.contains(courseCode.upper())].index.tolist()
 
@@ -133,15 +131,15 @@ def search_course_by_code(s):
     else:
         title_course_ids = cc_course_ids.copy()
 
-    # find course ids that match all input filters
+    # find course ids that match all input filters by the intersection of the lists
     course_ids = list(set.intersection(*map(set, [cc_course_ids, desc_course_ids, title_course_ids])))
-    #print('returned course ids:',course_ids)
     if len(course_ids) == 0:
         return []
     if len(course_ids) > 10:
         course_ids = course_ids[:10]
     res = []
     minor_dict = {
+        # Parse all course codes from csv dataframe into a list of course code strings for each corresponding minor
         # filter out NaNs with course == course
             "Artificial Intelligence": [course for course in minors_df["Artificial Intelligence"].tolist() if course == course], 
             "Robotics & Mechatronics": [course for course in minors_df["Robotics & Mechatronics"].tolist() if course == course], 
@@ -162,12 +160,15 @@ def search_course_by_code(s):
             'code': d['Code'],
             'name': d['Name'],
             'description': d['Course Description'],
+            'term': d['Term'],
+            'activity': d['Activity'],
             'syllabus': "Course syllabus here.",
             'prereq': d['Pre-requisites'],
             'coreq': d['Corequisite'],
             'exclusion': d['Exclusion'] ,
             'division': d['Division'],
             'department': d['Department'] ,
+            # include information about corresponding courses for each minor as part of api request for frontend use
             'minor_AI': minor_dict["Artificial Intelligence"],
             'minor_RM': minor_dict["Robotics & Mechatronics"],
             'minor_AM': minor_dict["Advanced Manufacturing"],
@@ -182,58 +183,390 @@ def search_course_by_code(s):
         res.append(res_d)
     return res
 
-#def export_schedule(input):   #input in this case is a 2D array that we want to change to print our each sub-array into a row in CSV
-    #Return a list of course codes (keys) and their timings (course_code + course_activity + course_timing)
-    #as first a json 
-    #then csv
- #   if ',' in input: 
- #       parsed_input = input.parse(',')
- #       for entry in parse
-    check = []
-    #courseCode, courseActivity, courseTiming = ""
-    #indexCode, indexActivity, indexTiming = 0
-    #df_schedule = pd.read_json(input)
-    #df_schedule.to_csv(, index=None)
-
-    # for entry in input:             #Go through each of the rows in the input CSV
-    #     if (check is not entry):
-    #         enumerate_input = enumerate(entry) #Expected 3 fields
-    #         #for idx, param in enumerate(entry): 
-    #         indexCode, courseCode = next(enumerate_input)
-    #         indexActivity, courseActivity = next(enumerate_input)
-    #         indexTiming, courseTiming = next(enumerate_input)
-    #         #courseCode, courseActivity, courseTiming = (idx, param)
-    #         arr = np.asarray(entry)
-    #         res = 'User Profile.csv'
-    #         with open(res, 'w') as f:
-    #             mywriter = csv.writer(f, delimiter=' ')
-    #             mywriter.writerows(arr)
-
-    # check = entry                   #We can skip repeated additions of the same course activity 
-    # return res
-
-def import_schedule(input):
-#    items = []
-#    with open('file.csv') as csvFile:
-#        CSV_reader = csv.reader(csvFile)
-#        for row in CSV_reader: 
-#            items.append(row[0])
-
-    #We are expecting an input type that is convinient for us 
-    #Make sure it's in OUR specific format
-    file = open(input)
-    res = np.loadtxt(file, delimiter=',')
-    return res
-
-# def receive_selected_sessions(input): 
-#     return input
-
-# def send_selected_sessions(input): 
-    # return input
 class SearchCourse(Resource):
     def get(self):
         input = request.args.get('input')
         courses = search_course_by_code(input)
+        if len(courses) > 0:
+            try:
+                resp = app.response_class(
+                    json.dumps(courses, ignore_nan=True),
+                    mimetype='application/json'
+                )
+                #resp.status_code = 200
+                return resp
+            except Exception as e:
+                resp = jsonify({'error': str(e)})
+                resp.status_code = 400
+                return resp
+
+    def post(self):
+        parser = reqparse.RequestParser()
+        parser.add_argument('input', required=True)
+        data = parser.parse_args()
+        input = data['input']
+        courses = search_course_by_code(input)
+        if len(courses) > 0:
+            try:
+                resp = app.response_class(
+                    json.dumps(courses, ignore_nan=True),
+                    mimetype='application/json'
+                )
+                #resp.status_code = 200
+                return resp
+            except Exception as e:
+                resp = jsonify({'error': 'something went wrong'})
+                resp.status_code = 400
+                return resp
+
+class ShowCourse(Resource):
+    def get(self):
+        code = request.args.get('code')
+        courses = search_course_by_code(code)
+        if len(courses) == 0:
+            #resp = jsonify({'message': f"Course {code} doesn't exist"})
+            #resp.status_code = 404
+            resp = app.response_class(
+                    json.dumps({'message': f"Course {code} doesn't exist"}, ignore_nan=True),
+                    mimetype='application/json'
+                )
+            return resp
+        try:
+            resp = app.response_class(
+                    json.dumps({'course': courses[0]}, ignore_nan=True),
+                    mimetype='application/json'
+                )
+            # jsonify({'course': courses[0]})
+            # resp.status_code = 200
+            return resp
+        except Exception as e:
+            resp = app.response_class(
+                    json.dumps({'error': 'something went wrong'}, ignore_nan=True),
+                    mimetype='application/json'
+                )
+            #resp = jsonify({'error': 'something went wrong'})
+            #resp.status_code = 400
+            return resp
+    
+    def post(self):
+        parser = reqparse.RequestParser()
+        parser.add_argument('code', required=True)
+        data = parser.parse_args()
+        code = data['code']
+        courses = search_course_by_code(code)
+        if len(courses) == 0:
+            resp = app.response_class(
+                    json.dumps({'message': f"Course {code} doesn't exist"}, ignore_nan=True),
+                    mimetype='application/json'
+            )
+            #resp = jsonify({'message': f"Course {code} doesn't exist"})
+            #resp.status_code = 404
+            return resp
+        try:
+            resp = app.response_class(
+                    json.dumps({'course': courses[0]}, ignore_nan=True),
+                    mimetype='application/json'
+            )
+            #resp = jsonify({'course': courses[0]})
+            #resp.status_code = 200
+            return resp
+        except Exception as e:
+            resp = app.response_class(
+                    json.dumps({'error': 'something went wrong'}, ignore_nan=True),
+                    mimetype='application/json'
+            )
+            #resp = jsonify({'error': 'something went wrong'})
+            #resp.status_code = 400
+            return resp
+
+
+#helper function for admin add course request
+def addNewCourse(input):
+
+    code=input['course_code'].upper()
+    name=input['course_name']
+    division=input['division']
+    department=input['department']
+    description=input['course_description']
+    prereq=input['prerequisites'].upper()
+    coreq=input['corequisites'].upper()
+    exclusion=input['exclusions'].upper()
+
+    global df
+
+    exists=df['Code'].str.contains(code).any()
+    if(exists):
+        error_code = 0 #course already exists
+        res = ''
+        return error_code, res 
+    else:
+        prereq = prereq.split(",")
+        coreq = coreq.split(",")
+        exclusion = exclusion.split(",")
+
+        new_course = {'Code': code, 'Name': name, 'Division': division, 'Department': department, 'Course Description': description, 
+        'Pre-requisites': prereq, 'Corequisite': coreq, 'Exclusion': exclusion}
+        df = pd.concat([df , pd.DataFrame([new_course])],ignore_index=True)
+
+        error_code = 1 # new course successfully added
+        res = new_course
+
+        df.to_csv("resources/courses.csv", index=False)
+
+        return error_code, res
+
+#admin add course request handler
+class AdminAdd(Resource):
+    def get(self):
+        input = request.args.get('input')
+        
+        courses = search_course_by_code(input)
+
+        if len(courses) > 0:
+            try:
+                resp = jsonify(courses)
+                resp.status_code = 200
+                return resp
+            except Exception as e:
+                resp = jsonify({'error': str(e)})
+                resp.status_code = 400
+                return resp
+
+    def post(self):
+
+        data = request.get_json(force=True)
+
+        input = data['input']
+
+        if(input["action"]=="add"):
+            error, new_course = addNewCourse(input)
+            
+            print("inpost:",new_course)
+            if len(new_course) > 0:
+                try:
+                    resp = jsonify(new_course)
+                    resp.status_code = 200
+                    return resp
+                except Exception as e:
+                    resp = jsonify({'error': 'something went wrong'})
+                    resp.status_code = 400
+                    return resp
+            elif(error == 0):
+                resp = jsonify({'error': 'course already exists'})
+                resp.status_code = 400
+                return resp
+        
+        else:
+            resp = jsonify({'error': 'something went wrong'})
+            resp.status_code = 400
+            return resp
+
+#helper function for admin edit course request
+def editCourse(input):
+
+    index=input['index']
+    code=input['course_code'].upper()
+    name=input['course_name']
+    division=input['division']
+    department=input['department']
+    description=input['course_description']
+    prereq=input['prerequisites'].upper()
+    coreq=input['corequisites'].upper()
+    exclusion=input['exclusions'].upper()
+
+    matching_index = df.index[df['Code']==code].tolist()
+
+    exists = False
+    for i in matching_index:
+        if i != index:
+            exists = True
+    
+    if(exists):
+        error_code = 0 #course already exists
+        res = ''
+        return error_code, res 
+    else:
+        prereq = prereq.split(",")
+        coreq = coreq.split(",")
+        exclusion = exclusion.split(",")
+
+        new_course = {'Code': code, 'Name': name, 'Division': division, 'Department': department, 'Course Description': description, 
+        'Pre-requisites': prereq, 'Corequisite': coreq, 'Exclusion': exclusion}
+
+        df.at[index, 'Code'] = code
+        df.at[index, 'Name'] = name
+        df.at[index, 'Division'] = division
+        df.at[index, 'Department'] = department
+        df.at[index, 'Course Description'] = description
+        df.at[index, 'Pre-requisites'] = prereq
+        df.at[index, 'Corequisites'] = coreq
+        df.at[index, 'Exclusions'] = exclusion
+
+        error_code = 1 # new course successfully added
+        res = new_course
+
+        df.to_csv("resources/courses.csv", index=False)
+
+        return error_code, res
+
+
+#admin edit course request handler
+class AdminEdit(Resource):
+    def get(self):
+        input = request.args.get('input')
+        
+        courses = search_course_by_code(input)
+
+        if len(courses) > 0:
+            try:
+                resp = jsonify(courses)
+                resp.status_code = 200
+                return resp
+            except Exception as e:
+                resp = jsonify({'error': str(e)})
+                resp.status_code = 400
+                return resp
+
+    def post(self):
+
+        data = request.get_json(force=True)
+        input = data['input']
+
+        if(input["action"]=="edit"):
+            error, new_course = editCourse(input)
+            
+            print("inpost:",new_course)
+            if len(new_course) > 0:
+                try:
+                    resp = jsonify(new_course)
+                    resp.status_code = 200
+                    return resp
+                except Exception as e:
+                    resp = jsonify({'error': 'something went wrong'})
+                    resp.status_code = 400
+                    return resp
+            elif(error == 0):
+                resp = jsonify({'error': 'another course with same new course code already exists'})
+                resp.status_code = 400
+                return resp
+        
+        else:
+            resp = jsonify({'error': 'something went wrong'})
+            resp.status_code = 400
+            return resp
+
+
+#helper function for admin delete course request
+def deleteCourse(input):
+
+    index=input['index']
+    code=input['course_code'].upper()
+    name=input['course_name']
+    division=input['division']
+    department=input['department']
+    description=input['course_description']
+    prereq=input['prerequisites'].upper()
+    coreq=input['corequisites'].upper()
+    exclusion=input['exclusions'].upper()
+
+    new_course = {'Code': code, 'Name': name, 'Division': division, 'Department': department, 'Course Description': description, 
+    'Pre-requisites': prereq, 'Corequisite': coreq, 'Exclusion': exclusion}
+
+    global df
+
+    df = df.drop(index)
+
+    error_code = 1 # new course successfully added
+    res = new_course
+
+    df.to_csv("resources/courses.csv", index=False)
+
+    return error_code, res
+
+
+#admin delete course request handler
+class AdminDelete(Resource):
+    def get(self):
+        input = request.args.get('input')
+        
+        courses = search_course_by_code(input)
+
+        if len(courses) > 0:
+            try:
+                resp = jsonify(courses)
+                resp.status_code = 200
+                return resp
+            except Exception as e:
+                resp = jsonify({'error': str(e)})
+                resp.status_code = 400
+                return resp
+
+    def post(self):
+
+        data = request.get_json(force=True)
+        input = data['input']
+
+        if(input["action"]=="delete"):
+            error, new_course = deleteCourse(input)
+            
+            print("inpost:",new_course)
+            if len(new_course) > 0:
+                try:
+                    resp = jsonify(new_course)
+                    resp.status_code = 200
+                    return resp
+                except Exception as e:
+                    resp = jsonify({'error': 'something went wrong'})
+                    resp.status_code = 400
+                    return resp
+            elif(error == 0):
+                resp = jsonify({'error': 'something went wrong'})
+                resp.status_code = 400
+                return resp
+        
+        else:
+            resp = jsonify({'error': 'something went wrong'})
+            resp.status_code = 400
+            return resp
+
+
+#helper function for admin search course request
+def admin_search(input):
+    courseCode = input
+
+    course_ids = df[df['Code'].str.contains(courseCode.upper())].index.tolist()
+
+    if len(course_ids) == 0:
+        return []
+    if len(course_ids) > 10:
+        course_ids = course_ids[:10]
+
+    res = []
+    for i in course_ids:
+        d = df.iloc[i].to_dict()
+        res_d = {
+            'iloc_index': i,
+            'code': d['Code'],
+            'name': d['Name'],
+            'description': d['Course Description'],
+            'syllabus': "Course syllabus here.",
+            'prereq': d['Pre-requisites'],
+            'coreq': d['Corequisite'],
+            'exclusion': d['Exclusion'] ,
+            'division': d['Division'],
+            'department': d['Department'] ,
+        }
+        res.append(res_d)
+    
+    return res
+
+
+#admin search course request handler
+class AdminSearch(Resource):
+    def get(self):
+        input = request.args.get('input')
+        courses = admin_search(input)
+        #courses=search_course_by_code(input)
         if len(courses) > 0:
             try:
                 resp = jsonify(courses)
@@ -259,42 +592,6 @@ class SearchCourse(Resource):
                 resp = jsonify({'error': 'something went wrong'})
                 resp.status_code = 400
                 return resp
-
-class ShowCourse(Resource):
-    def get(self):
-        code = request.args.get('code')
-        courses = search_course_by_code(code)
-        if len(courses) == 0:
-            resp = jsonify({'message': f"Course {code} doesn't exist"})
-            resp.status_code = 404
-            return resp
-        try:
-            resp = jsonify({'course': courses[0]})
-            resp.status_code = 200
-            return resp
-        except Exception as e:
-            resp = jsonify({'error': 'something went wrong'})
-            resp.status_code = 400
-            return resp
-    
-    def post(self):
-        parser = reqparse.RequestParser()
-        parser.add_argument('code', required=True)
-        data = parser.parse_args()
-        code = data['code']
-        courses = search_course_by_code(code)
-        if len(courses) == 0:
-            resp = jsonify({'message': f"Course {code} doesn't exist"})
-            resp.status_code = 404
-            return resp
-        try:
-            resp = jsonify({'course': courses[0]})
-            resp.status_code = 200
-            return resp
-        except Exception as e:
-            resp = jsonify({'error': 'something went wrong'})
-            resp.status_code = 400
-            return resp
 
 class SearchCourseTiming(Resource):
     def get(self):
@@ -326,65 +623,6 @@ class SearchCourseTiming(Resource):
                 resp.status_code = 400
                 return resp
 
-class ExportSchedule(Resource):
-    def get(self):
-        input = request.args.get('input')
-        timetable = export_schedule(input)
-        if len(timetable) > 0:
-            try:
-                resp = jsonify(timetable)
-                resp.status_code = 200
-                return resp
-            except Exception as e:
-                resp = jsonify({'error': str(e)})
-                resp.status_code = 400
-                return resp
-
-    def post(self):
-        parser = reqparse.RequestParser()
-        parser.add_argument('input', required=True)
-        data = parser.parse_args()
-        input = data['input']
-        timetable = export_schedule(input)
-        if len(timetable) > 0:
-            try:
-                resp = jsonify(timetable)
-                resp.status_code = 200
-                return resp
-            except Exception as e:
-                resp = jsonify({'error': 'something went wrong'})
-                resp.status_code = 400
-                return resp
-
-class ImportSchedule(Resource):
-    def get(self):
-        input = request.args.get('input')
-        courses = import_schedule(input)
-        if len(courses) > 0:
-            try:
-                resp = jsonify(courses)
-                resp.status_code = 200
-                return resp
-            except Exception as e:
-                resp = jsonify({'error': str(e)})
-                resp.status_code = 400
-                return resp
-
-    def post(self):
-        parser = reqparse.RequestParser()
-        parser.add_argument('input', required=True)
-        data = parser.parse_args()
-        input = data['input']
-        courses = import_schedule(input)
-        if len(courses) > 0:
-            try:
-                resp = jsonify(courses)
-                resp.status_code = 200
-                return resp
-            except Exception as e:
-                resp = jsonify({'error': 'something went wrong'})
-                resp.status_code = 400
-                return resp
 
 # API Endpoints
 rest_api = Api(app)
@@ -394,12 +632,12 @@ rest_api.add_resource(SearchCourse, '/searchc')
 rest_api.add_resource(ShowCourse, '/course/details')
 rest_api.add_resource(SearchCourseTiming, '/timetable-helper')
 
-#rest_api.add_resource(ExportSchedule, '/timetable-helper-export')
-rest_api.add_resource(ImportSchedule, '/timetable-helper-import')
-#rest_api.add_resource(ReceiveSelectedSessions, '/timetable-helper/timing-results-selected-sessions-receive')
-#rest_api.add_resource(SendSelectedSessions, '/timetable-helper/timing-results-selected-sessions-send')
+rest_api.add_resource(AdminAdd, '/admin/add')
+rest_api.add_resource(AdminEdit, '/admin/edit')
+rest_api.add_resource(AdminDelete, '/admin/delete')
+rest_api.add_resource(AdminSearch, '/admin/search')
 
-#postman 
+
 @app.route("/", defaults={'path': ''})
 @app.route('/<path:path>')
 def serve(path):
@@ -407,18 +645,6 @@ def serve(path):
         return send_from_directory(app.static_folder, path)
     else:
         return send_from_directory(app.static_folder, 'index.html')
-
-@app.route('/timetable-helper-export', methods=['POST'])
-def export_schedule(request):
-    #input_json = request.get_json(force=True) 
-    # force=True, above, is necessary if another developer 
-    # forgot to set the MIME type to 'application/json'
-    print("THIS IS IT" + input_json, file=sys.stdout)
-    app.logger.info("HI" + input_json)
-    local_selections = input_json
-    #CSV 
-    #with open 
-    #return jsonify(local_selections)
 
 
 if __name__ == '__main__':

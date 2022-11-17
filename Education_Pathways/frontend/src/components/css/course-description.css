@@ -84,6 +84,27 @@ p {
   margin-bottom: 2%;
 }
 
+.req-list {
+  list-style: none;
+  padding-inline-start: 0;
+  display: inline-block;
+  padding: 2% 5%;
+}
+
+.req-list ::after {
+  content: ', '; 
+}
+
+.req-list :last-child:after {
+  content: "";
+}
+
+.req-list a {
+  color: #5C779C;
+  text-decoration: none;
+}
+
+
 .requisites-display.corequisites {
   background-color: #DFF0CA;
 }
@@ -114,4 +135,13 @@ p {
   margin-left: 5%;
   justify-content: center;
   margin-bottom: 2%;
+}
+
+.course-offering table {
+  width: 100%;
+  margin-top: 2%;
+}
+
+.course-offering tr th:nth-child(4),tr td:nth-child(4), tr th:nth-child(6),tr td:nth-child(6), tr th:nth-child(7),tr td:nth-child(7){  
+  display:none; 
 }

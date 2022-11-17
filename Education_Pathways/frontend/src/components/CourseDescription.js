@@ -56,13 +56,27 @@ class CourseDescriptionPage extends Component {
 
         console.log("prereqs", this.state.prereqs)
 
-        res.data.course.prereq = JSON.parse(res.data.course.prereq.replace(/'/g, '"'))
-        res.data.course.coreq = JSON.parse(res.data.course.coreq.replace(/'/g, '"'))
-        res.data.course.exclusion =JSON.parse(res.data.course.exclusion.replace(/'/g, '"'))
+        let prereq = res.data.course.prereq;
+        let coreq = res.data.course.coreq;
+        let exclusion = res.data.course.exclusion;
+        //fix string formatting
+        if (typeof prereq == "object") {
+            prereq = JSON.stringify(prereq);
+        }
+        if (typeof coreq == "object") {
+            coreq = JSON.stringify(coreq);
+        }
+        if (typeof exclusion == "object") {
+            exclusion = JSON.stringify(exclusion);
+        }       
 
-        this.setState({prereqs: res.data.course.prereq})
-        this.setState({coreqs: res.data.course.coreq})
-        this.setState({excls: res.data.course.exclusion})
+        prereq = JSON.parse(prereq.replace(/'/g, '"'))
+        coreq = JSON.parse(coreq.replace(/'/g, '"'))
+        exclusion =JSON.parse(exclusion.replace(/'/g, '"'))
+
+        this.setState({prereqs:prereq})
+        this.setState({coreqs: coreq})
+        this.setState({excls: exclusion})
 
         let course_activity = res.data.course.activity
         course_activity=course_activity.replace("['", "")

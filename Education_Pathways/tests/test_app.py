@@ -24,7 +24,11 @@ while True:
     "course_code":"ECE4444",
     "course_name":"TESTinggggg",
     "division":"TESTDIV",
+    "department": "",
     "course_description":"BLEH",
+    "prerequisites": "",
+    "corequisites": "",
+    "exclusions": ""
     }])
 
 def test_course_add_csv(input):

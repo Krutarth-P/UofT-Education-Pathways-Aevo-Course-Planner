@@ -56,85 +56,69 @@ class CourseDescriptionPage extends Component {
 
         console.log("prereqs", this.state.prereqs)
 
-        res.data.course.prereq = JSON.parse(res.data.course.prereq.replace(/'/g, '"'))
-        res.data.course.coreq = JSON.parse(res.data.course.coreq.replace(/'/g, '"'))
-        res.data.course.exclusion =JSON.parse(res.data.course.exclusion.replace(/'/g, '"'))
+        let prereq = res.data.course.prereq;
+        let coreq = res.data.course.coreq;
+        let exclusion = res.data.course.exclusion;
+        //fix string formatting
+        if (typeof prereq == "object") {
+            prereq = JSON.stringify(prereq);
+        }
+        if (typeof coreq == "object") {
+            coreq = JSON.stringify(coreq);
+        }
+        if (typeof exclusion == "object") {
+            exclusion = JSON.stringify(exclusion);
+        }       
 
-        this.setState({prereqs: res.data.course.prereq})
-        this.setState({coreqs: res.data.course.coreq})
-        this.setState({excls: res.data.course.exclusion})
+        prereq = JSON.parse(prereq.replace(/'/g, '"'))
+        coreq = JSON.parse(coreq.replace(/'/g, '"'))
+        exclusion =JSON.parse(exclusion.replace(/'/g, '"'))
+
+        if (coreq == null) {
+          coreq=[]
+        }
+        if (prereq == null) {
+          prereq=[]
+        }
+        if (exclusion == null) {
+          exclusion=[]
+        }
+        this.setState({prereqs:prereq})
+        this.setState({coreqs: coreq})
+        this.setState({excls: exclusion})
 
         let course_activity = res.data.course.activity
-        course_activity=course_activity.replace("['", "")
-        course_activity=course_activity.replace("']", "")
-        course_activity=course_activity.replace(/\\n|\\r/g, "")
-        course_activity=course_activity.replace(/>'/g, ">")
-        course_activity=course_activity.replace(/'</g, "<")
-
-        let course_term = res.data.course.term.replaceAll("' '", "', '")
-        course_term=course_term.replace("['", "")
-        course_term=course_term.replace("']", "")
-        course_term=course_term.replaceAll("'", "")                               
+        if (course_activity != null){
+          course_activity=course_activity.replace("['", "")
+          course_activity=course_activity.replace("']", "")
+          course_activity=course_activity.replace(/\\n|\\r/g, "")
+          course_activity=course_activity.replace(/>'/g, ">")
+          course_activity=course_activity.replace(/'</g, "<")
+        } else {
+          course_activity = []
+        }
         
+        let course_term = res.data.course.term
+        if (course_term != null){
+          course_term=course_term.replaceAll("' '", "', '")
+          course_term=course_term.replace("['", "")
+          course_term=course_term.replace("']", "")
+          course_term=course_term.replaceAll("'", "")                               
+        } else {
+          course_term = []
+        }
+
         console.log("course term", course_term)
         this.setState({course_offering: course_activity})    
         this.setState({course_term: course_term})                     
 
-        // let prereq_len = res.data.course.prereq.length
-        // console.log("prereq:",res.data.course.prereq)
-        // if (prereq_len > 1) {
-        //   let prereq_str = ""
-        //   for (let i = 0; i < prereq_len; i++) {
-        //     prereq_str += res.data.course.prereq[i]
-        //     if (i !== prereq_len - 1) {
-        //       prereq_str += ", "
-        //     }
-        //   }
-        //   this.setState({prerequisites : prereq_str})
-        // } else {
-        //   this.setState({prerequisites : res.data.course.prereq})
-        // }
-
-        // let coreq_len = res.data.course.coreq.length
-        // console.log("coreq:",res.data.course.coreq)
-        // if (coreq_len > 1) {
-        //   let coreq_str = ""
-        //   for (let i = 0; i < coreq_len; i++) {
-        //     coreq_str += res.data.course.coreq[i]
-        //     console.log("coreq_str:",coreq_str)
-        //     if (i !== coreq_len - 1) {
-        //       coreq_str += ", "
-        //     }
-        //   }
-        //   this.setState({corequisites : coreq_str})
-        // } else {
-        //   this.setState({corequisites : res.data.course.coreq})
-        // }
-        
-        // this.setState({exclusions_test: res.data.course.exclusion})
-        // let exclusion_len = res.data.course.exclusion.length
-        // console.log("exclusion:",res.data.course.exclusion)
-        // if (exclusion_len > 1) {
-        //   let exclusion_str = ""
-        //   for (let i = 0; i < exclusion_len; i++) {
-        //     exclusion_str += <a ref={`${res.data.course.exclusion[i]}`} onClick={this.redirectCourse}>{res.data.course.exclusion[i]}</a>
-        //     console.log("exclusion_str:",exclusion_str)
-        //     if (i !== exclusion_len - 1) {
-        //       exclusion_str += ", "
-        //     }
-        //   }
-        //   this.setState({exclusions : exclusion_str})
-        //   console.log("exc", this.state.exclusions_test)
-        // } else {
-        //   this.setState({exclusions : res.data.course.exclusion})
-        //   console.log("no exc")
-        // }
         let syllabus_link = "http://courses.skule.ca/course/" + this.props.code
         this.setState({syllabus : syllabus_link})
 
         let temp_graph = []
         //temp_graph.push(<ShowGraph graph_src={this.state.graph}></ShowGraph>)
         this.setState({graphics: temp_graph})
+        console.log("again",res.data)
 
 
     })
@@ -160,10 +144,6 @@ class CourseDescriptionPage extends Component {
             {/* <Col xs={4}>
               <img src={star} onClick={this.check_star} alt="" />
             </Col> */}
-          </Row>
-          <Row className="col-item course-description">
-            <h3>Instructor Information</h3>
-            <p>  Working in teams under the direct supervision of a faculty member, students develop a design project of their choice from an initial concept to a final working prototype. In the first session, a project proposal is submitted early on, followed by a project requirements specification. A design review meeting is then held to review the proposed design. Lectures given during the first session will develop expertise in various areas related to design and technical communication. In the second session, the teams present their work in a number of ways, including an oral presentation, a poster presentation, a final </p>
           </Row>
           <Row>
             <Col className="col-item">

@@ -20,6 +20,7 @@ import MinorsCertificatesMenuPage from "./MinorsCertsMenu";
 import TimetableHelper from './TimetableHelper';
 
 
+
 function CourseDescription(props) {
   let query = useQuery();
   return <CourseDescriptionPage code={query.get("code")} />;

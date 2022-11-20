@@ -74,81 +74,51 @@ class CourseDescriptionPage extends Component {
         coreq = JSON.parse(coreq.replace(/'/g, '"'))
         exclusion =JSON.parse(exclusion.replace(/'/g, '"'))
 
+        if (coreq == null) {
+          coreq=[]
+        }
+        if (prereq == null) {
+          prereq=[]
+        }
+        if (exclusion == null) {
+          exclusion=[]
+        }
         this.setState({prereqs:prereq})
         this.setState({coreqs: coreq})
         this.setState({excls: exclusion})
 
         let course_activity = res.data.course.activity
-        course_activity=course_activity.replace("['", "")
-        course_activity=course_activity.replace("']", "")
-        course_activity=course_activity.replace(/\\n|\\r/g, "")
-        course_activity=course_activity.replace(/>'/g, ">")
-        course_activity=course_activity.replace(/'</g, "<")
-
-        let course_term = res.data.course.term.replaceAll("' '", "', '")
-        course_term=course_term.replace("['", "")
-        course_term=course_term.replace("']", "")
-        course_term=course_term.replaceAll("'", "")                               
+        if (course_activity != null){
+          course_activity=course_activity.replace("['", "")
+          course_activity=course_activity.replace("']", "")
+          course_activity=course_activity.replace(/\\n|\\r/g, "")
+          course_activity=course_activity.replace(/>'/g, ">")
+          course_activity=course_activity.replace(/'</g, "<")
+        } else {
+          course_activity = []
+        }
         
+        let course_term = res.data.course.term
+        if (course_term != null){
+          course_term=course_term.replaceAll("' '", "', '")
+          course_term=course_term.replace("['", "")
+          course_term=course_term.replace("']", "")
+          course_term=course_term.replaceAll("'", "")                               
+        } else {
+          course_term = []
+        }
+
         console.log("course term", course_term)
         this.setState({course_offering: course_activity})    
         this.setState({course_term: course_term})                     
 
-        // let prereq_len = res.data.course.prereq.length
-        // console.log("prereq:",res.data.course.prereq)
-        // if (prereq_len > 1) {
-        //   let prereq_str = ""
-        //   for (let i = 0; i < prereq_len; i++) {
-        //     prereq_str += res.data.course.prereq[i]
-        //     if (i !== prereq_len - 1) {
-        //       prereq_str += ", "
-        //     }
-        //   }
-        //   this.setState({prerequisites : prereq_str})
-        // } else {
-        //   this.setState({prerequisites : res.data.course.prereq})
-        // }
-
-        // let coreq_len = res.data.course.coreq.length
-        // console.log("coreq:",res.data.course.coreq)
-        // if (coreq_len > 1) {
-        //   let coreq_str = ""
-        //   for (let i = 0; i < coreq_len; i++) {
-        //     coreq_str += res.data.course.coreq[i]
-        //     console.log("coreq_str:",coreq_str)
-        //     if (i !== coreq_len - 1) {
-        //       coreq_str += ", "
-        //     }
-        //   }
-        //   this.setState({corequisites : coreq_str})
-        // } else {
-        //   this.setState({corequisites : res.data.course.coreq})
-        // }
-        
-        // this.setState({exclusions_test: res.data.course.exclusion})
-        // let exclusion_len = res.data.course.exclusion.length
-        // console.log("exclusion:",res.data.course.exclusion)
-        // if (exclusion_len > 1) {
-        //   let exclusion_str = ""
-        //   for (let i = 0; i < exclusion_len; i++) {
-        //     exclusion_str += <a ref={`${res.data.course.exclusion[i]}`} onClick={this.redirectCourse}>{res.data.course.exclusion[i]}</a>
-        //     console.log("exclusion_str:",exclusion_str)
-        //     if (i !== exclusion_len - 1) {
-        //       exclusion_str += ", "
-        //     }
-        //   }
-        //   this.setState({exclusions : exclusion_str})
-        //   console.log("exc", this.state.exclusions_test)
-        // } else {
-        //   this.setState({exclusions : res.data.course.exclusion})
-        //   console.log("no exc")
-        // }
         let syllabus_link = "http://courses.skule.ca/course/" + this.props.code
         this.setState({syllabus : syllabus_link})
 
         let temp_graph = []
         //temp_graph.push(<ShowGraph graph_src={this.state.graph}></ShowGraph>)
         this.setState({graphics: temp_graph})
+        console.log("again",res.data)
 
 
     })

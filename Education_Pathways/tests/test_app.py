@@ -24,11 +24,12 @@ while True:
     "course_code":"ECE4444",
     "course_name":"TESTinggggg",
     "division":"TESTDIV",
-    "department":"",
+    "department": "",
     "course_description":"BLEH",
-    "prerequisites":"",
-    "corequisites":"",
-    "exclusions":""}])
+    "prerequisites": "",
+    "corequisites": "",
+    "exclusions": ""
+    }])
 
 def test_course_add_csv(input):
     with open('resources/courses.csv', 'r+', encoding="utf-8") as fp:

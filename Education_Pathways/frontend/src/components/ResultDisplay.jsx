@@ -68,20 +68,21 @@ class SearchResultDisplay extends Component{
   }
 
   handleMinorSubmit(event) {
+    // when minor filter is checked and filter button is pressed process existing search results to filter for results that are applicable to selected minor(s)
     event.preventDefault();
-    let new_results = [<Label></Label>];
+    let new_results = [<Label></Label>]; //Initialize new result list that will eventually replace current one
     let new_results_code = [];
 
-    for (const [key,val] of Object.entries(this.state.minors)){
-      if (val == true) { // If minor is selected
+    for (const [key,val] of Object.entries(this.state.minors)){ // iterate through state variable of minors
+      if (val == true) { // If minor is selected/checked by user 
         let len = this.state.result_courses.length;
         for (let i = 1; i < len; i++){ //iterate through results list to modify it, skip first element since its just a label
           let coursecode = this.state.result_courses[i-1];
 
           if (this.state.minor_courses[key].indexOf(coursecode) > -1){ //if result course code is in eligible minor list
             if (new_results_code.indexOf(coursecode) == -1){ //If new result list doesnt already contain this course
-              new_results.push(this.state.results[i])
-              new_results_code.push(coursecode)
+              new_results.push(this.state.results[i])        //push result class of relevant course in new course list
+              new_results_code.push(coursecode)              //push string name of course code into an alt list for verification purposes
             }
           }
         }
@@ -89,7 +90,7 @@ class SearchResultDisplay extends Component{
     }
     console.log("new_results:",new_results)
     console.log("new_results code:",new_results_code)
-    this.setState({results:new_results})
+    this.setState({results:new_results}) //replace current search results with new search results after minor filter
     
   }
 
@@ -131,7 +132,7 @@ class SearchResultDisplay extends Component{
           if (res.data != null) {
             console.log(res.data.length)
             if (res.data.length > 0) {
-
+              //Parse/process attached minor course information from backend response and append them to this.state.minor_courses variable for convenient access
               let minor_AI = Object.assign({}, this.state.minor_courses, {["Artificial Intelligence"]: res.data[0].minor_AI});
               this.setState({'minor_courses': minor_AI})
               let minor_RM = Object.assign({}, this.state.minor_courses, {["Robotics & Mechatronics"]: res.data[0].minor_RM});
@@ -163,22 +164,27 @@ class SearchResultDisplay extends Component{
                   result_course_code_temp.push(res.data[i].code.slice(0,-2)) //Remove last two characters of course code to remove H1, Y1...etc endings
                   
                   let eligible_minors = [];
+                  // for each query result, loop through minor course list to check if its associated with any minor
                   for (const [key,val] of Object.entries(this.state.minors)){
-                    let coursecode = res.data[i].code.slice(0,-2);
-                    if (this.state.minor_courses[key].indexOf(coursecode) > -1){ //if result course code is in eligible minor list
-                      eligible_minors.push(key)
-                      eligible_minors.push(<br></br>)
+                    let coursecode = res.data[i].code.slice(0,-2); //remove last two characters so string only contains course code without H1/H5 suffixes
+                    if (this.state.minor_courses[key].indexOf(coursecode) > -1){ //if result course code is in an eligible minor list
+                      eligible_minors.push(key)       //Push name of minor into corresponding result list to be displayed as part of the result
+                      eligible_minors.push(<br></br>) //line break for course with multiple minor affiliations
                     }
                   }
-                  if (eligible_minors.length == 0){
+                  if (eligible_minors.length == 0){   // if not part of any engineering minor, display None string
                     eligible_minors.push('None')
                   }
-                  
-                  let course_term = res.data[i].term.replaceAll("' '", "', '")
-                  course_term=course_term.replace("[", "")
-                  course_term=course_term.replace("]", "")
-                  course_term=course_term.replaceAll("'", "")                               
-                  course_term = course_term.split(',');
+                  let course_term = res.data[i].term
+                  if (course_term != null){
+                    course_term = course_term.replaceAll("' '", "', '")
+                    course_term=course_term.replace("[", "")
+                    course_term=course_term.replace("]", "")
+                    course_term=course_term.replaceAll("'", "")                               
+                    course_term = course_term.split(',');
+                  } else {
+                    course_term=[]
+                  }
      
                   result_temp.push(<Result key={res.data[i]._id} 
                                     course_code={res.data[i].code} 
@@ -198,7 +204,6 @@ class SearchResultDisplay extends Component{
                 alert("Course not found")
               }
               else {
-                // THIS CODE SEEMS REDUNDANT UNSURE IF NEEDED
                 let result_temp = []
                 result_temp.push(<Label></Label>)
                 result_temp.push(<Result key={res.data._id} 
@@ -226,7 +231,7 @@ class SearchResultDisplay extends Component{
         </div>
 
         <div className={"left-sidebar"}>
-          <p>Search for courses by entering the beginning of any course codes (ECE, MIE...etc) or by keywords using delimiters.<br></br>
+          <p>Search for courses by entering the beginning of any course codes (ECE, MIE...etc) and/or by keywords using delimiters.<br></br>
           Use delimiters ;ti:keyword, ;de:keyword, to search for keywords in course titles and/or descriptions respectively.</p>
             <form onSubmit={this.handleSubmit} className={"search"} id={"search-results"}>
                 <input placeholder={"Search for course code"} className={"text-input small-search"} type="text" value={this.state.input} onChange={this.handleChange} />

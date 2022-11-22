@@ -12,7 +12,9 @@ df = pd.read_csv("resources/courses.csv")
 #df_test = pd.read_csv("resources/test_courses.csv")
 
 minors_df = pd.read_csv("resources/eng_minor_list_dummy.csv") #TODO: WILL NEED TO BE UPDATED WITH FULL MINOR CSV
+
 timetable_df = pd.read_csv("resources/course_times.csv")
+
 import config
 app = Flask(__name__, static_folder='frontend/build')
 app.config['ENV'] = 'development'
@@ -118,7 +120,7 @@ def search_course_by_code(s):
     else:
         courseCode = s #if no delimiter used assume course code search
 
-    cc_course_ids = df[df['Code'].str.contains(courseCode.upper())].index.tolist()
+    cc_course_ids = df[df['Code'].str.contains(courseCode.upper(),na=False)].index.tolist()
 
     if courseDesc != '':
         desc_course_ids = df[df['Course Description'].str.contains(courseDesc,na=False)].index.tolist()
@@ -324,8 +326,12 @@ class AdminAdd(Resource):
 
         if len(courses) > 0:
             try:
-                resp = jsonify(courses)
-                resp.status_code = 200
+
+                resp = app.response_class(
+                    json.dumps(courses, ignore_nan=True),
+                    mimetype='application/json'
+                )
+
                 return resp
             except Exception as e:
                 resp = jsonify({'error': str(e)})
@@ -344,6 +350,103 @@ class AdminAdd(Resource):
             print("inpost:",new_course)
             if len(new_course) > 0:
                 try:
+
+                    resp = app.response_class(
+                    json.dumps(new_course, ignore_nan=True),
+                    mimetype='application/json'
+                )
+                    return resp
+                except Exception as e:
+                    resp = jsonify({'error': 'something went wrong'})
+                    resp.status_code = 400
+                    return resp
+            elif(error == 0):
+                resp = jsonify({'error': 'course already exists'})
+                resp.status_code = 400
+                return resp
+        
+        else:
+            resp = jsonify({'error': 'something went wrong'})
+            resp.status_code = 400
+            return resp
+
+#helper function for admin edit course request
+def editCourse(input):
+
+    index=input['index']
+    code=input['course_code'].upper()
+    name=input['course_name']
+    division=input['division']
+    department=input['department']
+    description=input['course_description']
+    prereq=input['prerequisites'].upper()
+    coreq=input['corequisites'].upper()
+    exclusion=input['exclusions'].upper()
+
+    matching_index = df.index[df['Code']==code].tolist()
+
+    exists = False
+    for i in matching_index:
+        if i != index:
+            exists = True
+    
+    if(exists):
+        error_code = 0 #course already exists
+        res = ''
+        return error_code, res 
+    else:
+        prereq = prereq.split(",")
+        coreq = coreq.split(",")
+        exclusion = exclusion.split(",")
+
+        new_course = {'Code': code, 'Name': name, 'Division': division, 'Department': department, 'Course Description': description, 
+        'Pre-requisites': prereq, 'Corequisite': coreq, 'Exclusion': exclusion}
+
+        df.at[index, 'Code'] = code
+        df.at[index, 'Name'] = name
+        df.at[index, 'Division'] = division
+        df.at[index, 'Department'] = department
+        df.at[index, 'Course Description'] = description
+        df.at[index, 'Pre-requisites'] = prereq
+        df.at[index, 'Corequisites'] = coreq
+        df.at[index, 'Exclusions'] = exclusion
+
+        error_code = 1 # new course successfully added
+        res = new_course
+
+        df.to_csv("resources/courses.csv", index=False)
+
+        return error_code, res
+
+
+#admin edit course request handler
+class AdminEdit(Resource):
+    def get(self):
+        input = request.args.get('input')
+        
+        courses = search_course_by_code(input)
+
+        if len(courses) > 0:
+            try:
+                resp = jsonify(courses)
+                resp.status_code = 200
+                return resp
+            except Exception as e:
+                resp = jsonify({'error': str(e)})
+                resp.status_code = 400
+                return resp
+
+    def post(self):
+
+        data = request.get_json(force=True)
+        input = data['input']
+
+        if(input["action"]=="edit"):
+            error, new_course = editCourse(input)
+            
+            print("inpost:",new_course)
+            if len(new_course) > 0:
+                try:
                     resp = jsonify(new_course)
                     resp.status_code = 200
                     return resp
@@ -352,7 +455,83 @@ class AdminAdd(Resource):
                     resp.status_code = 400
                     return resp
             elif(error == 0):
-                resp = jsonify({'error': 'course already exists'})
+
+                resp = jsonify({'error': 'another course with same new course code already exists'})
+                resp.status_code = 400
+                return resp
+        
+        else:
+            resp = jsonify({'error': 'something went wrong'})
+            resp.status_code = 400
+            return resp
+
+
+#helper function for admin delete course request
+def deleteCourse(input):
+
+    index=input['index']
+    code=input['course_code'].upper()
+    name=input['course_name']
+    division=input['division']
+    department=input['department']
+    description=input['course_description']
+    prereq=input['prerequisites'].upper()
+    coreq=input['corequisites'].upper()
+    exclusion=input['exclusions'].upper()
+
+    new_course = {'Code': code, 'Name': name, 'Division': division, 'Department': department, 'Course Description': description, 
+    'Pre-requisites': prereq, 'Corequisite': coreq, 'Exclusion': exclusion}
+
+    global df
+
+    df = df.drop(index)
+
+    error_code = 1 # new course successfully added
+    res = new_course
+
+    df.to_csv("resources/courses.csv", index=False)
+
+    return error_code, res
+
+
+#admin delete course request handler
+class AdminDelete(Resource):
+    def get(self):
+        input = request.args.get('input')
+        
+        courses = search_course_by_code(input)
+
+        if len(courses) > 0:
+            try:
+                resp = jsonify(courses)
+                resp.status_code = 200
+                return resp
+            except Exception as e:
+                resp = jsonify({'error': str(e)})
+                resp.status_code = 400
+                return resp
+
+    def post(self):
+
+        data = request.get_json(force=True)
+        input = data['input']
+
+        if(input["action"]=="delete"):
+            error, new_course = deleteCourse(input)
+            
+            print("inpost:",new_course)
+            if len(new_course) > 0:
+                try:
+                    resp = jsonify(new_course)
+                    resp.status_code = 200
+                    return resp
+                except Exception as e:
+                    resp = jsonify({'error': 'something went wrong'})
+                    resp.status_code = 400
+                    return resp
+            elif(error == 0):
+                resp = jsonify({'error': 'something went wrong'})
+
                 resp.status_code = 400
                 return resp
         
@@ -624,6 +803,75 @@ class SearchCourseTiming(Resource):
                 return resp
 
 
+#helper function for admin search course request
+def admin_search(input):
+    courseCode = input
+
+    course_ids = df[df['Code'].str.contains(courseCode.upper(),na=False)].index.tolist()
+
+    if len(course_ids) == 0:
+        return []
+    if len(course_ids) > 10:
+        course_ids = course_ids[:10]
+
+    res = []
+    for i in course_ids:
+        d = df.iloc[i].to_dict()
+        res_d = {
+            'iloc_index': i,
+            'code': d['Code'],
+            'name': d['Name'],
+            'description': d['Course Description'],
+            'syllabus': "Course syllabus here.",
+            'prereq': d['Pre-requisites'],
+            'coreq': d['Corequisite'],
+            'exclusion': d['Exclusion'] ,
+            'division': d['Division'],
+            'department': d['Department'] ,
+        }
+        res.append(res_d)
+    
+    return res
+
+
+#admin search course request handler
+class AdminSearch(Resource):
+    def get(self):
+        input = request.args.get('input')
+        courses = admin_search(input)
+        #courses=search_course_by_code(input)
+        if len(courses) > 0:
+            try:
+                resp = app.response_class(
+                    json.dumps(courses, ignore_nan=True),
+                    mimetype='application/json'
+                )
+                return resp
+            except Exception as e:
+                resp = jsonify({'error': str(e)})
+                resp.status_code = 400
+                return resp
+
+    def post(self):
+        parser = reqparse.RequestParser()
+        parser.add_argument('input', required=True)
+        data = parser.parse_args()
+        input = data['input']
+        courses = search_course_by_code(input)
+        if len(courses) > 0:
+            try:
+                resp = app.response_class(
+                    json.dumps(courses, ignore_nan=True),
+                    mimetype='application/json'
+                )
+                return resp
+            except Exception as e:
+                resp = jsonify({'error': 'something went wrong'})
+                resp.status_code = 400
+                return resp
+
+
+
 # API Endpoints
 rest_api = Api(app)
 # rest_api.add_resource(controller.SearchCourse, '/searchc')
@@ -636,6 +884,11 @@ rest_api.add_resource(SearchCourseTiming, '/timetable-helper')
 #rest_api.add_resource(AdminEdit, '/admin/edit')
 #rest_api.add_resource(AdminDelete, '/admin/delete')
 #rest_api.add_resource(AdminSearch, '/admin/search')
+
+rest_api.add_resource(AdminAdd, '/admin/add')
+rest_api.add_resource(AdminEdit, '/admin/edit')
+rest_api.add_resource(AdminDelete, '/admin/delete')
+rest_api.add_resource(AdminSearch, '/admin/search')
 
 
 @app.route("/", defaults={'path': ''})

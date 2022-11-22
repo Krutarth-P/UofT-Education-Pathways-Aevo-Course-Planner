@@ -10,6 +10,10 @@ p {
   color: #8198B8;
 }
 
+span label {
+  text-align: center; 
+}
+
 .row h5 {
   padding-left: 5%;
 }

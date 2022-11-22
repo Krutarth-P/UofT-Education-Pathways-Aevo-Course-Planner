@@ -632,10 +632,10 @@ rest_api.add_resource(SearchCourse, '/searchc')
 rest_api.add_resource(ShowCourse, '/course/details')
 rest_api.add_resource(SearchCourseTiming, '/timetable-helper')
 
-rest_api.add_resource(AdminAdd, '/admin/add')
-rest_api.add_resource(AdminEdit, '/admin/edit')
-rest_api.add_resource(AdminDelete, '/admin/delete')
-rest_api.add_resource(AdminSearch, '/admin/search')
+#rest_api.add_resource(AdminAdd, '/admin/add')
+#rest_api.add_resource(AdminEdit, '/admin/edit')
+#rest_api.add_resource(AdminDelete, '/admin/delete')
+#rest_api.add_resource(AdminSearch, '/admin/search')
 
 
 @app.route("/", defaults={'path': ''})

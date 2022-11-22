@@ -77,7 +77,6 @@ class TimetableHelper extends Component {
             let temp = ""
             temp = arrayStrings[i][0]
             schedule_results_temp.push(<ScheduleResult course_schedule_sel={temp}> </ScheduleResult>)
-            
             console.log("temp", temp)
             console.log("each entry", arrayStrings[i])
             //console.log(temp.split(" "))
@@ -242,10 +241,12 @@ class TimetableHelper extends Component {
                         </Row>
                         <Row className={"display-courses-selected"}>
                             <br></br>
-                            <Row></Row>
-                            <Col>
-                                {this.state.schedule_results}
-                            </Col>
+                            <Row>
+                                <Col>
+                                    <br></br>
+                                    {this.state.schedule_results}
+                                </Col> 
+                            </Row>
                         </Row>
 
 

@@ -118,3 +118,15 @@ def test_search_bar(course_query):
         assert('computer' in resp_data[i]['name'].lower())
         assert('circuit' in resp_data[i]['description'].lower())
     
+# Unit test to ensure that the appropriate minor link exists in the relevant file to be redirected from by Fahim Talukder
+@pytest.mark.parametrize("input", [("https://undergrad.engineering.utoronto.ca/academics-registration/minors-certificates/undergraduate-engineering-minors/advanced-manufacturing-minor/")])
+
+def test_correct_minor_link():
+    test_minor_links = pd.read_csv('resources/minors_links.csv')
+    length = len(test_minor_links) #different columns of the csv file
+
+    with open('resources/courses.csv', 'r', encoding="utf-8") as fp:
+        csvREADER = csv.reader(fp, delimiter=",")
+        for col in len(test_minor_links): 
+            if ("https://undergrad.engineering.utoronto.ca/academics-registration/minors-certificates/undergraduate-engineering-minors/advanced-manufacturing-minor/" == col[:][0]):
+                assert("https://undergrad.engineering.utoronto.ca/academics-registration/minors-certificates/undergraduate-engineering-minors/advanced-manufacturing-minor/"==col[:][0])
